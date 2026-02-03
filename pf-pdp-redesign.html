@@ -65,16 +65,16 @@
   }
 
   .comparison-wrap {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 24px auto 60px;
     padding: 0 24px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
     align-items: start;
   }
-  @media (max-width: 900px) {
-    .comparison-wrap { grid-template-columns: 1fr; }
+  @media (max-width: 1100px) {
+    .comparison-wrap { grid-template-columns: 1fr; max-width: 500px; }
   }
 
   .version-col {
@@ -529,6 +529,35 @@
     color: var(--pf-green);
   }
 
+  /* Variant button selector (V3) */
+  .pdp-variant-btns {
+    display: flex;
+    gap: 8px;
+  }
+  .pdp-variant-btn {
+    flex: 1;
+    padding: 9px 6px;
+    font-family: var(--pf-font);
+    font-size: 13px;
+    font-weight: 700;
+    border: 1.5px solid var(--pf-border);
+    border-radius: var(--pf-radius-sm);
+    background: #fff;
+    color: var(--pf-text-mid);
+    cursor: pointer;
+    text-align: center;
+    transition: all var(--pf-transition);
+  }
+  .pdp-variant-btn:hover {
+    border-color: #ccc;
+  }
+  .pdp-variant-btn.is-active {
+    border-color: var(--pf-green);
+    background: var(--pf-green-light);
+    color: var(--pf-green);
+    font-weight: 800;
+  }
+
   /* Add to Cart button */
   .pdp-atc-btn {
     display: block;
@@ -871,6 +900,113 @@
       </div>
     </div>
   </div>
+
+  <!-- ======== V3 — BUTTON VARIANT SELECTOR ======== -->
+  <div class="version-col">
+    <div class="version-label proposed"><span class="dot"></span> V3 — Button Options</div>
+    <div class="pdp-panel">
+      <div class="pdp-panel-top">
+        <div class="pdp-free-ship">FREE Shipping</div>
+        <div class="pdp-ship-time">Ships today if ordered within <strong>8 hr 17 min</strong></div>
+      </div>
+
+      <div class="pdp-section">
+        <div class="qty-label" style="margin-bottom:6px;">Options:</div>
+        <div class="pdp-variant-btns">
+          <button class="pdp-variant-btn" data-value="30" data-price="27.00" onclick="v3SelectVariant(this)">30 Caps</button>
+          <button class="pdp-variant-btn is-active" data-value="60" data-price="45.20" onclick="v3SelectVariant(this)">60 Caps</button>
+          <button class="pdp-variant-btn" data-value="120" data-price="76.00" onclick="v3SelectVariant(this)">120 Caps</button>
+        </div>
+      </div>
+
+      <div class="pdp-section">
+        <div class="qty-stock-row">
+          <div>
+            <div class="qty-label">Quantity:</div>
+            <div class="qty-group">
+              <button onclick="v3AdjustQty(-1)">−</button>
+              <input type="text" id="v3-qty" value="1" readonly>
+              <button onclick="v3AdjustQty(1)">+</button>
+            </div>
+          </div>
+          <div class="in-stock">
+            <svg viewBox="0 0 20 20" fill="none"><path d="M5 10l3.5 3.5L15 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            In Stock
+          </div>
+        </div>
+      </div>
+
+      <div class="pdp-section">
+        <fieldset style="border:none;padding:0;">
+          <div class="new-radio-group">
+            <div class="new-radio-option selected" id="v3-autoship-opt" onclick="v3Select('autoship')">
+              <div class="new-radio-header">
+                <div class="new-radio-left">
+                  <input type="radio" name="v3-autoship" id="v3-yes" checked>
+                  <label for="v3-yes">Autoship & Save</label>
+                  <span class="new-save-badge" id="v3-badge">SAVE 10%</span>
+                </div>
+                <div class="new-radio-right">
+                  <div class="new-price-display green" id="v3-autoship-price">
+                    <span class="currency">$</span><span class="main-val">40</span><span class="decimals">68</span>
+                  </div>
+                  <div class="new-price-was" id="v3-autoship-original">$45.20</div>
+                </div>
+              </div>
+              <div class="new-autoship-details" id="v3-details">
+                <div class="new-details-row">
+                  <div class="new-freq-block">
+                    <div class="new-freq-label">Deliver every:</div>
+                    <div class="new-freq-row">
+                      <div class="qty-group">
+                        <button onclick="v3AdjustFreq(-5)">−</button>
+                        <input type="text" id="v3-freq-input" value="60" readonly>
+                        <button onclick="v3AdjustFreq(5)">+</button>
+                      </div>
+                      <span class="days-label">Days</span>
+                    </div>
+                  </div>
+                  <ul class="new-benefits">
+                    <li><span class="check-sm">✓</span> Cancel anytime</li>
+                    <li><span class="check-sm">✓</span> Skip deliveries</li>
+                    <li><span class="check-sm">✓</span> Earn PureRewards</li>
+                    <li><span class="check-sm">✓</span> Best available price</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="new-radio-option" id="v3-buyonce-opt" onclick="v3Select('buyonce')">
+              <div class="new-radio-header">
+                <div class="new-radio-left">
+                  <input type="radio" name="v3-autoship" id="v3-no">
+                  <label for="v3-no">Buy Once</label>
+                </div>
+                <div class="new-price-display" id="v3-buyonce-price">
+                  <span class="currency">$</span><span class="main-val">45</span><span class="decimals">20</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="savings-banner" id="v3-savings-banner">
+          <span class="savings-icon">💰</span>
+          <span>You save <strong id="v3-banner-save-amt">$4.52</strong> with Autoship — plus free shipping on every delivery!</span>
+        </div>
+      </div>
+
+      <div class="pdp-section">
+        <button class="pdp-atc-btn green" id="v3-atc-btn">Add to Cart — Autoship</button>
+      </div>
+
+      <div class="pdp-info-table">
+        <div class="pdp-info-row"><span>Recommended use:</span><span>1 Capsule</span></div>
+        <div class="pdp-info-row"><span>Servings per container:</span><span id="v3-servings">60 Servings</span></div>
+        <div class="pdp-info-row"><span>Price per serving:</span><span id="v3-per-serving">$0.68</span></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -959,7 +1095,7 @@
     document.querySelector('#autoship-price .main-val').textContent = ap.main;
     document.querySelector('#autoship-price .decimals').textContent = ap.dec;
     document.getElementById('autoship-original').textContent = '$' + basePrice.toFixed(2);
-    document.getElementById('autoship-tag').textContent = 'SAVE $' + savings.toFixed(2) + ' (10%)';
+    document.getElementById('autoship-badge').textContent = 'SAVE $' + savings.toFixed(2) + ' (10%)';
 
     // Savings banner
     document.getElementById('banner-save-amt').textContent = '$' + savings.toFixed(2);
@@ -975,8 +1111,79 @@
     return { main: parts[0], dec: parts[1] };
   }
 
+  // ========== V3 PANEL ==========
+  let v3BasePrice = 45.20;
+  let v3Servings = 60;
+  let v3Mode = 'autoship';
+  let v3Qty = 1;
+  let v3Freq = 60;
+
+  function v3SelectVariant(btn) {
+    document.querySelectorAll('.pdp-variant-btn').forEach(b => b.classList.remove('is-active'));
+    btn.classList.add('is-active');
+    v3BasePrice = parseFloat(btn.dataset.price);
+    v3Servings = parseInt(btn.dataset.value) || 60;
+    document.getElementById('v3-servings').textContent = v3Servings + ' Servings';
+    v3UpdatePrices();
+  }
+
+  function v3Select(mode) {
+    v3Mode = mode;
+    const autoOpt = document.getElementById('v3-autoship-opt');
+    const buyOpt = document.getElementById('v3-buyonce-opt');
+    const details = document.getElementById('v3-details');
+    const banner = document.getElementById('v3-savings-banner');
+    const atcBtn = document.getElementById('v3-atc-btn');
+
+    if (mode === 'autoship') {
+      autoOpt.classList.add('selected');
+      buyOpt.classList.remove('selected');
+      document.getElementById('v3-yes').checked = true;
+      details.style.display = '';
+      banner.classList.remove('hidden');
+      atcBtn.textContent = 'Add to Cart — Autoship';
+    } else {
+      autoOpt.classList.remove('selected');
+      buyOpt.classList.add('selected');
+      document.getElementById('v3-no').checked = true;
+      details.style.display = 'none';
+      banner.classList.add('hidden');
+      atcBtn.textContent = 'Add to Cart';
+    }
+    v3UpdatePrices();
+  }
+
+  function v3AdjustQty(delta) {
+    v3Qty = Math.max(1, v3Qty + delta);
+    document.getElementById('v3-qty').value = v3Qty;
+  }
+
+  function v3AdjustFreq(delta) {
+    v3Freq = Math.max(5, v3Freq + delta);
+    document.getElementById('v3-freq-input').value = v3Freq;
+  }
+
+  function v3UpdatePrices() {
+    const autoPrice = Math.round(v3BasePrice * (1 - AUTOSHIP_DISCOUNT) * 100) / 100;
+    const savings = Math.round((v3BasePrice - autoPrice) * 100) / 100;
+
+    const bp = formatPrice(v3BasePrice);
+    document.querySelector('#v3-buyonce-price .main-val').textContent = bp.main;
+    document.querySelector('#v3-buyonce-price .decimals').textContent = bp.dec;
+
+    const ap = formatPrice(autoPrice);
+    document.querySelector('#v3-autoship-price .main-val').textContent = ap.main;
+    document.querySelector('#v3-autoship-price .decimals').textContent = ap.dec;
+    document.getElementById('v3-autoship-original').textContent = '$' + v3BasePrice.toFixed(2);
+    document.getElementById('v3-banner-save-amt').textContent = '$' + savings.toFixed(2);
+
+    const effectivePrice = v3Mode === 'autoship' ? autoPrice : v3BasePrice;
+    document.getElementById('v3-per-serving').textContent = '$' + (effectivePrice / v3Servings).toFixed(2);
+  }
+
   // Initialize
   updatePrices();
+  v3UpdatePrices();
 </script>
 </body>
 </html>

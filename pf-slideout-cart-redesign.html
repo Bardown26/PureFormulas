@@ -329,6 +329,42 @@
   }
   .cart-item__remove:hover { color: var(--pf-red); }
 
+  /* ---- VARIANT / OPTIONS BUTTONS ---- */
+  .cart-variant-row {
+    margin-top: 8px;
+  }
+  .cart-variant-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--pf-text-light);
+    margin-bottom: 4px;
+  }
+  .cart-variant-btns {
+    display: flex;
+    gap: 6px;
+  }
+  .cart-variant-btn {
+    padding: 5px 10px;
+    font-family: var(--pf-font);
+    font-size: 11px;
+    font-weight: 700;
+    border: 1.5px solid var(--pf-border);
+    border-radius: 4px;
+    background: #fff;
+    color: var(--pf-text-mid);
+    cursor: pointer;
+    transition: all var(--pf-transition);
+  }
+  .cart-variant-btn:hover {
+    border-color: var(--pf-text-muted);
+  }
+  .cart-variant-btn.is-active {
+    border-color: var(--pf-green);
+    background: var(--pf-green-light);
+    color: var(--pf-green);
+    font-weight: 800;
+  }
+
   /* ---- AUTOSHIP UPSELL (per item) ---- */
   .autoship-upsell {
     margin-top: 10px;
@@ -420,8 +456,8 @@
     background: var(--pf-green-light);
   }
   .autoship-upsell.is-active .autoship-upsell__detail {
-    max-height: 60px;
-    padding: 6px 10px 8px;
+    max-height: 120px;
+    padding: 8px 10px 10px;
   }
   .autoship-upsell__detail-text {
     font-size: 10px;
@@ -434,6 +470,62 @@
   .autoship-upsell__detail-text svg {
     flex-shrink: 0;
     color: var(--pf-green);
+  }
+
+  /* Frequency selector inside autoship detail */
+  .cart-freq-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+  }
+  .cart-freq-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--pf-text-dark);
+    white-space: nowrap;
+  }
+  .cart-freq-control {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #c3e6d5;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+  }
+  .cart-freq-btn {
+    width: 26px;
+    height: 26px;
+    border: none;
+    background: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--pf-green);
+    font-size: 13px;
+    font-weight: 700;
+    font-family: var(--pf-font);
+    transition: background var(--pf-transition);
+  }
+  .cart-freq-btn:hover { background: var(--pf-green-light); }
+  .cart-freq-val {
+    width: 30px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    border: none;
+    border-left: 1px solid #c3e6d5;
+    border-right: 1px solid #c3e6d5;
+    background: #fff;
+    font-family: var(--pf-font);
+    height: 26px;
+    color: var(--pf-text-dark);
+  }
+  .cart-freq-unit {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--pf-text-dark);
   }
 
   /* ========================================
@@ -652,6 +744,26 @@
     font-size: 12px;
   }
 
+  /* Bug annotation */
+  .bug-callout {
+    margin-top: 12px;
+    background: #fef2f2;
+    border: 1px dashed #fca5a5;
+    border-radius: var(--pf-radius-sm);
+    padding: 10px 12px;
+    font-size: 12px;
+    color: #991b1b;
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    line-height: 1.5;
+  }
+  .bug-callout .bug-icon {
+    flex-shrink: 0;
+    font-size: 14px;
+    margin-top: 1px;
+  }
+
   /* Proto nav */
   .proto-nav {
     position: sticky;
@@ -726,6 +838,7 @@
 
   <div class="demo-labels">
     <span class="demo-label demo-label--new">New: Per-item autoship toggle</span>
+    <span class="demo-label demo-label--new">New: Variant/option selector per item</span>
     <span class="demo-label demo-label--new">New: Savings banner in footer</span>
     <span class="demo-label demo-label--new">New: Recommendation autoship callouts</span>
   </div>
@@ -763,7 +876,7 @@
     <div class="cart-items">
 
       <!-- Item 1: O.N.E. Omega -->
-      <div class="cart-item" data-price="76.00" data-autoship-price="68.40" data-savings="7.60">
+      <div class="cart-item" data-price="76.00" data-autoship-price="68.40" data-savings="7.60" data-variants='[{"label":"60 Caps","price":76.00},{"label":"120 Caps","price":142.00}]'>
         <div class="cart-item__row">
           <div class="cart-item__img">
             <img src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v1724738122147274404/products/one-omega-60-softgel-capsules-by-pure-encapsulations.jpg&height=300&width=300" alt="O.N.E. Omega">
@@ -784,6 +897,15 @@
           </div>
         </div>
 
+        <!-- VARIANT OPTIONS -->
+        <div class="cart-variant-row">
+          <div class="cart-variant-label">Options:</div>
+          <div class="cart-variant-btns">
+            <button class="cart-variant-btn is-active" data-price="76.00">60 Caps</button>
+            <button class="cart-variant-btn" data-price="142.00">120 Caps</button>
+          </div>
+        </div>
+
         <!-- AUTOSHIP UPSELL -->
         <div class="autoship-upsell js-autoship-upsell">
           <div class="autoship-upsell__toggle js-autoship-toggle">
@@ -800,12 +922,21 @@
               <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 12.6A5.6 5.6 0 1113.6 8 5.607 5.607 0 018 13.6zm2.94-7.54a.7.7 0 010 .99l-3.5 3.5a.7.7 0 01-.99 0l-1.4-1.4a.7.7 0 11.99-.99l.91.91 3.01-3.01a.7.7 0 01.99 0z" fill="currentColor"/></svg>
               Skip, change, or cancel anytime
             </div>
+            <div class="cart-freq-row">
+              <span class="cart-freq-label">Deliver every:</span>
+              <div class="cart-freq-control">
+                <button class="cart-freq-btn js-freq-down">−</button>
+                <input class="cart-freq-val js-freq-val" type="text" value="60" readonly>
+                <button class="cart-freq-btn js-freq-up">+</button>
+              </div>
+              <span class="cart-freq-unit">Days</span>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Item 2: Magnesium Glycinate -->
-      <div class="cart-item" data-price="87.00" data-autoship-price="78.30" data-savings="8.70">
+      <div class="cart-item" data-price="87.00" data-autoship-price="78.30" data-savings="8.70" data-variants='[{"label":"90 Caps","price":29.60},{"label":"180 Caps","price":52.60},{"label":"360 Caps","price":87.00}]'>
         <div class="cart-item__row">
           <div class="cart-item__img">
             <img src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v8728600664936678570/products/magnesium-glycinate-360-vegetable-capsules-by-pure-encapsulations.jpg&height=300&width=300" alt="Magnesium Glycinate">
@@ -826,6 +957,16 @@
           </div>
         </div>
 
+        <!-- VARIANT OPTIONS -->
+        <div class="cart-variant-row">
+          <div class="cart-variant-label">Options:</div>
+          <div class="cart-variant-btns">
+            <button class="cart-variant-btn" data-price="29.60">90 Caps</button>
+            <button class="cart-variant-btn" data-price="52.60">180 Caps</button>
+            <button class="cart-variant-btn is-active" data-price="87.00">360 Caps</button>
+          </div>
+        </div>
+
         <div class="autoship-upsell js-autoship-upsell">
           <div class="autoship-upsell__toggle js-autoship-toggle">
             <div class="autoship-check">
@@ -840,6 +981,15 @@
             <div class="autoship-upsell__detail-text">
               <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 12.6A5.6 5.6 0 1113.6 8 5.607 5.607 0 018 13.6zm2.94-7.54a.7.7 0 010 .99l-3.5 3.5a.7.7 0 01-.99 0l-1.4-1.4a.7.7 0 11.99-.99l.91.91 3.01-3.01a.7.7 0 01.99 0z" fill="currentColor"/></svg>
               Skip, change, or cancel anytime
+            </div>
+            <div class="cart-freq-row">
+              <span class="cart-freq-label">Deliver every:</span>
+              <div class="cart-freq-control">
+                <button class="cart-freq-btn js-freq-down">−</button>
+                <input class="cart-freq-val js-freq-val" type="text" value="60" readonly>
+                <button class="cart-freq-btn js-freq-up">+</button>
+              </div>
+              <span class="cart-freq-unit">Days</span>
             </div>
           </div>
         </div>
@@ -935,8 +1085,13 @@
       <li><strong>Savings banner in footer</strong> — appears when any item has autoship enabled, showing total savings ("You're saving $16.30 with Autoship!"). Disappears when no items are on autoship.</li>
       <li><strong>Subtotal updates dynamically</strong> — reflects autoship prices for checked items and one-time prices for unchecked items.</li>
       <li><strong>Removed "Free Shipping" from line items</strong> — the existing cart already has a single shipping qualifier line at the top, no need to repeat per item.</li>
+      <li><strong>Per-item variant/option selector</strong> — compact buttons let the shopper change product size (e.g. 60 / 120 Caps) without leaving the cart. Price and autoship savings update dynamically.</li>
       <li><strong>Recommendation cards redesigned</strong> — horizontal mini-cards with autoship price and savings shown inline, matching the V2 card pattern. Circular "+" add button for quick adds.</li>
     </ul>
+    <div class="bug-callout">
+      <span class="bug-icon">🐛</span>
+      <span><strong>Bug:</strong> If a customer adds a product as autoship and then adds the same product again as a one-time purchase, the cart cannot treat them as separate line items. Both entries are forced to the same purchase type. The cart needs to support two distinct line items for the same SKU when one is autoship and the other is a one-time buy.</span>
+    </div>
     <p><strong>For production:</strong></p>
     <ul>
       <li>Autoship state per item should post to the cart API (switching between <code>add_to_cart</code> and <code>add_to_autoship</code> endpoints)</li>
@@ -1033,6 +1188,54 @@
       const upsell = toggle.closest('.js-autoship-upsell');
       upsell.classList.toggle('is-active');
       updateTotals();
+    });
+  });
+
+  // ============================================
+  // Variant / option buttons
+  // ============================================
+  document.querySelectorAll('.cart-variant-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Toggle active state
+      btn.closest('.cart-variant-btns').querySelectorAll('.cart-variant-btn').forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+
+      // Update cart item data attributes
+      const item = btn.closest('.cart-item');
+      const newPrice = parseFloat(btn.dataset.price);
+      const newAutoshipPrice = +(newPrice * 0.90).toFixed(2);
+      const newSavings = +(newPrice * 0.10).toFixed(2);
+
+      item.dataset.price = newPrice.toFixed(2);
+      item.dataset.autoshipPrice = newAutoshipPrice.toFixed(2);
+      item.dataset.savings = newSavings.toFixed(2);
+
+      // Update autoship label savings
+      const savingsEl = item.querySelector('.autoship-upsell__label .savings');
+      if (savingsEl) savingsEl.textContent = '$' + newSavings.toFixed(2);
+
+      updateTotals();
+    });
+  });
+
+  // ============================================
+  // Frequency controls (per item)
+  // ============================================
+  document.querySelectorAll('.cart-freq-control').forEach(ctrl => {
+    const down = ctrl.querySelector('.js-freq-down');
+    const up = ctrl.querySelector('.js-freq-up');
+    const val = ctrl.querySelector('.js-freq-val');
+
+    down.addEventListener('click', (e) => {
+      e.stopPropagation();
+      let v = parseInt(val.value) - 5;
+      if (v < 5) v = 5;
+      val.value = v;
+    });
+    up.addEventListener('click', (e) => {
+      e.stopPropagation();
+      let v = parseInt(val.value) + 5;
+      val.value = v;
     });
   });
 
