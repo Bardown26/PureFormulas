@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PureFormulas — PDP Autoship Pricing Redesign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,800;1,6..12,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --pf-green: #00875a;
+    --pf-green-light: #e6f4ee;
+    --pf-green-hover: #006b47;
+    --pf-green-border: #b8dece;
+    --pf-blue: #0066cc;
+    --pf-blue-hover: #0055aa;
+    --pf-blue-light: #e8f2ff;
+    --pf-blue-border: #b3d4f7;
+    --pf-text-dark: #272727;
+    --pf-text-mid: #555;
+    --pf-text-light: #777;
+    --pf-text-muted: #999;
+    --pf-red: #c0392b;
+    --pf-orange: #d2801f;
+    --pf-border: #e2e2e2;
+    --pf-border-light: #eee;
+    --pf-bg: #f5f5f5;
+    --pf-bg-card: #fff;
+    --pf-bg-panel: #f8f8f8;
+    --pf-bg-savings: #fff8ee;
+    --pf-savings-border: #f0d9a8;
+    --pf-radius: 8px;
+    --pf-radius-sm: 6px;
+    --pf-shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+    --pf-shadow-md: 0 2px 8px rgba(0,0,0,.08), 0 1px 3px rgba(0,0,0,.06);
+    --pf-transition: 200ms ease;
+    --pf-font: 'Nunito Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  body {
+    font-family: var(--pf-font);
+    background: var(--pf-bg);
+    color: var(--pf-text-dark);
+    -webkit-font-smoothing: antialiased;
+    padding: 0;
+  }
+
+  /* ========== COMPARISON LAYOUT ========== */
+  .comparison-header {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 24px 0;
+  }
+  .comparison-header h1 {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--pf-text-dark);
+  }
+  .comparison-header p {
+    color: var(--pf-text-mid);
+    font-size: 14px;
+    margin-top: 4px;
+  }
+
+  .comparison-wrap {
+    max-width: 1200px;
+    margin: 24px auto 60px;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .comparison-wrap { grid-template-columns: 1fr; }
+  }
+
+  .version-col {
+    position: relative;
+  }
+  .version-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    padding: 5px 12px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+  .version-label.current {
+    background: #fee2e2;
+    color: #b91c1c;
+  }
+  .version-label.proposed {
+    background: var(--pf-green-light);
+    color: var(--pf-green);
+  }
+  .version-label .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+  }
+  .version-label.current .dot { background: #b91c1c; }
+  .version-label.proposed .dot { background: var(--pf-green); }
+
+  /* ========== SHARED PDP PANEL ========== */
+  .pdp-panel {
+    background: var(--pf-bg-card);
+    border-radius: var(--pf-radius);
+    box-shadow: var(--pf-shadow-md);
+    overflow: hidden;
+  }
+
+  .pdp-panel-top {
+    background: var(--pf-bg-panel);
+    padding: 16px 20px 12px;
+    border-bottom: 1px solid var(--pf-border-light);
+  }
+
+  .pdp-free-ship {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--pf-green);
+    margin-bottom: 4px;
+  }
+  .pdp-ship-time {
+    font-size: 12px;
+    color: var(--pf-text-mid);
+  }
+  .pdp-ship-time strong {
+    color: var(--pf-green);
+    font-weight: 700;
+  }
+
+  .pdp-section {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--pf-border-light);
+  }
+  .pdp-section:last-child { border-bottom: none; }
+
+  /* Options select */
+  .pdp-select-wrap {
+    position: relative;
+  }
+  .pdp-select-wrap select {
+    width: 100%;
+    padding: 10px 36px 10px 12px;
+    font-family: var(--pf-font);
+    font-size: 14px;
+    border: 1px solid var(--pf-border);
+    border-radius: var(--pf-radius-sm);
+    background: #fff;
+    appearance: none;
+    cursor: pointer;
+  }
+  .pdp-select-wrap::after {
+    content: '▾';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--pf-text-light);
+    pointer-events: none;
+    font-size: 12px;
+  }
+  .pdp-select-label {
+    position: absolute;
+    top: -8px;
+    left: 10px;
+    background: #fff;
+    padding: 0 4px;
+    font-size: 11px;
+    color: var(--pf-text-light);
+  }
+
+  /* Qty + stock row */
+  .qty-stock-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .qty-label {
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .qty-group {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--pf-border);
+    border-radius: var(--pf-radius-sm);
+    overflow: hidden;
+  }
+  .qty-group button {
+    width: 32px; height: 32px;
+    border: none;
+    background: var(--pf-bg-panel);
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--pf-text-mid);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--pf-transition);
+  }
+  .qty-group button:hover { background: var(--pf-border); }
+  .qty-group input {
+    width: 36px;
+    text-align: center;
+    border: none;
+    border-left: 1px solid var(--pf-border);
+    border-right: 1px solid var(--pf-border);
+    font-family: var(--pf-font);
+    font-size: 14px;
+    font-weight: 600;
+    height: 32px;
+  }
+  .in-stock {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--pf-green);
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+  .in-stock svg { width: 14px; height: 14px; }
+
+  /* ========================================
+     CURRENT (BROKEN) AUTOSHIP STYLING
+     ======================================== */
+  .current-autoship fieldset {
+    border: none;
+    padding: 0;
+  }
+  .current-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .current-radio-option {
+    border: 2px solid var(--pf-border);
+    border-radius: var(--pf-radius-sm);
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all var(--pf-transition);
+    position: relative;
+  }
+  .current-radio-option + .current-radio-option {
+    margin-top: -2px;
+  }
+  .current-radio-option.selected {
+    border-color: var(--pf-green);
+    background: #fafffe;
+    z-index: 1;
+  }
+  .current-radio-option:first-child {
+    border-radius: var(--pf-radius-sm) var(--pf-radius-sm) 0 0;
+  }
+  .current-radio-option:last-child {
+    border-radius: 0 0 var(--pf-radius-sm) var(--pf-radius-sm);
+  }
+  .current-radio-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .current-radio-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .current-radio-left input[type="radio"] {
+    accent-color: var(--pf-green);
+    width: 16px; height: 16px;
+  }
+  .current-radio-left label {
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  /* THE BUG — same price on both */
+  .current-price-display {
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--pf-text-dark);
+  }
+  .current-price-display .currency {
+    font-size: 14px;
+    vertical-align: super;
+    margin-right: 1px;
+  }
+  .current-price-display .decimals {
+    font-size: 14px;
+    vertical-align: super;
+  }
+
+  /* Bug annotation */
+  .bug-callout {
+    margin-top: 12px;
+    background: #fef2f2;
+    border: 1px dashed #fca5a5;
+    border-radius: var(--pf-radius-sm);
+    padding: 10px 12px;
+    font-size: 12px;
+    color: #991b1b;
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    line-height: 1.5;
+  }
+  .bug-callout .bug-icon {
+    flex-shrink: 0;
+    font-size: 14px;
+    margin-top: 1px;
+  }
+
+  /* Current expanded autoship details */
+  .current-autoship-details {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--pf-border-light);
+  }
+  .current-frequency-label {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .current-freq-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .current-benefits {
+    list-style: none;
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .current-benefits li {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    color: var(--pf-text-mid);
+  }
+  .current-benefits .check-circle {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--pf-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .current-benefits .check-circle svg {
+    width: 10px; height: 10px;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2.5;
+  }
+
+  /* ========================================
+     REDESIGNED AUTOSHIP STYLING
+     ======================================== */
+
+  /* Reuse stacked radio layout — new-radio-* classes */
+  .new-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .new-radio-option {
+    border: 2px solid var(--pf-border);
+    border-radius: var(--pf-radius-sm);
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all var(--pf-transition);
+    position: relative;
+  }
+  .new-radio-option + .new-radio-option {
+    margin-top: -2px;
+  }
+  .new-radio-option.selected {
+    border-color: var(--pf-green);
+    background: #fafffe;
+    z-index: 1;
+  }
+  .new-radio-option:first-child {
+    border-radius: var(--pf-radius-sm) var(--pf-radius-sm) 0 0;
+  }
+  .new-radio-option:last-child {
+    border-radius: 0 0 var(--pf-radius-sm) var(--pf-radius-sm);
+  }
+  .new-radio-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .new-radio-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .new-radio-left input[type="radio"] {
+    accent-color: var(--pf-green);
+    width: 16px; height: 16px;
+  }
+  .new-radio-left label {
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .new-radio-right {
+    text-align: right;
+  }
+  .new-price-display {
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--pf-text-dark);
+  }
+  .new-price-display.green {
+    color: var(--pf-green);
+  }
+  .new-price-display .currency {
+    font-size: 14px;
+    vertical-align: super;
+    margin-right: 1px;
+  }
+  .new-price-display .decimals {
+    font-size: 14px;
+    vertical-align: super;
+  }
+  .new-price-was {
+    font-size: 12px;
+    color: var(--pf-text-muted);
+    text-decoration: line-through;
+  }
+  .new-save-badge {
+    display: inline-block;
+    background: var(--pf-bg-savings);
+    border: 1px solid var(--pf-savings-border);
+    color: #b8860b;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-left: 8px;
+  }
+
+  /* Autoship expanded — frequency + benefits side by side */
+  .new-autoship-details {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--pf-border-light);
+  }
+  .new-details-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .new-freq-block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .new-freq-label {
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .new-freq-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .new-freq-row .days-label {
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .new-benefits {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px 14px;
+    margin: 0;
+    padding-top: 2px;
+  }
+  .new-benefits li {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: var(--pf-text-mid);
+  }
+  .new-benefits .check-sm {
+    color: var(--pf-green);
+    font-weight: 700;
+    font-size: 13px;
+  }
+
+  /* Savings callout banner */
+  .savings-banner {
+    margin-top: 12px;
+    background: var(--pf-bg-savings);
+    border: 1px solid var(--pf-savings-border);
+    border-radius: var(--pf-radius-sm);
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #92400e;
+    line-height: 1.4;
+  }
+  .savings-banner.hidden { display: none; }
+  .savings-banner .savings-icon {
+    flex-shrink: 0;
+    font-size: 18px;
+  }
+  .savings-banner strong {
+    font-weight: 800;
+    color: var(--pf-green);
+  }
+
+  /* Add to Cart button */
+  .pdp-atc-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    font-family: var(--pf-font);
+    font-size: 16px;
+    font-weight: 800;
+    border: none;
+    border-radius: var(--pf-radius-sm);
+    cursor: pointer;
+    transition: background var(--pf-transition);
+  }
+  .pdp-atc-btn.green {
+    background: var(--pf-green);
+    color: #fff;
+  }
+  .pdp-atc-btn.green:hover { background: var(--pf-green-hover); }
+
+  /* ========== Product info table ========== */
+  .pdp-info-table {
+    padding: 14px 20px;
+    border-top: 1px solid var(--pf-border-light);
+  }
+  .pdp-info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    font-size: 13px;
+    color: var(--pf-text-mid);
+  }
+  .pdp-info-row span:last-child {
+    font-weight: 700;
+    color: var(--pf-text-dark);
+  }
+
+  /* ========== ANNOTATION OVERLAY ========== */
+  .annotation-arrow {
+    position: absolute;
+    z-index: 5;
+  }
+  .annot-box {
+    background: #1e1e2e;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 6px;
+    line-height: 1.4;
+    max-width: 200px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.2);
+  }
+  .annot-box.red { background: #991b1b; }
+  .annot-box.green { background: #065f46; }
+
+  /* Proto nav */
+  .proto-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    padding: 10px 20px;
+    background: #fff;
+    border-bottom: 1px solid var(--pf-border);
+    font-size: 13px;
+  }
+  .proto-nav a {
+    text-decoration: none;
+    color: var(--pf-text-mid);
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    transition: color 200ms ease, background 200ms ease;
+  }
+  .proto-nav a:hover {
+    color: var(--pf-text-dark);
+    background: var(--pf-bg);
+  }
+  .proto-nav a.is-active {
+    color: var(--pf-green);
+    font-weight: 800;
+    background: var(--pf-green-light);
+  }
+  .proto-nav__group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .proto-nav__sep {
+    color: var(--pf-border);
+    font-size: 11px;
+    user-select: none;
+  }
+</style>
+</head>
+<body>
+
+<nav class="proto-nav">
+  <a href="pf-pdp-redesign.html" class="is-active">PDP</a>
+  <span class="proto-nav__group">
+    <a href="pf-card-redesign.html">Card V1</a>
+    <span class="proto-nav__sep">/</span>
+    <a href="pf-card-redesign-v2.html">V2</a>
+  </span>
+  <a href="pf-cart-page-redesign.html">Cart Page</a>
+  <a href="pf-slideout-cart-redesign.html">Slideout Cart</a>
+</nav>
+
+<!-- ========== HEADER ========== -->
+<div class="comparison-header">
+  <h1>PDP Autoship Pricing — Redesign Comparison</h1>
+  <p>O.N.E.™ Multivitamin – 60 Capsules by Pure Encapsulations &nbsp;•&nbsp; Base price: $45.20 &nbsp;•&nbsp; Autoship discount: 10%</p>
+</div>
+
+<!-- ========== SIDE BY SIDE ========== -->
+<div class="comparison-wrap">
+
+  <!-- ======== CURRENT (BROKEN) ======== -->
+  <div class="version-col">
+    <div class="version-label current"><span class="dot"></span> Current — Live Site</div>
+    <div class="pdp-panel">
+      <div class="pdp-panel-top">
+        <div class="pdp-free-ship">FREE Shipping</div>
+        <div class="pdp-ship-time">Ships today if ordered within <strong>8 hr 17 min</strong></div>
+      </div>
+
+      <div class="pdp-section">
+        <div class="pdp-select-wrap">
+          <span class="pdp-select-label">Options</span>
+          <select>
+            <option>30 Capsules</option>
+            <option selected>60 Capsules</option>
+            <option>120 Capsules</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="pdp-section">
+        <div class="qty-stock-row">
+          <div>
+            <div class="qty-label">Quantity:</div>
+            <div class="qty-group">
+              <button>−</button>
+              <input type="text" value="1" readonly>
+              <button>+</button>
+            </div>
+          </div>
+          <div class="in-stock">
+            <svg viewBox="0 0 20 20" fill="none"><path d="M5 10l3.5 3.5L15 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            In Stock
+          </div>
+        </div>
+      </div>
+
+      <!-- AUTOSHIP — THE PROBLEM -->
+      <div class="pdp-section current-autoship">
+        <fieldset>
+          <div class="current-radio-group">
+            <!-- Autoship selected -->
+            <div class="current-radio-option selected" id="cur-autoship-opt" onclick="curSelect('autoship')">
+              <div class="current-radio-header">
+                <div class="current-radio-left">
+                  <input type="radio" name="cur-autoship" id="cur-yes" checked>
+                  <label for="cur-yes">Autoship & Save at checkout</label>
+                </div>
+                <div class="current-price-display">
+                  <span class="currency">$</span>45<span class="decimals">20</span>
+                </div>
+              </div>
+              <!-- Expanded details -->
+              <div class="current-autoship-details" id="cur-details">
+                <div class="current-frequency-label">Deliver every:</div>
+                <div class="current-freq-row">
+                  <div class="qty-group">
+                    <button>−</button>
+                    <input type="text" value="60" readonly>
+                    <button>+</button>
+                  </div>
+                  <strong style="font-size:14px;">Days</strong>
+                </div>
+                <ul class="current-benefits">
+                  <li><span class="check-circle"><svg viewBox="0 0 12 12"><path d="M2.5 6l2.5 2.5L9.5 4"/></svg></span> Change, skip, or cancel any time.</li>
+                  <li><span class="check-circle"><svg viewBox="0 0 12 12"><path d="M2.5 6l2.5 2.5L9.5 4"/></svg></span> Earn PureRewards points.</li>
+                  <li><span class="check-circle"><svg viewBox="0 0 12 12"><path d="M2.5 6l2.5 2.5L9.5 4"/></svg></span> Always get best available discount.</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Buy Once -->
+            <div class="current-radio-option" id="cur-buyonce-opt" onclick="curSelect('buyonce')">
+              <div class="current-radio-header">
+                <div class="current-radio-left">
+                  <input type="radio" name="cur-autoship" id="cur-no">
+                  <label for="cur-no">Buy Once</label>
+                </div>
+                <div class="current-price-display">
+                  <span class="currency">$</span>45<span class="decimals">20</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Bug callout -->
+        <div class="bug-callout">
+          <span class="bug-icon">🐛</span>
+          <span><strong>Bug:</strong> Both options show $45.20. Autoship should show ~$40.68 (10% off). Zero perceived value = zero reason to subscribe. The "Save at checkout" copy makes it worse — implies the savings happens <em>later</em>, not now.</span>
+        </div>
+      </div>
+
+      <!-- ATC -->
+      <div class="pdp-section">
+        <button class="pdp-atc-btn green">Add to Cart</button>
+      </div>
+
+      <!-- Product info -->
+      <div class="pdp-info-table">
+        <div class="pdp-info-row"><span>Recommended use:</span><span>1 Capsule</span></div>
+        <div class="pdp-info-row"><span>Servings per container:</span><span>60 Servings</span></div>
+        <div class="pdp-info-row"><span>Price per serving:</span><span>$0.75</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== PROPOSED (FIXED) ======== -->
+  <div class="version-col">
+    <div class="version-label proposed"><span class="dot"></span> Proposed — Redesign</div>
+    <div class="pdp-panel">
+      <div class="pdp-panel-top">
+        <div class="pdp-free-ship">FREE Shipping</div>
+        <div class="pdp-ship-time">Ships today if ordered within <strong>8 hr 17 min</strong></div>
+      </div>
+
+      <div class="pdp-section">
+        <div class="pdp-select-wrap">
+          <span class="pdp-select-label">Options</span>
+          <select id="new-variant-select" onchange="updateVariant()">
+            <option value="30" data-price="27.00">30 Capsules</option>
+            <option value="60" data-price="45.20" selected>60 Capsules</option>
+            <option value="120" data-price="76.00">120 Capsules</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="pdp-section">
+        <div class="qty-stock-row">
+          <div>
+            <div class="qty-label">Quantity:</div>
+            <div class="qty-group">
+              <button onclick="adjustQty(-1)">−</button>
+              <input type="text" id="new-qty" value="1" readonly>
+              <button onclick="adjustQty(1)">+</button>
+            </div>
+          </div>
+          <div class="in-stock">
+            <svg viewBox="0 0 20 20" fill="none"><path d="M5 10l3.5 3.5L15 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            In Stock
+          </div>
+        </div>
+      </div>
+
+      <!-- AUTOSHIP — REDESIGNED (same layout as current, with proper pricing) -->
+      <div class="pdp-section">
+        <fieldset style="border:none;padding:0;">
+          <div class="new-radio-group">
+            <!-- Autoship option -->
+            <div class="new-radio-option selected" id="new-autoship-opt" onclick="newSelect('autoship')">
+              <div class="new-radio-header">
+                <div class="new-radio-left">
+                  <input type="radio" name="new-autoship" id="new-yes" checked>
+                  <label for="new-yes">Autoship & Save</label>
+                  <span class="new-save-badge" id="autoship-badge">SAVE 10%</span>
+                </div>
+                <div class="new-radio-right">
+                  <div class="new-price-display green" id="autoship-price">
+                    <span class="currency">$</span><span class="main-val">40</span><span class="decimals">68</span>
+                  </div>
+                  <div class="new-price-was" id="autoship-original">$45.20</div>
+                </div>
+              </div>
+              <!-- Expanded: frequency + benefits side by side -->
+              <div class="new-autoship-details" id="new-details">
+                <div class="new-details-row">
+                  <div class="new-freq-block">
+                    <div class="new-freq-label">Deliver every:</div>
+                    <div class="new-freq-row">
+                      <div class="qty-group">
+                        <button onclick="adjustFreq(-5)">−</button>
+                        <input type="text" id="freq-input" value="60" readonly>
+                        <button onclick="adjustFreq(5)">+</button>
+                      </div>
+                      <span class="days-label">Days</span>
+                    </div>
+                  </div>
+                  <ul class="new-benefits">
+                    <li><span class="check-sm">✓</span> Cancel anytime</li>
+                    <li><span class="check-sm">✓</span> Skip deliveries</li>
+                    <li><span class="check-sm">✓</span> Earn PureRewards</li>
+                    <li><span class="check-sm">✓</span> Best available price</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Buy Once option -->
+            <div class="new-radio-option" id="new-buyonce-opt" onclick="newSelect('buyonce')">
+              <div class="new-radio-header">
+                <div class="new-radio-left">
+                  <input type="radio" name="new-autoship" id="new-no">
+                  <label for="new-no">Buy Once</label>
+                </div>
+                <div class="new-price-display" id="buyonce-price">
+                  <span class="currency">$</span><span class="main-val">45</span><span class="decimals">20</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Savings banner -->
+        <div class="savings-banner" id="savings-banner">
+          <span class="savings-icon">💰</span>
+          <span>You save <strong id="banner-save-amt">$4.52</strong> with Autoship — plus free shipping on every delivery!</span>
+        </div>
+      </div>
+
+      <!-- ATC -->
+      <div class="pdp-section">
+        <button class="pdp-atc-btn green" id="new-atc-btn">Add to Cart — Autoship</button>
+      </div>
+
+      <!-- Product info — dynamic per-serving price -->
+      <div class="pdp-info-table">
+        <div class="pdp-info-row"><span>Recommended use:</span><span>1 Capsule</span></div>
+        <div class="pdp-info-row"><span>Servings per container:</span><span>60 Servings</span></div>
+        <div class="pdp-info-row"><span>Price per serving:</span><span id="new-per-serving">$0.68</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ========== CONFIG ==========
+  const AUTOSHIP_DISCOUNT = 0.10;
+  let basePrice = 45.20;
+  let servings = 60;
+  let currentMode = 'autoship'; // new panel state
+  let qty = 1;
+  let freq = 60;
+
+  // ========== CURRENT (BROKEN) PANEL ==========
+  function curSelect(mode) {
+    const autoOpt = document.getElementById('cur-autoship-opt');
+    const buyOpt = document.getElementById('cur-buyonce-opt');
+    const details = document.getElementById('cur-details');
+    if (mode === 'autoship') {
+      autoOpt.classList.add('selected');
+      buyOpt.classList.remove('selected');
+      document.getElementById('cur-yes').checked = true;
+      details.style.display = '';
+    } else {
+      autoOpt.classList.remove('selected');
+      buyOpt.classList.add('selected');
+      document.getElementById('cur-no').checked = true;
+      details.style.display = 'none';
+    }
+  }
+
+  // ========== NEW (FIXED) PANEL ==========
+  function newSelect(mode) {
+    currentMode = mode;
+    const autoOpt = document.getElementById('new-autoship-opt');
+    const buyOpt = document.getElementById('new-buyonce-opt');
+    const details = document.getElementById('new-details');
+    const banner = document.getElementById('savings-banner');
+    const atcBtn = document.getElementById('new-atc-btn');
+
+    if (mode === 'autoship') {
+      autoOpt.classList.add('selected');
+      buyOpt.classList.remove('selected');
+      document.getElementById('new-yes').checked = true;
+      details.style.display = '';
+      banner.classList.remove('hidden');
+      atcBtn.textContent = 'Add to Cart — Autoship';
+    } else {
+      autoOpt.classList.remove('selected');
+      buyOpt.classList.add('selected');
+      document.getElementById('new-no').checked = true;
+      details.style.display = 'none';
+      banner.classList.add('hidden');
+      atcBtn.textContent = 'Add to Cart';
+    }
+    updatePrices();
+  }
+
+  function updateVariant() {
+    const sel = document.getElementById('new-variant-select');
+    const opt = sel.options[sel.selectedIndex];
+    basePrice = parseFloat(opt.dataset.price);
+    servings = parseInt(opt.value) || 60;
+    updatePrices();
+  }
+
+  function adjustQty(delta) {
+    qty = Math.max(1, qty + delta);
+    document.getElementById('new-qty').value = qty;
+  }
+
+  function adjustFreq(delta) {
+    freq = Math.max(5, freq + delta);
+    document.getElementById('freq-input').value = freq;
+  }
+
+  function updatePrices() {
+    const autoPrice = Math.round(basePrice * (1 - AUTOSHIP_DISCOUNT) * 100) / 100;
+    const savings = Math.round((basePrice - autoPrice) * 100) / 100;
+
+    // Buy once card
+    const bp = formatPrice(basePrice);
+    document.querySelector('#buyonce-price .main-val').textContent = bp.main;
+    document.querySelector('#buyonce-price .decimals').textContent = bp.dec;
+
+    // Autoship card
+    const ap = formatPrice(autoPrice);
+    document.querySelector('#autoship-price .main-val').textContent = ap.main;
+    document.querySelector('#autoship-price .decimals').textContent = ap.dec;
+    document.getElementById('autoship-original').textContent = '$' + basePrice.toFixed(2);
+    document.getElementById('autoship-tag').textContent = 'SAVE $' + savings.toFixed(2) + ' (10%)';
+
+    // Savings banner
+    document.getElementById('banner-save-amt').textContent = '$' + savings.toFixed(2);
+
+    // Per-serving price
+    const effectivePrice = currentMode === 'autoship' ? autoPrice : basePrice;
+    const perServing = (effectivePrice / servings).toFixed(2);
+    document.getElementById('new-per-serving').textContent = '$' + perServing;
+  }
+
+  function formatPrice(price) {
+    const parts = price.toFixed(2).split('.');
+    return { main: parts[0], dec: parts[1] };
+  }
+
+  // Initialize
+  updatePrices();
+</script>
+</body>
+</html>

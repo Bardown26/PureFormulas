@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PureFormulas — Product Card Redesign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,800;1,6..12,400&display=swap" rel="stylesheet">
+<style>
+  /* ========================================
+     RESET & BASE
+     ======================================== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    /* PureFormulas brand palette (extracted from live site) */
+    --pf-green: #00875a;
+    --pf-green-light: #e6f4ee;
+    --pf-green-hover: #006b47;
+    --pf-blue-primary: #0066cc;
+    --pf-orange-star: #d2801f;
+    --pf-text-dark: #272727;
+    --pf-text-mid: #555;
+    --pf-text-light: #777;
+    --pf-text-muted: #999;
+    --pf-border: #e2e2e2;
+    --pf-bg-card: #fff;
+    --pf-bg-page: #f5f5f5;
+    --pf-bg-savings: #fff8ee;
+    --pf-savings-border: #f0d9a8;
+    --pf-autoship-accent: #00875a;
+    --pf-radius-card: 8px;
+    --pf-radius-sm: 6px;
+    --pf-radius-xs: 4px;
+    --pf-shadow-card: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+    --pf-shadow-card-hover: 0 8px 24px rgba(0,0,0,.08), 0 2px 8px rgba(0,0,0,.04);
+    --pf-transition: 200ms ease;
+    --pf-font: 'Nunito Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  body {
+    font-family: var(--pf-font);
+    background: var(--pf-bg-page);
+    color: var(--pf-text-dark);
+    -webkit-font-smoothing: antialiased;
+    padding: 0;
+  }
+
+  /* ========================================
+     DEMO LAYOUT — simulates carousel context
+     ======================================== */
+  .demo-header {
+    max-width: 1100px;
+    margin: 0 auto 32px;
+    padding: 0 8px;
+  }
+  .demo-header h1 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--pf-text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .demo-header h2 {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--pf-text-dark);
+  }
+  .demo-compare {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    gap: 48px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .demo-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .demo-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 6px 14px;
+    border-radius: 100px;
+    display: inline-block;
+  }
+  .demo-label--old {
+    background: #fee;
+    color: #c0392b;
+  }
+  .demo-label--new {
+    background: var(--pf-green-light);
+    color: var(--pf-green);
+  }
+
+  /* ========================================
+     PRODUCT CARD — CURRENT (simplified mirror)
+     ======================================== */
+  .card-old {
+    width: 232px;
+    background: var(--pf-bg-card);
+    border-radius: var(--pf-radius-card);
+    overflow: hidden;
+    box-shadow: var(--pf-shadow-card);
+    display: flex;
+    flex-direction: column;
+  }
+  .card-old .card-old__img {
+    padding: 16px 24px 8px;
+  }
+  .card-old .card-old__img img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: contain;
+  }
+  .card-old__body {
+    padding: 0 16px 16px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .card-old__brand {
+    font-size: 10px;
+    color: var(--pf-text-light);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 4px;
+  }
+  .card-old__brand .badge-check {
+    color: var(--pf-green);
+    font-size: 12px;
+  }
+  .card-old__title {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--pf-text-dark);
+    margin-bottom: 6px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card-old__stars {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .card-old__stars svg { flex-shrink: 0; }
+  .card-old__stars span {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--pf-text-dark);
+  }
+  .card-old__price {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--pf-text-dark);
+    margin-bottom: 2px;
+  }
+  .card-old__price sup {
+    font-size: 13px;
+    vertical-align: super;
+    font-weight: 700;
+  }
+  .card-old__autoship {
+    font-size: 13px;
+    color: var(--pf-text-mid);
+    margin-bottom: 4px;
+  }
+  .card-old__shipping {
+    font-size: 11px;
+    color: var(--pf-green);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .card-old__btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: var(--pf-radius-sm);
+    background: var(--pf-blue-primary);
+    color: #fff;
+    font-family: var(--pf-font);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background var(--pf-transition);
+    margin-top: auto;
+  }
+  .card-old__btn:hover { background: #0055aa; }
+
+
+  /* ========================================
+     PRODUCT CARD — REDESIGN
+     ======================================== */
+  .card-new {
+    width: 232px;
+    background: var(--pf-bg-card);
+    border-radius: var(--pf-radius-card);
+    overflow: hidden;
+    box-shadow: var(--pf-shadow-card);
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 300ms ease, transform 300ms ease;
+  }
+  .card-new:hover {
+    box-shadow: var(--pf-shadow-card-hover);
+    transform: translateY(-2px);
+  }
+
+  /* Image */
+  .card-new__img {
+    padding: 16px 24px 8px;
+    position: relative;
+  }
+  .card-new__img img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: contain;
+  }
+
+  /* Body */
+  .card-new__body {
+    padding: 0 14px 14px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  /* Brand */
+  .card-new__brand {
+    font-size: 10px;
+    color: var(--pf-text-light);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 4px;
+  }
+  .card-new__brand .badge-check {
+    color: var(--pf-green);
+    font-size: 12px;
+  }
+
+  /* Title */
+  .card-new__title {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--pf-text-dark);
+    margin-bottom: 6px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-decoration: none;
+  }
+  .card-new__title:hover {
+    color: var(--pf-blue-primary);
+  }
+
+  /* Stars */
+  .card-new__stars {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .card-new__stars svg { flex-shrink: 0; }
+  .card-new__stars span {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--pf-text-dark);
+  }
+
+  /* ---- PRICING MODULE ---- */
+  .pricing-module {
+    border: 1.5px solid var(--pf-border);
+    border-radius: var(--pf-radius-sm);
+    overflow: hidden;
+    margin-bottom: 10px;
+    transition: border-color var(--pf-transition);
+  }
+  .pricing-module--subscribe {
+    border-color: var(--pf-autoship-accent);
+  }
+
+  /* Toggle row */
+  .pricing-toggle {
+    display: flex;
+    background: #f7f7f7;
+    border-bottom: 1px solid var(--pf-border);
+    position: relative;
+  }
+  .pricing-toggle__opt {
+    flex: 1;
+    padding: 7px 6px;
+    font-size: 11px;
+    font-weight: 700;
+    text-align: center;
+    cursor: pointer;
+    color: var(--pf-text-mid);
+    border: none;
+    background: none;
+    font-family: var(--pf-font);
+    transition: color var(--pf-transition), background var(--pf-transition);
+    position: relative;
+    z-index: 1;
+    user-select: none;
+    line-height: 1.3;
+  }
+  .pricing-toggle__opt:first-child {
+    border-right: 1px solid var(--pf-border);
+  }
+  .pricing-toggle__opt.is-active {
+    color: var(--pf-text-dark);
+    background: #fff;
+  }
+  .pricing-toggle__opt.is-active.is-subscribe {
+    color: var(--pf-autoship-accent);
+    background: var(--pf-green-light);
+  }
+
+  /* Price display area */
+  .pricing-display {
+    padding: 10px 12px 8px;
+    min-height: 72px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* Subscribe view */
+  .pricing-subscribe {
+    display: none;
+  }
+  .pricing-subscribe.is-visible {
+    display: block;
+  }
+  .pricing-subscribe__row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .pricing-subscribe__price {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--pf-autoship-accent);
+    line-height: 1;
+  }
+  .pricing-subscribe__price sup {
+    font-size: 13px;
+    vertical-align: super;
+    font-weight: 700;
+  }
+  .pricing-subscribe__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    background: var(--pf-bg-savings);
+    border: 1px solid var(--pf-savings-border);
+    border-radius: 3px;
+    padding: 2px 5px;
+    font-size: 10px;
+    font-weight: 800;
+    color: #b8860b;
+    white-space: nowrap;
+    line-height: 1;
+  }
+  .pricing-subscribe__compare {
+    font-size: 11px;
+    color: var(--pf-text-muted);
+    margin-top: 4px;
+  }
+  .pricing-subscribe__compare s {
+    text-decoration: line-through;
+  }
+  .pricing-subscribe__flex {
+    font-size: 10px;
+    color: var(--pf-text-light);
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    line-height: 1.2;
+  }
+  .pricing-subscribe__flex svg {
+    flex-shrink: 0;
+    color: var(--pf-green);
+  }
+
+  /* One-time view */
+  .pricing-onetime {
+    display: none;
+  }
+  .pricing-onetime.is-visible {
+    display: block;
+  }
+  .pricing-onetime__price {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--pf-text-dark);
+    line-height: 1;
+  }
+  .pricing-onetime__price sup {
+    font-size: 13px;
+    vertical-align: super;
+    font-weight: 700;
+  }
+  .pricing-onetime__note {
+    font-size: 11px;
+    color: var(--pf-text-muted);
+    margin-top: 4px;
+  }
+  .pricing-onetime__upsell {
+    font-size: 10px;
+    color: var(--pf-autoship-accent);
+    font-weight: 700;
+    margin-top: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+  .pricing-onetime__upsell:hover {
+    text-decoration: underline;
+  }
+
+  /* Shipping */
+  .card-new__shipping {
+    font-size: 11px;
+    color: var(--pf-green);
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+
+  /* CTA Button */
+  .card-new__btn {
+    width: 100%;
+    padding: 11px 8px;
+    border: none;
+    border-radius: var(--pf-radius-sm);
+    font-family: var(--pf-font);
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background var(--pf-transition), transform 100ms ease;
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    letter-spacing: 0.01em;
+  }
+  .card-new__btn:active {
+    transform: scale(0.98);
+  }
+  .card-new__btn--subscribe {
+    background: var(--pf-autoship-accent);
+    color: #fff;
+  }
+  .card-new__btn--subscribe:hover {
+    background: var(--pf-green-hover);
+  }
+  .card-new__btn--onetime {
+    background: var(--pf-blue-primary);
+    color: #fff;
+  }
+  .card-new__btn--onetime:hover {
+    background: #0055aa;
+  }
+  .card-new__btn svg {
+    flex-shrink: 0;
+  }
+
+  /* ========================================
+     STAR SVG UTIL
+     ======================================== */
+  .star-row { display: flex; gap: 2px; }
+  .star-row svg { width: 14px; height: 14px; }
+
+  /* ========================================
+     ANNOTATION NOTES (for the prototype)
+     ======================================== */
+  .annotations {
+    max-width: 700px;
+    margin: 56px auto 0;
+    padding: 32px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: var(--pf-shadow-card);
+  }
+  .annotations h3 {
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 16px;
+    color: var(--pf-text-dark);
+  }
+  .annotations p {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--pf-text-mid);
+    margin-bottom: 12px;
+  }
+  .annotations code {
+    background: #f0f0f0;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 12px;
+  }
+  .annotations ul {
+    padding-left: 18px;
+    margin-bottom: 12px;
+  }
+  .annotations li {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--pf-text-mid);
+    margin-bottom: 4px;
+  }
+
+  /* Proto nav */
+  .proto-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    padding: 10px 20px;
+    background: #fff;
+    border-bottom: 1px solid var(--pf-border);
+    font-size: 13px;
+  }
+  .proto-nav a {
+    text-decoration: none;
+    color: var(--pf-text-mid);
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    transition: color 200ms ease, background 200ms ease;
+  }
+  .proto-nav a:hover {
+    color: var(--pf-text-dark);
+    background: var(--pf-bg-page);
+  }
+  .proto-nav a.is-active {
+    color: var(--pf-green);
+    font-weight: 800;
+    background: var(--pf-green-light);
+  }
+  .proto-nav__group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .proto-nav__sep {
+    color: var(--pf-border);
+    font-size: 11px;
+    user-select: none;
+  }
+</style>
+</head>
+<body>
+
+<nav class="proto-nav">
+  <a href="pf-pdp-redesign.html">PDP</a>
+  <span class="proto-nav__group">
+    <a href="pf-card-redesign.html" class="is-active">Card V1</a>
+    <span class="proto-nav__sep">/</span>
+    <a href="pf-card-redesign-v2.html">V2</a>
+  </span>
+  <a href="pf-cart-page-redesign.html">Cart Page</a>
+  <a href="pf-slideout-cart-redesign.html">Slideout Cart</a>
+</nav>
+
+<div class="demo-header">
+  <h1>PureFormulas · Product Card Redesign</h1>
+  <h2>Recommended For You</h2>
+</div>
+
+<div class="demo-compare">
+
+  <!-- ============================================
+       CURRENT CARD (simplified)
+       ============================================ -->
+  <div class="demo-column">
+    <span class="demo-label demo-label--old">Current</span>
+    <div class="card-old">
+      <div class="card-old__img">
+        <img src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v8728600664936678570/products/magnesium-glycinate-360-vegetable-capsules-by-pure-encapsulations.jpg&height=940&width=940" alt="Magnesium Glycinate">
+      </div>
+      <div class="card-old__body">
+        <div class="card-old__brand">
+          Pure Encapsulations <span class="badge-check">✓</span>
+        </div>
+        <div class="card-old__title">Magnesium Glycinate - 360 Capsules</div>
+        <div class="card-old__stars">
+          <div class="star-row">
+            <svg viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#d2801f"/></svg>
+            <svg viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#d2801f"/></svg>
+            <svg viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#d2801f"/></svg>
+            <svg viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#d2801f"/></svg>
+            <svg viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#d2801f"/></svg>
+          </div>
+          <span>(710)</span>
+        </div>
+        <div class="card-old__price">$87<sup>00</sup></div>
+        <div class="card-old__autoship">Autoship &amp; Save at checkout</div>
+        <div class="card-old__shipping">⚡️ Fast Free Shipping</div>
+        <button class="card-old__btn">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       REDESIGNED CARD — Subscribe default
+       ============================================ -->
+  <div class="demo-column">
+    <span class="demo-label demo-label--new">Redesign</span>
+    <div class="card-new" data-product='{"name":"Magnesium Glycinate","size":"360 Capsules","brand":"Pure Encapsulations","rating":5,"reviews":710,"onetime":87.00,"subscribe":78.30,"savings":10}'>
+      <div class="card-new__img">
+        <img src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v8728600664936678570/products/magnesium-glycinate-360-vegetable-capsules-by-pure-encapsulations.jpg&height=940&width=940" alt="Magnesium Glycinate">
+      </div>
+      <div class="card-new__body">
+        <div class="card-new__brand">
+          Pure Encapsulations <span class="badge-check">✓</span>
+        </div>
+        <a class="card-new__title" href="#">Magnesium Glycinate - 360 Capsules</a>
+        <div class="card-new__stars">
+          <div class="star-row">
+            <svg viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#d2801f"/></svg>
+            <svg viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#d2801f"/></svg>
+            <svg viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#d2801f"/></svg>
+            <svg viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#d2801f"/></svg>
+            <svg viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#d2801f"/></svg>
+          </div>
+          <span>(710)</span>
+        </div>
+
+        <!-- PRICING MODULE -->
+        <div class="pricing-module pricing-module--subscribe" data-mode="subscribe">
+          <!-- Toggle -->
+          <div class="pricing-toggle">
+            <button class="pricing-toggle__opt is-active is-subscribe" data-toggle="subscribe">
+              Subscribe
+            </button>
+            <button class="pricing-toggle__opt" data-toggle="onetime">
+              One-time
+            </button>
+          </div>
+          <!-- Subscribe pricing -->
+          <div class="pricing-display">
+            <div class="pricing-subscribe is-visible">
+              <div class="pricing-subscribe__row">
+                <span class="pricing-subscribe__price">$78<sup>30</sup></span>
+                <span class="pricing-subscribe__badge">SAVE 10%</span>
+              </div>
+              <div class="pricing-subscribe__compare">
+                Reg. <s>$87.00</s>
+              </div>
+              <div class="pricing-subscribe__flex">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 12.6A5.6 5.6 0 1113.6 8 5.607 5.607 0 018 13.6zm2.94-7.54a.7.7 0 010 .99l-3.5 3.5a.7.7 0 01-.99 0l-1.4-1.4a.7.7 0 11.99-.99l.91.91 3.01-3.01a.7.7 0 01.99 0z" fill="currentColor"/></svg>
+                Skip, change, or cancel anytime
+              </div>
+            </div>
+            <div class="pricing-onetime">
+              <span class="pricing-onetime__price">$87<sup>00</sup></span>
+              <div class="pricing-onetime__note">One-time purchase</div>
+              <div class="pricing-onetime__upsell js-switch-subscribe">
+                <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M14 8a6 6 0 11-12 0 6 6 0 0112 0zM2.7 8a5.3 5.3 0 1010.6 0A5.3 5.3 0 002.7 8zm4.6-2.8v2.1H5.2a.7.7 0 100 1.4h2.1v2.1a.7.7 0 101.4 0V8.7h2.1a.7.7 0 100-1.4H8.7V5.2a.7.7 0 10-1.4 0z" fill="currentColor"/></svg>
+                Subscribe &amp; save 10%
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-new__shipping">⚡️ Fast Free Shipping</div>
+
+        <!-- CTA — dynamic -->
+        <button class="card-new__btn card-new__btn--subscribe" data-btn-mode="subscribe">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M13.3 4.3l-1-1.6A1 1 0 0011.4 2H4.6a1 1 0 00-.9.7l-1 1.6A2 2 0 002 5.7V12a2 2 0 002 2h8a2 2 0 002-2V5.7a2 2 0 00-.7-1.4zM4.6 3h6.8l.6 1H4l.6-1zM13 12a1 1 0 01-1 1H4a1 1 0 01-1-1V5h10v7z" fill="currentColor"/><path d="M9.7 7.3a.7.7 0 010 1L8.5 9.5l1.2 1.2a.7.7 0 11-1 1L7.3 10.3a.7.7 0 010-1l1.4-1.4-.7-.6z" fill="currentColor"/></svg>
+          <span class="card-new__btn-label">Subscribe &amp; Save</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       SECOND REDESIGNED CARD — different product
+       ============================================ -->
+  <div class="demo-column">
+    <span class="demo-label demo-label--new">Redesign</span>
+    <div class="card-new" data-product='{"name":"B-Complex Plus","size":"60 Capsules","brand":"Pure Encapsulations","rating":5,"reviews":390,"onetime":26.50,"subscribe":23.85,"savings":10}'>
+      <div class="card-new__img">
+        <img src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v4468907969118044065/products/bcomplex-plus-60-vegetable-capsules-by-pure-encapsulations.jpg&height=940&width=940" alt="B-Complex Plus">
+      </div>
+      <div class="card-new__body">
+        <div class="card-new__brand">
+          Pure Encapsulations <span class="badge-check">✓</span>
+        </div>
+        <a class="card-new__title" href="#">B-Complex Plus - 60 Capsules</a>
+        <div class="card-new__stars">
+          <div class="star-row">
+            <svg viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#d2801f"/></svg>
+            <svg viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#d2801f"/></svg>
+            <svg viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#d2801f"/></svg>
+            <svg viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#d2801f"/></svg>
+            <svg viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#d2801f"/></svg>
+          </div>
+          <span>(390)</span>
+        </div>
+
+        <div class="pricing-module pricing-module--subscribe" data-mode="subscribe">
+          <div class="pricing-toggle">
+            <button class="pricing-toggle__opt is-active is-subscribe" data-toggle="subscribe">Subscribe</button>
+            <button class="pricing-toggle__opt" data-toggle="onetime">One-time</button>
+          </div>
+          <div class="pricing-display">
+            <div class="pricing-subscribe is-visible">
+              <div class="pricing-subscribe__row">
+                <span class="pricing-subscribe__price">$23<sup>85</sup></span>
+                <span class="pricing-subscribe__badge">SAVE 10%</span>
+              </div>
+              <div class="pricing-subscribe__compare">Reg. <s>$26.50</s></div>
+              <div class="pricing-subscribe__flex">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 12.6A5.6 5.6 0 1113.6 8 5.607 5.607 0 018 13.6zm2.94-7.54a.7.7 0 010 .99l-3.5 3.5a.7.7 0 01-.99 0l-1.4-1.4a.7.7 0 11.99-.99l.91.91 3.01-3.01a.7.7 0 01.99 0z" fill="currentColor"/></svg>
+                Skip, change, or cancel anytime
+              </div>
+            </div>
+            <div class="pricing-onetime">
+              <span class="pricing-onetime__price">$26<sup>50</sup></span>
+              <div class="pricing-onetime__note">One-time purchase</div>
+              <div class="pricing-onetime__upsell js-switch-subscribe">
+                <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M14 8a6 6 0 11-12 0 6 6 0 0112 0zM2.7 8a5.3 5.3 0 1010.6 0A5.3 5.3 0 002.7 8zm4.6-2.8v2.1H5.2a.7.7 0 100 1.4h2.1v2.1a.7.7 0 101.4 0V8.7h2.1a.7.7 0 100-1.4H8.7V5.2a.7.7 0 10-1.4 0z" fill="currentColor"/></svg>
+                Subscribe &amp; save 10%
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-new__shipping">⚡️ Fast Free Shipping</div>
+
+        <button class="card-new__btn card-new__btn--subscribe" data-btn-mode="subscribe">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M13.3 4.3l-1-1.6A1 1 0 0011.4 2H4.6a1 1 0 00-.9.7l-1 1.6A2 2 0 002 5.7V12a2 2 0 002 2h8a2 2 0 002-2V5.7a2 2 0 00-.7-1.4zM4.6 3h6.8l.6 1H4l.6-1zM13 12a1 1 0 01-1 1H4a1 1 0 01-1-1V5h10v7z" fill="currentColor"/><path d="M9.7 7.3a.7.7 0 010 1L8.5 9.5l1.2 1.2a.7.7 0 11-1 1L7.3 10.3a.7.7 0 010-1l1.4-1.4-.7-.6z" fill="currentColor"/></svg>
+          <span class="card-new__btn-label">Subscribe &amp; Save</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       THIRD CARD — show one-time state too
+       ============================================ -->
+  <div class="demo-column">
+    <span class="demo-label demo-label--new">One-time state</span>
+    <div class="card-new" data-product='{"name":"Zinc 30","size":"180 Capsules","brand":"Pure Encapsulations","rating":5,"reviews":220,"onetime":40.50,"subscribe":36.45,"savings":10}' data-default-mode="onetime">
+      <div class="card-new__img">
+        <img src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v8728600664936678570/products/magnesium-glycinate-360-vegetable-capsules-by-pure-encapsulations.jpg&height=940&width=940" alt="Zinc 30">
+      </div>
+      <div class="card-new__body">
+        <div class="card-new__brand">
+          Pure Encapsulations <span class="badge-check">✓</span>
+        </div>
+        <a class="card-new__title" href="#">Zinc 30 - 180 Capsules</a>
+        <div class="card-new__stars">
+          <div class="star-row">
+            <svg viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#d2801f"/></svg>
+            <svg viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#d2801f"/></svg>
+            <svg viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#d2801f"/></svg>
+            <svg viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#d2801f"/></svg>
+            <svg viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#d2801f"/></svg>
+          </div>
+          <span>(220)</span>
+        </div>
+
+        <div class="pricing-module" data-mode="onetime">
+          <div class="pricing-toggle">
+            <button class="pricing-toggle__opt" data-toggle="subscribe">Subscribe</button>
+            <button class="pricing-toggle__opt is-active" data-toggle="onetime">One-time</button>
+          </div>
+          <div class="pricing-display">
+            <div class="pricing-subscribe">
+              <div class="pricing-subscribe__row">
+                <span class="pricing-subscribe__price">$36<sup>45</sup></span>
+                <span class="pricing-subscribe__badge">SAVE 10%</span>
+              </div>
+              <div class="pricing-subscribe__compare">Reg. <s>$40.50</s></div>
+              <div class="pricing-subscribe__flex">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 12.6A5.6 5.6 0 1113.6 8 5.607 5.607 0 018 13.6zm2.94-7.54a.7.7 0 010 .99l-3.5 3.5a.7.7 0 01-.99 0l-1.4-1.4a.7.7 0 11.99-.99l.91.91 3.01-3.01a.7.7 0 01.99 0z" fill="currentColor"/></svg>
+                Skip, change, or cancel anytime
+              </div>
+            </div>
+            <div class="pricing-onetime is-visible">
+              <span class="pricing-onetime__price">$40<sup>50</sup></span>
+              <div class="pricing-onetime__note">One-time purchase</div>
+              <div class="pricing-onetime__upsell js-switch-subscribe">
+                <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M14 8a6 6 0 11-12 0 6 6 0 0112 0zM2.7 8a5.3 5.3 0 1010.6 0A5.3 5.3 0 002.7 8zm4.6-2.8v2.1H5.2a.7.7 0 100 1.4h2.1v2.1a.7.7 0 101.4 0V8.7h2.1a.7.7 0 100-1.4H8.7V5.2a.7.7 0 10-1.4 0z" fill="currentColor"/></svg>
+                Subscribe &amp; save 10%
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-new__shipping">⚡️ Fast Free Shipping</div>
+
+        <button class="card-new__btn card-new__btn--onetime" data-btn-mode="onetime">
+          <span class="card-new__btn-label">Add to Cart</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ============================================
+     IMPLEMENTATION NOTES
+     ============================================ -->
+<div class="annotations">
+  <h3>Implementation Notes</h3>
+  <p>
+    This prototype is scoped to the 232px card width from the existing Slick carousel. All CSS uses 
+    the PureFormulas brand palette and Nunito Sans. No external dependencies beyond the Google Font.
+  </p>
+  <p><strong>What changed structurally:</strong></p>
+  <ul>
+    <li>Single ambiguous price → <strong>pricing module</strong> with Subscribe / One-time toggle</li>
+    <li>Subscribe is the default active state (green border, green price, green CTA)</li>
+    <li>"Autoship & Save at checkout" footnote → <strong>SAVE 10% badge</strong> + strikethrough comparison price</li>
+    <li>No trust signals → <strong>"Skip, change, or cancel anytime"</strong> with checkmark icon</li>
+    <li>Generic "Add to Cart" → <strong>"Subscribe & Save"</strong> when in subscribe mode, "Add to Cart" for one-time</li>
+    <li>One-time view includes a green <strong>upsell nudge</strong> ("Subscribe & save 10%") that switches the toggle back</li>
+  </ul>
+  <p><strong>For production:</strong></p>
+  <ul>
+    <li>Pricing data would come from the existing <code>data-cnstrc-item-price</code> attributes + a subscription discount config</li>
+    <li>The toggle state should persist via <code>localStorage</code> so the user's preference carries across page views</li>
+    <li>The CTA should pass mode to the cart API (<code>data-cnstrc-btn="add_to_cart"</code> → <code>add_to_autoship</code>)</li>
+    <li>Slick's <code>slidesToShow</code> won't need to change — the card width stays at 232px</li>
+    <li>Constructor.io recommendation tracking attributes stay the same</li>
+  </ul>
+</div>
+
+
+<script>
+  // ============================================
+  // Card toggle logic
+  // ============================================
+  document.querySelectorAll('.card-new').forEach(card => {
+    const module        = card.querySelector('.pricing-module');
+    const toggleBtns    = card.querySelectorAll('.pricing-toggle__opt');
+    const subscribeView = card.querySelector('.pricing-subscribe');
+    const onetimeView   = card.querySelector('.pricing-onetime');
+    const ctaBtn        = card.querySelector('.card-new__btn');
+    const ctaLabel      = card.querySelector('.card-new__btn-label');
+    const upsellLink    = card.querySelector('.js-switch-subscribe');
+
+    function setMode(mode) {
+      // Update module state
+      module.dataset.mode = mode;
+
+      // Toggle border
+      if (mode === 'subscribe') {
+        module.classList.add('pricing-module--subscribe');
+      } else {
+        module.classList.remove('pricing-module--subscribe');
+      }
+
+      // Toggle active button
+      toggleBtns.forEach(btn => {
+        const isTarget = btn.dataset.toggle === mode;
+        btn.classList.toggle('is-active', isTarget);
+        btn.classList.toggle('is-subscribe', isTarget && mode === 'subscribe');
+      });
+
+      // Toggle price views
+      subscribeView.classList.toggle('is-visible', mode === 'subscribe');
+      onetimeView.classList.toggle('is-visible', mode === 'onetime');
+
+      // Update CTA
+      if (mode === 'subscribe') {
+        ctaBtn.className = 'card-new__btn card-new__btn--subscribe';
+        ctaBtn.dataset.btnMode = 'subscribe';
+        ctaLabel.innerHTML = 'Subscribe &amp; Save';
+        // Re-add icon
+        if (!ctaBtn.querySelector('svg')) {
+          ctaBtn.insertAdjacentHTML('afterbegin',
+            '<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M13.3 4.3l-1-1.6A1 1 0 0011.4 2H4.6a1 1 0 00-.9.7l-1 1.6A2 2 0 002 5.7V12a2 2 0 002 2h8a2 2 0 002-2V5.7a2 2 0 00-.7-1.4zM4.6 3h6.8l.6 1H4l.6-1zM13 12a1 1 0 01-1 1H4a1 1 0 01-1-1V5h10v7z" fill="currentColor"/><path d="M9.7 7.3a.7.7 0 010 1L8.5 9.5l1.2 1.2a.7.7 0 11-1 1L7.3 10.3a.7.7 0 010-1l1.4-1.4-.7-.6z" fill="currentColor"/></svg>'
+          );
+        }
+      } else {
+        ctaBtn.className = 'card-new__btn card-new__btn--onetime';
+        ctaBtn.dataset.btnMode = 'onetime';
+        ctaLabel.textContent = 'Add to Cart';
+        const svg = ctaBtn.querySelector('svg');
+        if (svg) svg.remove();
+      }
+    }
+
+    // Toggle button clicks
+    toggleBtns.forEach(btn => {
+      btn.addEventListener('click', () => setMode(btn.dataset.toggle));
+    });
+
+    // Upsell link in one-time view
+    if (upsellLink) {
+      upsellLink.addEventListener('click', () => setMode('subscribe'));
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PureFormulas — Slideout Cart Redesign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,800;1,6..12,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --pf-green: #00875a;
+    --pf-green-light: #e6f4ee;
+    --pf-green-hover: #006b47;
+    --pf-blue-primary: #0066cc;
+    --pf-blue-hover: #0055aa;
+    --pf-text-dark: #272727;
+    --pf-text-mid: #555;
+    --pf-text-light: #777;
+    --pf-text-muted: #999;
+    --pf-border: #e2e2e2;
+    --pf-border-light: #eee;
+    --pf-bg-card: #fff;
+    --pf-bg-page: #f5f5f5;
+    --pf-bg-panel: #f8f8f8;
+    --pf-bg-savings: #fff8ee;
+    --pf-savings-border: #f0d9a8;
+    --pf-red: #d64545;
+    --pf-radius: 8px;
+    --pf-radius-sm: 6px;
+    --pf-shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+    --pf-shadow-panel: -4px 0 24px rgba(0,0,0,.12);
+    --pf-transition: 200ms ease;
+    --pf-font: 'Nunito Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  body {
+    font-family: var(--pf-font);
+    background: var(--pf-bg-page);
+    color: var(--pf-text-dark);
+    -webkit-font-smoothing: antialiased;
+    padding: 0;
+    min-height: 100vh;
+  }
+
+  /* ========================================
+     DEMO WRAPPER — simulates page behind cart
+     ======================================== */
+  .demo-page {
+    padding: 40px 20px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .demo-page h1 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--pf-text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .demo-page h2 {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--pf-text-dark);
+    margin-bottom: 20px;
+  }
+  .demo-page p {
+    color: var(--pf-text-mid);
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .demo-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: var(--pf-blue-primary);
+    color: #fff;
+    border: none;
+    border-radius: var(--pf-radius-sm);
+    font-family: var(--pf-font);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background var(--pf-transition);
+  }
+  .demo-trigger:hover { background: var(--pf-blue-hover); }
+
+  .demo-labels {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+  .demo-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 6px 14px;
+    border-radius: 100px;
+  }
+  .demo-label--old { background: #fee; color: #c0392b; }
+  .demo-label--new { background: var(--pf-green-light); color: var(--pf-green); }
+
+  /* ========================================
+     OVERLAY
+     ======================================== */
+  .cart-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.35);
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 300ms ease;
+  }
+  .cart-overlay.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* ========================================
+     SLIDEOUT CART PANEL
+     ======================================== */
+  .cart-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 420px;
+    max-width: 100vw;
+    height: 100vh;
+    background: var(--pf-bg-card);
+    box-shadow: var(--pf-shadow-panel);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 350ms cubic-bezier(.4,0,.2,1);
+  }
+  .cart-panel.is-open {
+    transform: translateX(0);
+  }
+
+  /* Header */
+  .cart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--pf-border);
+    flex-shrink: 0;
+  }
+  .cart-header__title {
+    font-size: 18px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .cart-header__check {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--pf-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .cart-header__check svg { color: #fff; }
+  .cart-close {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    color: var(--pf-text-mid);
+    transition: background var(--pf-transition);
+  }
+  .cart-close:hover {
+    background: var(--pf-bg-panel);
+  }
+
+  /* Scrollable body */
+  .cart-body {
+    flex: 1;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  /* ========================================
+     CART ITEMS
+     ======================================== */
+  .cart-items {
+    padding: 0 20px;
+  }
+
+  .cart-item {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--pf-border-light);
+  }
+  .cart-item:last-child {
+    border-bottom: none;
+  }
+
+  .cart-item__row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .cart-item__img {
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--pf-bg-panel);
+  }
+  .cart-item__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .cart-item__info {
+    flex: 1;
+    min-width: 0;
+  }
+  .cart-item__name {
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--pf-text-dark);
+    text-decoration: none;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .cart-item__name:hover { color: var(--pf-blue-primary); }
+
+  .cart-item__price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .cart-item__price {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--pf-text-dark);
+  }
+  .cart-item__price--autoship {
+    color: var(--pf-green);
+  }
+  .cart-item__price-was {
+    font-size: 12px;
+    color: var(--pf-text-muted);
+    text-decoration: line-through;
+  }
+
+  /* Qty + Remove row */
+  .cart-item__actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+  }
+
+  .qty-control {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--pf-border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .qty-control__btn {
+    width: 30px;
+    height: 30px;
+    border: none;
+    background: var(--pf-bg-panel);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--pf-text-mid);
+    font-size: 14px;
+    font-weight: 700;
+    font-family: var(--pf-font);
+    transition: background var(--pf-transition);
+  }
+  .qty-control__btn:hover { background: var(--pf-border); }
+  .qty-control__btn:disabled {
+    opacity: .35;
+    cursor: default;
+  }
+  .qty-control__btn:disabled:hover { background: var(--pf-bg-panel); }
+  .qty-control__val {
+    width: 32px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    border: none;
+    border-left: 1px solid var(--pf-border);
+    border-right: 1px solid var(--pf-border);
+    background: #fff;
+    font-family: var(--pf-font);
+    height: 30px;
+  }
+
+  .cart-item__remove {
+    font-size: 11px;
+    color: var(--pf-text-muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--pf-font);
+    text-decoration: underline;
+    transition: color var(--pf-transition);
+  }
+  .cart-item__remove:hover { color: var(--pf-red); }
+
+  /* ---- AUTOSHIP UPSELL (per item) ---- */
+  .autoship-upsell {
+    margin-top: 10px;
+    border: 1.5px solid var(--pf-border);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: border-color var(--pf-transition);
+  }
+  .autoship-upsell.is-active {
+    border-color: var(--pf-green);
+  }
+
+  .autoship-upsell__toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    cursor: pointer;
+    user-select: none;
+    background: var(--pf-bg-panel);
+    transition: background var(--pf-transition);
+  }
+  .autoship-upsell__toggle:hover {
+    background: #f0f0f0;
+  }
+  .autoship-upsell.is-active .autoship-upsell__toggle {
+    background: var(--pf-green-light);
+  }
+
+  /* Custom checkbox */
+  .autoship-check {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    border: 2px solid var(--pf-border);
+    background: #fff;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--pf-transition);
+  }
+  .autoship-check svg {
+    opacity: 0;
+    transform: scale(.5);
+    transition: all 150ms ease;
+  }
+  .autoship-upsell.is-active .autoship-check {
+    background: var(--pf-green);
+    border-color: var(--pf-green);
+  }
+  .autoship-upsell.is-active .autoship-check svg {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .autoship-upsell__label {
+    flex: 1;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--pf-text-dark);
+    line-height: 1.3;
+  }
+  .autoship-upsell__label .savings {
+    color: var(--pf-green);
+    font-weight: 800;
+  }
+
+  .autoship-upsell__badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 6px;
+    background: var(--pf-bg-savings);
+    border: 1px solid var(--pf-savings-border);
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 800;
+    color: #b8860b;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Trust detail (shown when active) */
+  .autoship-upsell__detail {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 250ms ease, padding 250ms ease;
+    padding: 0 10px;
+    background: var(--pf-green-light);
+  }
+  .autoship-upsell.is-active .autoship-upsell__detail {
+    max-height: 60px;
+    padding: 6px 10px 8px;
+  }
+  .autoship-upsell__detail-text {
+    font-size: 10px;
+    color: var(--pf-text-light);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    line-height: 1.3;
+  }
+  .autoship-upsell__detail-text svg {
+    flex-shrink: 0;
+    color: var(--pf-green);
+  }
+
+  /* ========================================
+     CART FOOTER (subtotals + CTAs)
+     ======================================== */
+  .cart-footer {
+    flex-shrink: 0;
+    border-top: 1px solid var(--pf-border);
+    padding: 16px 20px 20px;
+    background: #fff;
+  }
+
+  /* Savings banner */
+  .cart-savings-banner {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: var(--pf-green-light);
+    border: 1px solid #c3e6d5;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--pf-green);
+  }
+  .cart-savings-banner.is-visible {
+    display: flex;
+  }
+  .cart-savings-banner svg {
+    flex-shrink: 0;
+  }
+
+  .cart-subtotal {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 14px;
+  }
+  .cart-subtotal__label {
+    font-size: 16px;
+    font-weight: 800;
+  }
+  .cart-subtotal__label span {
+    font-weight: 400;
+    color: var(--pf-text-mid);
+    font-size: 13px;
+  }
+  .cart-subtotal__price {
+    font-size: 20px;
+    font-weight: 800;
+  }
+
+  .cart-btn {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: var(--pf-radius-sm);
+    font-family: var(--pf-font);
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background var(--pf-transition), transform 100ms ease;
+    display: block;
+    text-align: center;
+  }
+  .cart-btn:active { transform: scale(0.98); }
+  .cart-btn--primary {
+    background: var(--pf-blue-primary);
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .cart-btn--primary:hover { background: var(--pf-blue-hover); }
+  .cart-btn--secondary {
+    background: transparent;
+    color: var(--pf-blue-primary);
+    border: 1.5px solid var(--pf-blue-primary);
+  }
+  .cart-btn--secondary:hover {
+    background: #f0f6ff;
+  }
+
+  /* ========================================
+     FORGOT SOMETHING — recommendation cards
+     ======================================== */
+  .cart-recs {
+    padding: 16px 20px;
+    border-top: 6px solid var(--pf-bg-panel);
+  }
+  .cart-recs__title {
+    font-size: 15px;
+    font-weight: 800;
+    margin-bottom: 12px;
+  }
+
+  .rec-card {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--pf-border-light);
+  }
+  .rec-card:last-child { border-bottom: none; }
+
+  .rec-card__img {
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--pf-bg-panel);
+  }
+  .rec-card__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .rec-card__info {
+    flex: 1;
+    min-width: 0;
+  }
+  .rec-card__name {
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--pf-text-dark);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 3px;
+  }
+  .rec-card__price {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--pf-text-dark);
+  }
+  .rec-card__autoship {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 2px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--pf-green);
+  }
+  .rec-card__autoship svg { flex-shrink: 0; }
+  .rec-card__autoship span {
+    color: var(--pf-text-light);
+    font-weight: 400;
+  }
+
+  .rec-card__add {
+    flex-shrink: 0;
+    align-self: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1.5px solid var(--pf-blue-primary);
+    background: #fff;
+    color: var(--pf-blue-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--pf-transition);
+  }
+  .rec-card__add:hover {
+    background: var(--pf-blue-primary);
+    color: #fff;
+  }
+
+  /* ========================================
+     UTILITY
+     ======================================== */
+  .star-row { display: flex; gap: 2px; }
+  .star-row svg { width: 12px; height: 12px; }
+
+  /* ========================================
+     ANNOTATIONS
+     ======================================== */
+  .annotations {
+    max-width: 700px;
+    margin: 56px auto 0;
+    padding: 32px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: var(--pf-shadow);
+  }
+  .annotations h3 {
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 16px;
+  }
+  .annotations p {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--pf-text-mid);
+    margin-bottom: 12px;
+  }
+  .annotations ul {
+    padding-left: 18px;
+    margin-bottom: 12px;
+  }
+  .annotations li {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--pf-text-mid);
+    margin-bottom: 4px;
+  }
+  .annotations code {
+    background: #f0f0f0;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 12px;
+  }
+
+  /* Proto nav */
+  .proto-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    padding: 10px 20px;
+    background: #fff;
+    border-bottom: 1px solid var(--pf-border);
+    font-size: 13px;
+  }
+  .proto-nav a {
+    text-decoration: none;
+    color: var(--pf-text-mid);
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    transition: color 200ms ease, background 200ms ease;
+  }
+  .proto-nav a:hover {
+    color: var(--pf-text-dark);
+    background: var(--pf-bg-page);
+  }
+  .proto-nav a.is-active {
+    color: var(--pf-green);
+    font-weight: 800;
+    background: var(--pf-green-light);
+  }
+  .proto-nav__group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .proto-nav__sep {
+    color: var(--pf-border);
+    font-size: 11px;
+    user-select: none;
+  }
+</style>
+</head>
+<body>
+
+<nav class="proto-nav">
+  <a href="pf-pdp-redesign.html">PDP</a>
+  <span class="proto-nav__group">
+    <a href="pf-card-redesign.html">Card V1</a>
+    <span class="proto-nav__sep">/</span>
+    <a href="pf-card-redesign-v2.html">V2</a>
+  </span>
+  <a href="pf-cart-page-redesign.html">Cart Page</a>
+  <a href="pf-slideout-cart-redesign.html" class="is-active">Slideout Cart</a>
+</nav>
+
+<!-- ============================================
+     DEMO PAGE BEHIND CART
+     ============================================ -->
+<div class="demo-page">
+  <h1>PureFormulas · Slideout Cart Redesign</h1>
+  <h2>Cart Sidebar with Autoship Upsell</h2>
+  <p>
+    The current slideout cart shows items at their one-time price with no way to opt into Autoship. 
+    The redesign adds a per-item autoship checkbox that shows savings, updates the price inline, 
+    and surfaces a total savings banner in the footer.
+  </p>
+  <button class="demo-trigger js-open-cart">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M5.333 14.667a1 1 0 100-2 1 1 0 000 2zM12 14.667a1 1 0 100-2 1 1 0 000 2zM1.333 1.333h2l1.787 8.926a.667.667 0 00.653.534h6.494a.667.667 0 00.653-.534L14.667 4H4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Open Cart
+  </button>
+
+  <div class="demo-labels">
+    <span class="demo-label demo-label--new">New: Per-item autoship toggle</span>
+    <span class="demo-label demo-label--new">New: Savings banner in footer</span>
+    <span class="demo-label demo-label--new">New: Recommendation autoship callouts</span>
+  </div>
+</div>
+
+
+<!-- ============================================
+     OVERLAY
+     ============================================ -->
+<div class="cart-overlay js-overlay"></div>
+
+
+<!-- ============================================
+     SLIDEOUT CART PANEL
+     ============================================ -->
+<div class="cart-panel js-cart-panel">
+
+  <!-- Header -->
+  <div class="cart-header">
+    <div class="cart-header__title">
+      <span class="cart-header__check">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      Added to cart
+    </div>
+    <button class="cart-close js-close-cart" aria-label="Close cart">
+      <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M12 4L4 12M4 4l8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+
+  <!-- Scrollable body -->
+  <div class="cart-body">
+
+    <!-- CART ITEMS -->
+    <div class="cart-items">
+
+      <!-- Item 1: O.N.E. Omega -->
+      <div class="cart-item" data-price="76.00" data-autoship-price="68.40" data-savings="7.60">
+        <div class="cart-item__row">
+          <div class="cart-item__img">
+            <img src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v1724738122147274404/products/one-omega-60-softgel-capsules-by-pure-encapsulations.jpg&height=300&width=300" alt="O.N.E. Omega">
+          </div>
+          <div class="cart-item__info">
+            <a class="cart-item__name" href="#">O.N.E.™ Omega - 60 Softgel Capsules</a>
+            <div class="cart-item__price-row">
+              <span class="cart-item__price js-item-price">$76.00</span>
+            </div>
+            <div class="cart-item__actions">
+              <div class="qty-control">
+                <button class="qty-control__btn js-qty-down" disabled aria-label="Decrease quantity">−</button>
+                <input class="qty-control__val js-qty-val" type="text" value="1" readonly>
+                <button class="qty-control__btn js-qty-up" aria-label="Increase quantity">+</button>
+              </div>
+              <button class="cart-item__remove">Remove</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- AUTOSHIP UPSELL -->
+        <div class="autoship-upsell js-autoship-upsell">
+          <div class="autoship-upsell__toggle js-autoship-toggle">
+            <div class="autoship-check">
+              <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="autoship-upsell__label">
+              Autoship &amp; Save <span class="savings">$7.60</span>
+            </div>
+            <span class="autoship-upsell__badge">SAVE 10%</span>
+          </div>
+          <div class="autoship-upsell__detail">
+            <div class="autoship-upsell__detail-text">
+              <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 12.6A5.6 5.6 0 1113.6 8 5.607 5.607 0 018 13.6zm2.94-7.54a.7.7 0 010 .99l-3.5 3.5a.7.7 0 01-.99 0l-1.4-1.4a.7.7 0 11.99-.99l.91.91 3.01-3.01a.7.7 0 01.99 0z" fill="currentColor"/></svg>
+              Skip, change, or cancel anytime
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 2: Magnesium Glycinate -->
+      <div class="cart-item" data-price="87.00" data-autoship-price="78.30" data-savings="8.70">
+        <div class="cart-item__row">
+          <div class="cart-item__img">
+            <img src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v8728600664936678570/products/magnesium-glycinate-360-vegetable-capsules-by-pure-encapsulations.jpg&height=300&width=300" alt="Magnesium Glycinate">
+          </div>
+          <div class="cart-item__info">
+            <a class="cart-item__name" href="#">Magnesium Glycinate - 360 Capsules</a>
+            <div class="cart-item__price-row">
+              <span class="cart-item__price js-item-price">$87.00</span>
+            </div>
+            <div class="cart-item__actions">
+              <div class="qty-control">
+                <button class="qty-control__btn js-qty-down" disabled aria-label="Decrease quantity">−</button>
+                <input class="qty-control__val js-qty-val" type="text" value="1" readonly>
+                <button class="qty-control__btn js-qty-up" aria-label="Increase quantity">+</button>
+              </div>
+              <button class="cart-item__remove">Remove</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="autoship-upsell js-autoship-upsell">
+          <div class="autoship-upsell__toggle js-autoship-toggle">
+            <div class="autoship-check">
+              <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="autoship-upsell__label">
+              Autoship &amp; Save <span class="savings">$8.70</span>
+            </div>
+            <span class="autoship-upsell__badge">SAVE 10%</span>
+          </div>
+          <div class="autoship-upsell__detail">
+            <div class="autoship-upsell__detail-text">
+              <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 12.6A5.6 5.6 0 1113.6 8 5.607 5.607 0 018 13.6zm2.94-7.54a.7.7 0 010 .99l-3.5 3.5a.7.7 0 01-.99 0l-1.4-1.4a.7.7 0 11.99-.99l.91.91 3.01-3.01a.7.7 0 01.99 0z" fill="currentColor"/></svg>
+              Skip, change, or cancel anytime
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /cart-items -->
+
+    <!-- FORGOT SOMETHING — redesigned recs -->
+    <div class="cart-recs">
+      <div class="cart-recs__title">Forgot Something?</div>
+
+      <div class="rec-card">
+        <div class="rec-card__img">
+          <img src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v6913310681168725351/products/liposomal-vitamin-c-120-capsules-by-pure-encapsulations.jpg&height=300&width=300" alt="Liposomal Vitamin C">
+        </div>
+        <div class="rec-card__info">
+          <div class="rec-card__name">Liposomal Vitamin C - 120 Capsules</div>
+          <div class="rec-card__price">$36.00</div>
+          <div class="rec-card__autoship">
+            <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M8 1.333A6.667 6.667 0 1014.667 8 6.674 6.674 0 008 1.333zm0 12A5.333 5.333 0 1113.333 8 5.34 5.34 0 018 13.333zm-.667-8v3.334l2.862 1.718.405-.664L8.333 8.2V5.333z" fill="currentColor"/></svg>
+            Autoship $32.40 <span>— save $3.60</span>
+          </div>
+        </div>
+        <button class="rec-card__add" aria-label="Add to cart">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 3.333v9.334M3.333 8h9.334" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+
+      <div class="rec-card">
+        <div class="rec-card__img">
+          <img src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v4468907969118044065/products/bcomplex-plus-60-vegetable-capsules-by-pure-encapsulations.jpg&height=300&width=300" alt="B-Complex Plus">
+        </div>
+        <div class="rec-card__info">
+          <div class="rec-card__name">B-Complex Plus - 60 Capsules</div>
+          <div class="rec-card__price">$26.50</div>
+          <div class="rec-card__autoship">
+            <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M8 1.333A6.667 6.667 0 1014.667 8 6.674 6.674 0 008 1.333zm0 12A5.333 5.333 0 1113.333 8 5.34 5.34 0 018 13.333zm-.667-8v3.334l2.862 1.718.405-.664L8.333 8.2V5.333z" fill="currentColor"/></svg>
+            Autoship $23.85 <span>— save $2.65</span>
+          </div>
+        </div>
+        <button class="rec-card__add" aria-label="Add to cart">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 3.333v9.334M3.333 8h9.334" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+
+      <div class="rec-card">
+        <div class="rec-card__img">
+          <img src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v6947459503388321129/products/one-multivitamin-120-capsules-by-pure-encapsulations.jpg&height=300&width=300" alt="O.N.E. Multivitamin">
+        </div>
+        <div class="rec-card__info">
+          <div class="rec-card__name">O.N.E.™ Multivitamin - 120 Capsules</div>
+          <div class="rec-card__price">$92.00</div>
+          <div class="rec-card__autoship">
+            <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M8 1.333A6.667 6.667 0 1014.667 8 6.674 6.674 0 008 1.333zm0 12A5.333 5.333 0 1113.333 8 5.34 5.34 0 018 13.333zm-.667-8v3.334l2.862 1.718.405-.664L8.333 8.2V5.333z" fill="currentColor"/></svg>
+            Autoship $82.80 <span>— save $9.20</span>
+          </div>
+        </div>
+        <button class="rec-card__add" aria-label="Add to cart">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 3.333v9.334M3.333 8h9.334" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+
+    </div><!-- /cart-recs -->
+
+  </div><!-- /cart-body -->
+
+  <!-- Footer -->
+  <div class="cart-footer">
+    <div class="cart-savings-banner js-savings-banner">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8.94 1.543a1.333 1.333 0 00-1.88 0L5.88 2.72a1.333 1.333 0 01-.943.39H3.333A1.333 1.333 0 002 4.443v1.604c0 .354-.14.693-.39.943L.434 8.166a1.333 1.333 0 000 1.886l1.176 1.176c.25.25.39.589.39.943v1.496a1.333 1.333 0 001.333 1.333h1.604c.354 0 .693.14.943.39l1.06 1.067a1.333 1.333 0 001.886 0l1.176-1.176c.25-.25.589-.39.943-.39h1.722A1.333 1.333 0 0014 12.557v-1.604c0-.354.14-.693.39-.943l1.176-1.176a1.333 1.333 0 000-1.886L14.39 5.772a1.333 1.333 0 01-.39-.943V3.333A1.333 1.333 0 0012.667 2h-1.604a1.333 1.333 0 01-.943-.39z" fill="currentColor"/><path d="M6 8.667l1.333 1.333 2.667-4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="js-savings-text">You're saving $16.30 with Autoship!</span>
+    </div>
+    <div class="cart-subtotal">
+      <div class="cart-subtotal__label">Subtotal <span class="js-item-count">(2 items)</span></div>
+      <div class="cart-subtotal__price js-subtotal">$163.00</div>
+    </div>
+    <button class="cart-btn cart-btn--primary">View Cart &amp; Checkout</button>
+    <button class="cart-btn cart-btn--secondary js-close-cart">Continue Shopping</button>
+  </div>
+
+</div><!-- /cart-panel -->
+
+
+<!-- ============================================
+     ANNOTATIONS
+     ============================================ -->
+<div class="demo-page">
+  <div class="annotations" style="margin-top: 40px;">
+    <h3>What changed from the current slideout cart</h3>
+    <ul>
+      <li><strong>Per-item autoship checkbox</strong> — each cart line item now has an "Autoship & Save $X.XX" toggle with a SAVE 10% badge. Checking it swaps the displayed price to the autoship price with a strikethrough of the original.</li>
+      <li><strong>Trust line on expand</strong> — when autoship is checked, "Skip, change, or cancel anytime" slides in below the checkbox. Collapses when unchecked to keep things compact.</li>
+      <li><strong>Savings banner in footer</strong> — appears when any item has autoship enabled, showing total savings ("You're saving $16.30 with Autoship!"). Disappears when no items are on autoship.</li>
+      <li><strong>Subtotal updates dynamically</strong> — reflects autoship prices for checked items and one-time prices for unchecked items.</li>
+      <li><strong>Removed "Free Shipping" from line items</strong> — the existing cart already has a single shipping qualifier line at the top, no need to repeat per item.</li>
+      <li><strong>Recommendation cards redesigned</strong> — horizontal mini-cards with autoship price and savings shown inline, matching the V2 card pattern. Circular "+" add button for quick adds.</li>
+    </ul>
+    <p><strong>For production:</strong></p>
+    <ul>
+      <li>Autoship state per item should post to the cart API (switching between <code>add_to_cart</code> and <code>add_to_autoship</code> endpoints)</li>
+      <li>Savings percentages should come from a config (currently hardcoded at 10%)</li>
+      <li>The Constructor.io <code>data-cnstrc-recommendations</code> attributes carry over unchanged</li>
+      <li>Qty changes should debounce the cart API call</li>
+    </ul>
+  </div>
+</div>
+
+
+<script>
+  // ============================================
+  // Cart open/close
+  // ============================================
+  const panel = document.querySelector('.js-cart-panel');
+  const overlay = document.querySelector('.js-overlay');
+
+  function openCart() {
+    panel.classList.add('is-open');
+    overlay.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeCart() {
+    panel.classList.remove('is-open');
+    overlay.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelector('.js-open-cart').addEventListener('click', openCart);
+  document.querySelectorAll('.js-close-cart').forEach(b => b.addEventListener('click', closeCart));
+  overlay.addEventListener('click', closeCart);
+
+  // Auto-open for demo
+  setTimeout(openCart, 600);
+
+  // ============================================
+  // Autoship toggles
+  // ============================================
+  function updateTotals() {
+    let subtotal = 0;
+    let totalSavings = 0;
+    let itemCount = 0;
+
+    document.querySelectorAll('.cart-item').forEach(item => {
+      const qty = parseInt(item.querySelector('.js-qty-val').value) || 1;
+      const upsell = item.querySelector('.js-autoship-upsell');
+      const isAutoship = upsell.classList.contains('is-active');
+      const price = parseFloat(item.dataset.price);
+      const autoshipPrice = parseFloat(item.dataset.autoshipPrice);
+      const savings = parseFloat(item.dataset.savings);
+      const priceEl = item.querySelector('.js-item-price');
+
+      if (isAutoship) {
+        priceEl.textContent = '$' + autoshipPrice.toFixed(2);
+        priceEl.classList.add('cart-item__price--autoship');
+        // Add strikethrough if not already present
+        let wasEl = item.querySelector('.cart-item__price-was');
+        if (!wasEl) {
+          wasEl = document.createElement('span');
+          wasEl.className = 'cart-item__price-was';
+          priceEl.parentElement.appendChild(wasEl);
+        }
+        wasEl.textContent = '$' + price.toFixed(2);
+        subtotal += autoshipPrice * qty;
+        totalSavings += savings * qty;
+      } else {
+        priceEl.textContent = '$' + price.toFixed(2);
+        priceEl.classList.remove('cart-item__price--autoship');
+        const wasEl = item.querySelector('.cart-item__price-was');
+        if (wasEl) wasEl.remove();
+        subtotal += price * qty;
+      }
+      itemCount += qty;
+    });
+
+    // Update footer
+    document.querySelector('.js-subtotal').textContent = '$' + subtotal.toFixed(2);
+    document.querySelector('.js-item-count').textContent = '(' + itemCount + ' item' + (itemCount !== 1 ? 's' : '') + ')';
+
+    // Savings banner
+    const banner = document.querySelector('.js-savings-banner');
+    if (totalSavings > 0) {
+      banner.classList.add('is-visible');
+      document.querySelector('.js-savings-text').textContent =
+        "You\u2019re saving $" + totalSavings.toFixed(2) + " with Autoship!";
+    } else {
+      banner.classList.remove('is-visible');
+    }
+  }
+
+  document.querySelectorAll('.js-autoship-toggle').forEach(toggle => {
+    toggle.addEventListener('click', () => {
+      const upsell = toggle.closest('.js-autoship-upsell');
+      upsell.classList.toggle('is-active');
+      updateTotals();
+    });
+  });
+
+  // ============================================
+  // Quantity controls
+  // ============================================
+  document.querySelectorAll('.qty-control').forEach(ctrl => {
+    const down = ctrl.querySelector('.js-qty-down');
+    const up = ctrl.querySelector('.js-qty-up');
+    const val = ctrl.querySelector('.js-qty-val');
+
+    function updateQty(delta) {
+      let v = parseInt(val.value) + delta;
+      if (v < 1) v = 1;
+      if (v > 99) v = 99;
+      val.value = v;
+      down.disabled = (v <= 1);
+      updateTotals();
+    }
+
+    down.addEventListener('click', () => updateQty(-1));
+    up.addEventListener('click', () => updateQty(1));
+  });
+</script>
+
+</body>
+</html>
