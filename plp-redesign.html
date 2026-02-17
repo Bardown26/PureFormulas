@@ -1172,6 +1172,136 @@
           color: #205c40;
           font-weight: 800;
         }
+
+        /* Free Gift Selection — compact slider */
+        .lv-free-gift {
+          padding: 16px 20px;
+          background: #fff;
+          border-top: 6px solid #e9ecef;
+        }
+        .lv-free-gift__header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 10px;
+        }
+        .lv-free-gift__title-wrap {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+        .lv-free-gift__title {
+          font-size: 15px;
+          font-weight: 700;
+        }
+        .lv-free-gift__subtitle {
+          font-size: 11px;
+          font-weight: 600;
+          color: #205c40;
+        }
+        .lv-free-gift__arrows {
+          display: flex;
+          gap: 4px;
+        }
+        .lv-free-gift__arrow {
+          width: 28px; height: 28px;
+          border-radius: 50%;
+          border: 1.5px solid #d9dadb;
+          background: #fff;
+          display: flex;
+          align-items: center; justify-content: center;
+          cursor: pointer;
+          color: #232323;
+          transition: all 0.15s;
+          flex-shrink: 0;
+          font-family: inherit;
+        }
+        .lv-free-gift__arrow:hover { border-color: #232323; background: #f5f5f5; }
+        .lv-free-gift__arrow:disabled { opacity: .3; cursor: default; }
+        .lv-free-gift__arrow:disabled:hover { border-color: #d9dadb; background: #fff; }
+        .lv-gift-viewport {
+          overflow: hidden;
+        }
+        .lv-gift-track {
+          display: flex;
+          gap: 10px;
+          transition: transform 0.35s cubic-bezier(.4,0,.2,1);
+        }
+        .lv-free-gift__card {
+          flex: 0 0 calc(50% - 5px);
+          min-width: 0;
+          border: 1.5px solid #d9dadb;
+          border-radius: 0.5rem;
+          padding: 10px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          cursor: pointer;
+          transition: all 0.15s;
+          position: relative;
+        }
+        .lv-free-gift__card:hover { border-color: #999; }
+        .lv-free-gift__card.is-selected {
+          border-color: #205c40;
+          background: #e6f4ee;
+        }
+        .lv-free-gift__card-check {
+          position: absolute;
+          top: 6px;
+          right: 6px;
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          background: #205c40;
+          display: none;
+          align-items: center;
+          justify-content: center;
+        }
+        .lv-free-gift__card.is-selected .lv-free-gift__card-check {
+          display: flex;
+        }
+        .lv-free-gift__card-img {
+          width: 60px;
+          height: 60px;
+          flex-shrink: 0;
+          margin-bottom: 6px;
+        }
+        .lv-free-gift__card-img img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
+        .lv-free-gift__card-name {
+          font-size: 11px;
+          font-weight: 600;
+          line-height: 1.3;
+          color: #232323;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          margin-bottom: 6px;
+        }
+        .lv-free-gift__card-btn {
+          padding: 4px 12px;
+          font-size: 11px;
+          font-weight: 700;
+          font-family: inherit;
+          border: 1px solid #d9dadb;
+          border-radius: 0.375rem;
+          background: #fff;
+          color: #232323;
+          cursor: pointer;
+          transition: all 0.15s;
+          margin-top: auto;
+        }
+        .lv-free-gift__card-btn:hover { border-color: #999; }
+        .lv-free-gift__card.is-selected .lv-free-gift__card-btn {
+          background: #205c40;
+          color: #fff;
+          border-color: #205c40;
+        }
     </style>
 </head>
 <body>
@@ -1913,6 +2043,74 @@
 
     </div><!-- /lv-cart-upper -->
 
+    <!-- Free Gift Selection -->
+    <div class="lv-free-gift">
+      <div class="lv-free-gift__header">
+        <div>
+          <div class="lv-free-gift__title-wrap">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 6H3v8h10V6z" stroke="#205c40" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 3.5h14V6H1V3.5z" stroke="#205c40" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 14V3.5M8 3.5c0-1.5-1-2.5-2.5-2.5S4 2 5 3s3 .5 3 .5zm0 0c0-1.5 1-2.5 2.5-2.5S12 2 11 3s-3 .5-3 .5z" stroke="#205c40" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="lv-free-gift__title">Choose Your Free Gift</span>
+          </div>
+          <div class="lv-free-gift__subtitle">Orders $49+ get a FREE gift!</div>
+        </div>
+        <div class="lv-free-gift__arrows">
+          <button class="lv-free-gift__arrow js-lv-gift-prev" disabled aria-label="Previous">
+            <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M8.5 3L4.5 7L8.5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="lv-free-gift__arrow js-lv-gift-next" aria-label="Next">
+            <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M5.5 3L9.5 7L5.5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="lv-gift-viewport">
+        <div class="lv-gift-track js-lv-gift-track">
+
+          <div class="lv-free-gift__card is-selected">
+            <span class="lv-free-gift__card-check"><svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <div class="lv-free-gift__card-img"><img src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v6913310681168725351/products/liposomal-vitamin-c-120-capsules-by-pure-encapsulations.jpg&height=300&width=300" alt="Vitamin C Sample"></div>
+            <div class="lv-free-gift__card-name">Vitamin C - 15 Capsules</div>
+            <button class="lv-free-gift__card-btn">Added</button>
+          </div>
+
+          <div class="lv-free-gift__card">
+            <span class="lv-free-gift__card-check"><svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <div class="lv-free-gift__card-img"><img src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v4919539529910985620/products/zinc-30-180-vegetable-capsules-by-pure-encapsulations.jpg&height=300&width=300" alt="Zinc 30 Sample"></div>
+            <div class="lv-free-gift__card-name">Zinc 30 - 15 Capsules</div>
+            <button class="lv-free-gift__card-btn">Add</button>
+          </div>
+
+          <div class="lv-free-gift__card">
+            <span class="lv-free-gift__card-check"><svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <div class="lv-free-gift__card-img"><img src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v4832359369143936000/products/b-12-folic-60-vegetable-capsules-by-pure-encapsulations.jpg&height=300&width=300" alt="B12 Folate Sample"></div>
+            <div class="lv-free-gift__card-name">B12 Folate - 15 Capsules</div>
+            <button class="lv-free-gift__card-btn">Add</button>
+          </div>
+
+          <div class="lv-free-gift__card">
+            <span class="lv-free-gift__card-check"><svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <div class="lv-free-gift__card-img"><img src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v3417793550841579303/products/vitamin-d3-k2-4000-iu-100-mcg-60-capsules-by-pure-encapsulations.jpg&height=300&width=300" alt="Vitamin D3 & K2 Sample"></div>
+            <div class="lv-free-gift__card-name">Vitamin D3 & K2 - 10 Caps</div>
+            <button class="lv-free-gift__card-btn">Add</button>
+          </div>
+
+          <div class="lv-free-gift__card">
+            <span class="lv-free-gift__card-check"><svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <div class="lv-free-gift__card-img"><img src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v1724738122147274404/products/one-omega-60-softgel-capsules-by-pure-encapsulations.jpg&height=300&width=300" alt="O.N.E. Omega Sample"></div>
+            <div class="lv-free-gift__card-name">O.N.E. Omega - 10 Softgels</div>
+            <button class="lv-free-gift__card-btn">Add</button>
+          </div>
+
+          <div class="lv-free-gift__card">
+            <span class="lv-free-gift__card-check"><svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <div class="lv-free-gift__card-img"><img src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v8728600664936678570/products/magnesium-glycinate-360-vegetable-capsules-by-pure-encapsulations.jpg&height=300&width=300" alt="Magnesium Glycinate Sample"></div>
+            <div class="lv-free-gift__card-name">Magnesium Glycinate - 15 Caps</div>
+            <button class="lv-free-gift__card-btn">Add</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
     <!-- Forgot Something — slider recs -->
     <div class="lv-recs">
       <div class="lv-recs__header">
@@ -2269,6 +2467,47 @@
 
     // Init state
     goTo(0);
+  })();
+
+  // ============================================
+  // LIVE-BRANDED — Free Gift slider
+  // ============================================
+  (function() {
+    const track = document.querySelector('.js-lv-gift-track');
+    const prevBtn = document.querySelector('.js-lv-gift-prev');
+    const nextBtn = document.querySelector('.js-lv-gift-next');
+    if (!track || !prevBtn || !nextBtn) return;
+
+    const cards = track.querySelectorAll('.lv-free-gift__card');
+    const totalSlides = Math.ceil(cards.length / 2);
+    let current = 0;
+
+    function goToGift(index) {
+      if (index < 0) index = 0;
+      if (index > totalSlides - 1) index = totalSlides - 1;
+      current = index;
+      const offset = current * 100;
+      track.style.transform = 'translateX(-' + offset + '%)';
+      prevBtn.disabled = (current === 0);
+      nextBtn.disabled = (current >= totalSlides - 1);
+    }
+
+    prevBtn.addEventListener('click', () => goToGift(current - 1));
+    nextBtn.addEventListener('click', () => goToGift(current + 1));
+
+    // Card selection (radio style)
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        cards.forEach(c => {
+          c.classList.remove('is-selected');
+          c.querySelector('.lv-free-gift__card-btn').textContent = 'Add';
+        });
+        card.classList.add('is-selected');
+        card.querySelector('.lv-free-gift__card-btn').textContent = 'Added';
+      });
+    });
+
+    goToGift(0);
   })();
 
   // ============================================
