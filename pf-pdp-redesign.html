@@ -654,6 +654,385 @@
     font-size: 11px;
     user-select: none;
   }
+
+  /* ========================================
+     LIVE-SITE MATCH PANELS
+     ======================================== */
+  .live-section-header {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 48px 24px 0;
+    border-top: 2px solid var(--pf-border);
+  }
+  .live-section-header h2 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--pf-text-dark);
+  }
+  .live-section-header p {
+    color: var(--pf-text-mid);
+    font-size: 14px;
+    margin-top: 4px;
+  }
+  .live-comparison-wrap {
+    max-width: 1000px;
+    margin: 24px auto 60px;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .live-comparison-wrap { grid-template-columns: 1fr; max-width: 500px; }
+  }
+
+  /* Base panel */
+  .live-panel {
+    background: #fff;
+    border-radius: 0.375rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,.08);
+    overflow: hidden;
+    font-family: "Helvetica Neue", Inter, Roboto, Arial, sans-serif;
+    color: #232323;
+    font-size: 14px;
+  }
+
+  .live-panel-top {
+    background: #f5f5f5;
+    padding: 16px 20px 12px;
+    border-bottom: 1px solid #e9ecef;
+  }
+  .live-panel-section {
+    padding: 12px 20px;
+    border-bottom: 1px solid #e9ecef;
+  }
+  .live-panel-section:last-child { border-bottom: none; }
+
+  .live-free-ship {
+    font-size: 12px;
+    font-weight: 700;
+    color: #205c40;
+    margin-bottom: 4px;
+  }
+  .live-ship-time {
+    font-size: 12px;
+    color: #555;
+  }
+  .live-ship-time strong {
+    color: #205c40;
+    font-weight: 700;
+  }
+
+  /* Qty + Stock */
+  .live-qty-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: nowrap;
+  }
+  .live-qty-label {
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .live-qty-group {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #d9dadb;
+    border-radius: 0.375rem;
+    overflow: hidden;
+  }
+  .live-qty-group button {
+    width: 34px; height: 34px;
+    border: none;
+    background: #f5f5f5;
+    cursor: pointer;
+    font-size: 14px;
+    color: #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+    font-family: inherit;
+  }
+  .live-qty-group button:hover { background: #e9ecef; }
+  .live-qty-group input {
+    width: 40px;
+    text-align: center;
+    border: none;
+    border-left: 1px solid #d9dadb;
+    border-right: 1px solid #d9dadb;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    height: 34px;
+  }
+  .live-in-stock {
+    font-size: 12px;
+    font-weight: 700;
+    color: #205c40;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Radio option cards — live site style */
+  .live-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .live-radio-option {
+    border: 2px solid #d9dadb;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: all 0.15s;
+    position: relative;
+  }
+  .live-radio-option + .live-radio-option {
+    margin-top: -2px;
+  }
+  .live-radio-option:first-child {
+    border-radius: 0.375rem 0.375rem 0 0;
+  }
+  .live-radio-option:last-child {
+    border-radius: 0 0 0.375rem 0.375rem;
+  }
+  .live-radio-option.selected {
+    border-color: #205c40;
+    background: #f8fdf9;
+    z-index: 1;
+  }
+  .live-radio-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .live-radio-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .live-radio-left input[type="radio"] {
+    accent-color: #205c40;
+    width: 18px; height: 18px;
+    margin: 0;
+    flex-shrink: 0;
+  }
+  .live-radio-left label {
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  /* Styled price — live site split format */
+  .live-price {
+    font-weight: 700;
+    color: #232323;
+    display: inline-flex;
+    align-items: flex-start;
+    line-height: 1;
+  }
+  .live-price .currency {
+    font-size: 13px;
+    margin-top: 2px;
+    margin-right: 1px;
+  }
+  .live-price .main-price {
+    font-size: 24px;
+    font-weight: 800;
+  }
+  .live-price .decimals {
+    font-size: 13px;
+    margin-top: 2px;
+  }
+  .live-price-big .main-price { font-size: 26px; }
+  .live-price-small .main-price { font-size: 20px; }
+  .live-price-small .currency,
+  .live-price-small .decimals { font-size: 12px; }
+  .live-price.green { color: #205c40; }
+
+  /* Strikethrough was-price */
+  .live-price-was {
+    font-size: 12px;
+    color: #999;
+    text-decoration: line-through;
+    margin-top: 2px;
+  }
+
+  /* Save badge */
+  .live-save-badge {
+    display: inline-block;
+    background: #e6f4ee;
+    color: #205c40;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-left: 8px;
+    text-transform: uppercase;
+  }
+
+  /* Autoship expanded details */
+  .live-autoship-details {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid #e9ecef;
+    font-size: 12px;
+  }
+  .live-freq-label {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .live-freq-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2px;
+  }
+  .live-freq-row .days-label {
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  /* Benefits list */
+  .live-benefits {
+    list-style: none;
+    margin: 12px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .live-benefits li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #555;
+  }
+  .live-benefits .check-circle {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: #205c40;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .live-benefits .check-circle svg {
+    width: 11px; height: 11px;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2.5;
+  }
+
+  /* Collapsed "Never run out" */
+  .live-collapsed-text {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #555;
+  }
+  .live-collapsed-text .learn-more {
+    background: none;
+    border: none;
+    color: #0d57d1;
+    text-decoration: underline;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 4px;
+    font-family: inherit;
+  }
+
+  /* ATC inside radio card */
+  .live-atc-btn {
+    display: block;
+    width: 100%;
+    padding: 12px 16px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 700;
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: background 0.15s;
+    margin-top: 12px;
+    color: #fff;
+    background: #205c40;
+  }
+  .live-atc-btn:hover { background: #1a4d35; }
+
+  /* Savings banner — live style */
+  .live-savings-banner {
+    margin-top: 12px;
+    background: #e6f4ee;
+    border: 1px solid #b8dece;
+    border-radius: 0.375rem;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #205c40;
+    line-height: 1.4;
+  }
+  .live-savings-banner.hidden { display: none; }
+  .live-savings-banner strong {
+    font-weight: 800;
+  }
+
+  /* Product info table */
+  .live-info-table {
+    padding: 14px 20px;
+    border-top: 1px solid #e9ecef;
+  }
+  .live-info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    font-size: 14px;
+    color: #555;
+  }
+  .live-info-row span:last-child {
+    font-weight: 700;
+    color: #232323;
+  }
+  .live-info-note {
+    font-size: 12px;
+    color: #999;
+    padding: 0 20px 12px;
+  }
+
+  /* Bug callout — same style as existing */
+  .live-bug-callout {
+    margin-top: 12px;
+    background: #fef2f2;
+    border: 1px dashed #fca5a5;
+    border-radius: 0.375rem;
+    padding: 10px 12px;
+    font-size: 12px;
+    color: #991b1b;
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    line-height: 1.5;
+  }
+  .live-bug-callout .bug-icon {
+    flex-shrink: 0;
+    font-size: 14px;
+    margin-top: 1px;
+  }
+
+  /* Version label — live style */
+  .version-label.live {
+    background: #e8f0fd;
+    color: #0d57d1;
+  }
+  .version-label.live .dot { background: #0d57d1; }
 </style>
 </head>
 <body>
@@ -1009,6 +1388,230 @@
   </div>
 </div>
 
+<!-- ========== LIVE BRANDING VERSIONS ========== -->
+<div class="live-section-header">
+  <h2>Proposed Redesign — Live Site Branding</h2>
+  <p>Same autoship pricing fix, styled to match the actual PureFormulas live site &nbsp;•&nbsp; Calcium (citrate) – 180 Capsules by Pure Encapsulations &nbsp;•&nbsp; Base price: $32.50</p>
+</div>
+
+<div class="live-comparison-wrap">
+
+  <!-- ======== PROPOSED — LIVE BRANDING ======== -->
+  <div class="version-col">
+    <div class="version-label live"><span class="dot"></span> Proposed — Live Branding</div>
+    <div class="live-panel">
+      <div class="live-panel-top">
+        <div class="live-panel-section" style="padding-top:8px;">
+          <div class="live-free-ship">FREE Shipping</div>
+          <p class="live-ship-time">This item will ship today if ordered within <strong>8 hr 53 min</strong></p>
+        </div>
+        <div class="live-panel-section">
+          <div class="live-qty-row">
+            <div>
+              <div class="live-qty-label">Quantity:</div>
+              <div class="live-qty-group">
+                <button onclick="liveAdjustQty(-1)">−</button>
+                <input type="text" id="live-qty" value="1" readonly>
+                <button onclick="liveAdjustQty(1)">+</button>
+              </div>
+            </div>
+            <div class="live-in-stock">
+              <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><path d="M5 10l3.5 3.5L15 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              In Stock
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Autoship fieldset -->
+      <div class="live-panel-section">
+        <fieldset style="border:none;padding:0;">
+          <div class="live-radio-group">
+            <!-- Autoship option -->
+            <div class="live-radio-option selected" id="live-autoship-opt" onclick="liveSelect('autoship')">
+              <div class="live-radio-header">
+                <div class="live-radio-left">
+                  <input type="radio" name="live-autoship" id="live-yes" checked>
+                  <label for="live-yes">Autoship & Save</label>
+                  <span class="live-save-badge" id="live-badge">SAVE 10%</span>
+                </div>
+                <div style="text-align:right;">
+                  <div class="live-price live-price-big green" id="live-autoship-price">
+                    <span class="currency">$</span><span class="main-price">29</span><span class="decimals">25</span>
+                  </div>
+                  <div class="live-price-was" id="live-autoship-original">$32.50</div>
+                </div>
+              </div>
+
+              <!-- Expanded details -->
+              <div class="live-autoship-details" id="live-details">
+                <h3 class="live-freq-label">Deliver every:</h3>
+                <div class="live-freq-row">
+                  <div class="live-qty-group">
+                    <button onclick="liveAdjustFreq(-5)">−</button>
+                    <input type="text" id="live-freq-input" value="45" readonly>
+                    <button onclick="liveAdjustFreq(5)">+</button>
+                  </div>
+                  <span class="days-label">Days</span>
+                </div>
+                <ul class="live-benefits">
+                  <li><span class="check-circle"><svg viewBox="0 0 12 12"><path d="M2.5 6l2.5 2.5L9.5 4"/></svg></span> <span>Change, skip, or cancel any time.</span></li>
+                  <li><span class="check-circle"><svg viewBox="0 0 12 12"><path d="M2.5 6l2.5 2.5L9.5 4"/></svg></span> <span>Earn PureRewards points.</span></li>
+                  <li><span class="check-circle"><svg viewBox="0 0 12 12"><path d="M2.5 6l2.5 2.5L9.5 4"/></svg></span> <span>Always get best available discount.</span></li>
+                </ul>
+              </div>
+
+              <!-- Collapsed state (hidden when expanded) -->
+              <div class="live-collapsed-text" id="live-collapsed" style="display:none;">
+                Never run out. <button class="learn-more">Learn More</button>
+              </div>
+
+              <!-- ATC inside autoship card -->
+              <button class="live-atc-btn" id="live-atc-btn">Add to Cart — Autoship</button>
+            </div>
+
+            <!-- Buy Once option -->
+            <div class="live-radio-option" id="live-buyonce-opt" onclick="liveSelect('buyonce')">
+              <div class="live-radio-header">
+                <div class="live-radio-left">
+                  <input type="radio" name="live-autoship" id="live-no">
+                  <label for="live-no">Buy Once</label>
+                </div>
+                <div class="live-price live-price-small" id="live-buyonce-price">
+                  <span class="currency">$</span><span class="main-price">32</span><span class="decimals">50</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Savings banner -->
+        <div class="live-savings-banner" id="live-savings-banner">
+          <span>You save <strong id="live-banner-save-amt">$3.25</strong> with Autoship — plus free shipping on every delivery!</span>
+        </div>
+      </div>
+
+      <!-- Product info table -->
+      <div class="live-info-table">
+        <div class="live-info-row"><span>Recommended use:</span><span>2 Capsules</span></div>
+        <div class="live-info-row"><span>Servings per container:</span><span>90 Servings</span></div>
+        <div class="live-info-row"><span>Price per serving:</span><span id="live-per-serving">$0.33</span></div>
+        <div class="live-info-row"><span>Price per Unit*:</span><span id="live-per-unit">$0.16 per Capsule</span></div>
+      </div>
+      <div class="live-info-note">*Price Per Unit may reflect product's price per capsule, ounce, fluid ounce, etc.</div>
+    </div>
+  </div>
+
+  <!-- ======== V3 BUTTONS — LIVE BRANDING ======== -->
+  <div class="version-col">
+    <div class="version-label live"><span class="dot"></span> V3 Buttons — Live Branding</div>
+    <div class="live-panel">
+      <div class="live-panel-top">
+        <div class="live-panel-section" style="padding-top:8px;">
+          <div class="live-free-ship">FREE Shipping</div>
+          <p class="live-ship-time">This item will ship today if ordered within <strong>8 hr 53 min</strong></p>
+        </div>
+        <div class="live-panel-section">
+          <div class="live-qty-row">
+            <div>
+              <div class="live-qty-label">Quantity:</div>
+              <div class="live-qty-group">
+                <button onclick="lv3AdjustQty(-1)">−</button>
+                <input type="text" id="lv3-qty" value="1" readonly>
+                <button onclick="lv3AdjustQty(1)">+</button>
+              </div>
+            </div>
+            <div class="live-in-stock">
+              <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><path d="M5 10l3.5 3.5L15 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              In Stock
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Variant buttons -->
+      <div class="live-panel-section">
+        <div class="live-qty-label" style="margin-bottom:6px;">Options:</div>
+        <div style="display:flex;gap:8px;">
+          <button class="pdp-variant-btn is-active" data-value="180" data-price="32.50" onclick="lv3SelectVariant(this)" style="font-family:inherit;border-color:#205c40;background:#e6f4ee;color:#205c40;">180 Caps</button>
+          <button class="pdp-variant-btn" data-value="360" data-price="58.50" onclick="lv3SelectVariant(this)" style="font-family:inherit;">360 Caps</button>
+        </div>
+      </div>
+
+      <!-- Autoship fieldset -->
+      <div class="live-panel-section">
+        <fieldset style="border:none;padding:0;">
+          <div class="live-radio-group">
+            <div class="live-radio-option selected" id="lv3-autoship-opt" onclick="lv3Select('autoship')">
+              <div class="live-radio-header">
+                <div class="live-radio-left">
+                  <input type="radio" name="lv3-autoship" id="lv3-yes" checked>
+                  <label for="lv3-yes">Autoship & Save</label>
+                  <span class="live-save-badge" id="lv3-badge">SAVE 10%</span>
+                </div>
+                <div style="text-align:right;">
+                  <div class="live-price live-price-big green" id="lv3-autoship-price">
+                    <span class="currency">$</span><span class="main-price">29</span><span class="decimals">25</span>
+                  </div>
+                  <div class="live-price-was" id="lv3-autoship-original">$32.50</div>
+                </div>
+              </div>
+
+              <div class="live-autoship-details" id="lv3-details">
+                <h3 class="live-freq-label">Deliver every:</h3>
+                <div class="live-freq-row">
+                  <div class="live-qty-group">
+                    <button onclick="lv3AdjustFreq(-5)">−</button>
+                    <input type="text" id="lv3-freq-input" value="45" readonly>
+                    <button onclick="lv3AdjustFreq(5)">+</button>
+                  </div>
+                  <span class="days-label">Days</span>
+                </div>
+                <ul class="live-benefits">
+                  <li><span class="check-circle"><svg viewBox="0 0 12 12"><path d="M2.5 6l2.5 2.5L9.5 4"/></svg></span> <span>Change, skip, or cancel any time.</span></li>
+                  <li><span class="check-circle"><svg viewBox="0 0 12 12"><path d="M2.5 6l2.5 2.5L9.5 4"/></svg></span> <span>Earn PureRewards points.</span></li>
+                  <li><span class="check-circle"><svg viewBox="0 0 12 12"><path d="M2.5 6l2.5 2.5L9.5 4"/></svg></span> <span>Always get best available discount.</span></li>
+                </ul>
+              </div>
+
+              <div class="live-collapsed-text" id="lv3-collapsed" style="display:none;">
+                Never run out. <button class="learn-more">Learn More</button>
+              </div>
+
+              <button class="live-atc-btn" id="lv3-atc-btn">Add to Cart — Autoship</button>
+            </div>
+
+            <div class="live-radio-option" id="lv3-buyonce-opt" onclick="lv3Select('buyonce')">
+              <div class="live-radio-header">
+                <div class="live-radio-left">
+                  <input type="radio" name="lv3-autoship" id="lv3-no">
+                  <label for="lv3-no">Buy Once</label>
+                </div>
+                <div class="live-price live-price-small" id="lv3-buyonce-price">
+                  <span class="currency">$</span><span class="main-price">32</span><span class="decimals">50</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="live-savings-banner" id="lv3-savings-banner">
+          <span>You save <strong id="lv3-banner-save-amt">$3.25</strong> with Autoship — plus free shipping on every delivery!</span>
+        </div>
+      </div>
+
+      <div class="live-info-table">
+        <div class="live-info-row"><span>Recommended use:</span><span>2 Capsules</span></div>
+        <div class="live-info-row"><span>Servings per container:</span><span id="lv3-servings">90 Servings</span></div>
+        <div class="live-info-row"><span>Price per serving:</span><span id="lv3-per-serving">$0.33</span></div>
+        <div class="live-info-row"><span>Price per Unit*:</span><span id="lv3-per-unit">$0.16 per Capsule</span></div>
+      </div>
+      <div class="live-info-note">*Price Per Unit may reflect product's price per capsule, ounce, fluid ounce, etc.</div>
+    </div>
+  </div>
+
+</div>
+
 <script>
   // ========== CONFIG ==========
   const AUTOSHIP_DISCOUNT = 0.10;
@@ -1181,9 +1784,172 @@
     document.getElementById('v3-per-serving').textContent = '$' + (effectivePrice / v3Servings).toFixed(2);
   }
 
+  // ========== LIVE BRANDING — PROPOSED PANEL ==========
+  let liveBasePrice = 32.50;
+  let liveServings = 90;
+  let liveCapsules = 180;
+  let liveMode = 'autoship';
+  let liveQty = 1;
+  let liveFreq = 45;
+
+  function liveSelect(mode) {
+    liveMode = mode;
+    const autoOpt = document.getElementById('live-autoship-opt');
+    const buyOpt = document.getElementById('live-buyonce-opt');
+    const details = document.getElementById('live-details');
+    const collapsed = document.getElementById('live-collapsed');
+    const banner = document.getElementById('live-savings-banner');
+    const atcBtn = document.getElementById('live-atc-btn');
+
+    if (mode === 'autoship') {
+      autoOpt.classList.add('selected');
+      buyOpt.classList.remove('selected');
+      document.getElementById('live-yes').checked = true;
+      details.style.display = '';
+      collapsed.style.display = 'none';
+      banner.classList.remove('hidden');
+      atcBtn.textContent = 'Add to Cart — Autoship';
+      atcBtn.style.display = '';
+    } else {
+      autoOpt.classList.remove('selected');
+      buyOpt.classList.add('selected');
+      document.getElementById('live-no').checked = true;
+      details.style.display = 'none';
+      collapsed.style.display = '';
+      banner.classList.add('hidden');
+      atcBtn.textContent = 'Add to Cart';
+      // Move ATC outside — for Buy Once, show it in buyonce context
+      atcBtn.style.display = '';
+    }
+    liveUpdatePrices();
+  }
+
+  function liveAdjustQty(delta) {
+    liveQty = Math.max(1, liveQty + delta);
+    document.getElementById('live-qty').value = liveQty;
+  }
+
+  function liveAdjustFreq(delta) {
+    liveFreq = Math.max(5, liveFreq + delta);
+    document.getElementById('live-freq-input').value = liveFreq;
+  }
+
+  function liveUpdatePrices() {
+    const autoPrice = Math.round(liveBasePrice * (1 - AUTOSHIP_DISCOUNT) * 100) / 100;
+    const savings = Math.round((liveBasePrice - autoPrice) * 100) / 100;
+
+    // Autoship price
+    const ap = formatPrice(autoPrice);
+    document.querySelector('#live-autoship-price .main-price').textContent = ap.main;
+    document.querySelector('#live-autoship-price .decimals').textContent = ap.dec;
+    document.getElementById('live-autoship-original').textContent = '$' + liveBasePrice.toFixed(2);
+    document.getElementById('live-badge').textContent = 'SAVE $' + savings.toFixed(2) + ' (10%)';
+
+    // Buy once price
+    const bp = formatPrice(liveBasePrice);
+    document.querySelector('#live-buyonce-price .main-price').textContent = bp.main;
+    document.querySelector('#live-buyonce-price .decimals').textContent = bp.dec;
+
+    // Savings banner
+    document.getElementById('live-banner-save-amt').textContent = '$' + savings.toFixed(2);
+
+    // Per-serving / per-unit
+    const effectivePrice = liveMode === 'autoship' ? autoPrice : liveBasePrice;
+    document.getElementById('live-per-serving').textContent = '$' + (effectivePrice / liveServings).toFixed(2);
+    document.getElementById('live-per-unit').textContent = '$' + (effectivePrice / liveCapsules).toFixed(2) + ' per Capsule';
+  }
+
+  // ========== LIVE BRANDING — V3 BUTTONS PANEL ==========
+  let lv3BasePrice = 32.50;
+  let lv3Servings = 90;
+  let lv3Capsules = 180;
+  let lv3Mode = 'autoship';
+  let lv3Qty = 1;
+  let lv3Freq = 45;
+
+  function lv3SelectVariant(btn) {
+    btn.parentElement.querySelectorAll('.pdp-variant-btn').forEach(b => {
+      b.classList.remove('is-active');
+      b.style.borderColor = '';
+      b.style.background = '';
+      b.style.color = '';
+    });
+    btn.classList.add('is-active');
+    btn.style.borderColor = '#205c40';
+    btn.style.background = '#e6f4ee';
+    btn.style.color = '#205c40';
+    lv3BasePrice = parseFloat(btn.dataset.price);
+    lv3Capsules = parseInt(btn.dataset.value) || 180;
+    lv3Servings = Math.floor(lv3Capsules / 2);
+    document.getElementById('lv3-servings').textContent = lv3Servings + ' Servings';
+    lv3UpdatePrices();
+  }
+
+  function lv3Select(mode) {
+    lv3Mode = mode;
+    const autoOpt = document.getElementById('lv3-autoship-opt');
+    const buyOpt = document.getElementById('lv3-buyonce-opt');
+    const details = document.getElementById('lv3-details');
+    const collapsed = document.getElementById('lv3-collapsed');
+    const banner = document.getElementById('lv3-savings-banner');
+    const atcBtn = document.getElementById('lv3-atc-btn');
+
+    if (mode === 'autoship') {
+      autoOpt.classList.add('selected');
+      buyOpt.classList.remove('selected');
+      document.getElementById('lv3-yes').checked = true;
+      details.style.display = '';
+      collapsed.style.display = 'none';
+      banner.classList.remove('hidden');
+      atcBtn.textContent = 'Add to Cart — Autoship';
+    } else {
+      autoOpt.classList.remove('selected');
+      buyOpt.classList.add('selected');
+      document.getElementById('lv3-no').checked = true;
+      details.style.display = 'none';
+      collapsed.style.display = '';
+      banner.classList.add('hidden');
+      atcBtn.textContent = 'Add to Cart';
+    }
+    lv3UpdatePrices();
+  }
+
+  function lv3AdjustQty(delta) {
+    lv3Qty = Math.max(1, lv3Qty + delta);
+    document.getElementById('lv3-qty').value = lv3Qty;
+  }
+
+  function lv3AdjustFreq(delta) {
+    lv3Freq = Math.max(5, lv3Freq + delta);
+    document.getElementById('lv3-freq-input').value = lv3Freq;
+  }
+
+  function lv3UpdatePrices() {
+    const autoPrice = Math.round(lv3BasePrice * (1 - AUTOSHIP_DISCOUNT) * 100) / 100;
+    const savings = Math.round((lv3BasePrice - autoPrice) * 100) / 100;
+
+    const ap = formatPrice(autoPrice);
+    document.querySelector('#lv3-autoship-price .main-price').textContent = ap.main;
+    document.querySelector('#lv3-autoship-price .decimals').textContent = ap.dec;
+    document.getElementById('lv3-autoship-original').textContent = '$' + lv3BasePrice.toFixed(2);
+    document.getElementById('lv3-badge').textContent = 'SAVE $' + savings.toFixed(2) + ' (10%)';
+
+    const bp = formatPrice(lv3BasePrice);
+    document.querySelector('#lv3-buyonce-price .main-price').textContent = bp.main;
+    document.querySelector('#lv3-buyonce-price .decimals').textContent = bp.dec;
+
+    document.getElementById('lv3-banner-save-amt').textContent = '$' + savings.toFixed(2);
+
+    const effectivePrice = lv3Mode === 'autoship' ? autoPrice : lv3BasePrice;
+    document.getElementById('lv3-per-serving').textContent = '$' + (effectivePrice / lv3Servings).toFixed(2);
+    document.getElementById('lv3-per-unit').textContent = '$' + (effectivePrice / lv3Capsules).toFixed(2) + ' per Capsule';
+  }
+
   // Initialize
   updatePrices();
   v3UpdatePrices();
+  liveUpdatePrices();
+  lv3UpdatePrices();
 </script>
 </body>
 </html>

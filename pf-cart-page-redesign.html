@@ -579,6 +579,62 @@
   }
   .summary-promo__btn:hover { background: var(--pf-border); }
 
+  /* Applied promo code state */
+  .summary-promo__applied {
+    display: none;
+  }
+  .summary-promo__applied.is-visible {
+    display: block;
+  }
+  .summary-promo__tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    border-radius: 100px;
+    background: var(--pf-green-light);
+    border: 1px solid var(--pf-green-border);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--pf-green);
+  }
+  .summary-promo__tag-remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+    color: var(--pf-text-muted);
+    border-radius: 50%;
+    transition: color var(--pf-transition), background var(--pf-transition);
+  }
+  .summary-promo__tag-remove:hover {
+    color: var(--pf-red);
+    background: rgba(0,0,0,.06);
+  }
+  .summary-promo__msg {
+    font-size: 11px;
+    color: var(--pf-green);
+    margin-top: 4px;
+  }
+
+  .summary-row--discount {
+    color: var(--pf-green);
+    font-weight: 700;
+    display: none;
+  }
+  .summary-row--discount.is-visible {
+    display: flex;
+  }
+
+  .summary-promo__row.is-hidden {
+    display: none;
+  }
+
   /* ========================================
      ANNOTATIONS
      ======================================== */
@@ -892,6 +948,12 @@
         <span class="js-summary-savings-amount">-$7.60</span>
       </div>
 
+      <!-- Promo discount line — appears when code applied -->
+      <div class="summary-row summary-row--discount js-promo-discount-row is-visible">
+        <span>Promo Discount (SAVE10)</span>
+        <span class="js-promo-discount-amount">-$11.15</span>
+      </div>
+
       <div class="summary-row summary-row--small">
         <span>Shipping</span>
         <span>$0.00</span>
@@ -921,9 +983,18 @@
 
       <div class="summary-promo">
         <div class="summary-promo__label">Promo Code</div>
-        <div class="summary-promo__row">
-          <input class="summary-promo__input" type="text" placeholder="Enter code">
-          <button class="summary-promo__btn">Apply</button>
+        <div class="summary-promo__row js-promo-row is-hidden">
+          <input class="summary-promo__input js-promo-input" type="text" placeholder="Enter code">
+          <button class="summary-promo__btn js-promo-apply">Apply</button>
+        </div>
+        <div class="summary-promo__applied js-promo-applied is-visible">
+          <div class="summary-promo__tag">
+            SAVE10
+            <button class="summary-promo__tag-remove js-promo-remove" aria-label="Remove promo code">
+              <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M9 3L3 9M3 3l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </button>
+          </div>
+          <div class="summary-promo__msg">10% discount applied</div>
         </div>
       </div>
 
@@ -943,13 +1014,13 @@
         <li><strong>Savings banner in Order Summary</strong> — Appears when any item is on Autoship. Shows total savings and nudges the user to switch more items ("Select Autoship on more items to save even more").</li>
         <li><strong>Autoship discount line in summary</strong> — A dedicated "Autoship Savings → -$X.XX" line in the order summary, in green, so the discount is impossible to miss.</li>
         <li><strong>Trust signals tightened</strong> — Same 3 benefits (change/skip/cancel, rewards, best discount) but more compact with small green check circles instead of full-width blue circles.</li>
+        <li><strong>Promo code applied state</strong> — When a promo code is applied, the input field is replaced by a green pill tag showing the code name with an X to remove it. A "Promo Discount" line appears in the summary showing the exact savings, and the total updates accordingly. The page loads with "SAVE10" pre-applied so the applied state is immediately visible.</li>
       </ul>
       <p><strong>What stayed the same:</strong></p>
       <ul>
         <li>Delivery frequency selector (days input)</li>
         <li>Delete / Save for Later links</li>
         <li>Quantity controls</li>
-        <li>Promo code field</li>
         <li>Overall two-column cart + summary layout</li>
       </ul>
     </div>
@@ -1005,7 +1076,6 @@
     // Summary
     document.querySelector('.js-summary-items-price').textContent = '$' + totalItems.toFixed(2);
     document.querySelector('.js-summary-count').textContent = '(' + itemCount + ' item' + (itemCount !== 1 ? 's' : '') + ')';
-    document.querySelector('.js-summary-total').textContent = '$' + totalPrice.toFixed(2);
 
     const savingsRow = document.querySelector('.js-summary-savings-row');
     const savingsBanner = document.querySelector('.js-summary-savings-banner');
@@ -1020,6 +1090,22 @@
       savingsRow.classList.remove('is-visible');
       savingsBanner.classList.remove('is-visible');
     }
+
+    // Promo discount (10% off items subtotal when applied)
+    const promoRow = document.querySelector('.js-promo-discount-row');
+    const promoApplied = document.querySelector('.js-promo-applied');
+    const isPromoActive = promoApplied && promoApplied.classList.contains('is-visible');
+    let promoDiscount = 0;
+
+    if (isPromoActive) {
+      promoDiscount = Math.round(totalItems * 0.10 * 100) / 100;
+      promoRow.classList.add('is-visible');
+      document.querySelector('.js-promo-discount-amount').textContent = '-$' + promoDiscount.toFixed(2);
+    } else {
+      promoRow.classList.remove('is-visible');
+    }
+
+    document.querySelector('.js-summary-total').textContent = '$' + (totalPrice - promoDiscount).toFixed(2);
   }
 
   // ============================================
@@ -1053,6 +1139,33 @@
 
     down.addEventListener('click', () => updateQty(-1));
     up.addEventListener('click', () => updateQty(1));
+  });
+
+  // ============================================
+  // Promo code toggle
+  // ============================================
+  const promoRow = document.querySelector('.js-promo-row');
+  const promoApplied = document.querySelector('.js-promo-applied');
+  const promoApplyBtn = document.querySelector('.js-promo-apply');
+  const promoRemoveBtn = document.querySelector('.js-promo-remove');
+  const promoInput = document.querySelector('.js-promo-input');
+
+  promoApplyBtn.addEventListener('click', () => {
+    const code = promoInput.value.trim();
+    if (!code) return;
+    promoRow.classList.add('is-hidden');
+    promoApplied.classList.add('is-visible');
+    promoApplied.querySelector('.summary-promo__tag').firstChild.textContent = code + ' ';
+    promoApplied.querySelector('.summary-promo__msg').textContent = '10% discount applied';
+    document.querySelector('.js-promo-discount-row span:first-child').textContent = 'Promo Discount (' + code + ')';
+    updateAll();
+  });
+
+  promoRemoveBtn.addEventListener('click', () => {
+    promoApplied.classList.remove('is-visible');
+    promoRow.classList.remove('is-hidden');
+    promoInput.value = '';
+    updateAll();
   });
 
   // ============================================

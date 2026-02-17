@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <title>PureFormulas – Search Results for "l theanine"</title>
+    <style>
+        /* ── Reset & Base ── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: "Helvetica Neue", Inter, Roboto, "Arial Nova", "Nimbus Sans", Arial, sans-serif; background: #fff; color: #232323; }
+        a { text-decoration: none; color: inherit; }
+        button, select { font-family: inherit; cursor: pointer; }
+        img { max-width: 100%; display: block; }
+        .container {
+            max-width: 1320px; margin: 0 auto; padding: 0 40px; width: 100%;
+        }
+
+        /* ── Promo Banner ── */
+        .pf-promo-bar {
+            background: #902fb9; color: #fff; text-align: center;
+            padding: 1rem 16px; font-size: 1rem; font-weight: 600; letter-spacing: 0.02em;
+        }
+        .pf-promo-bar a { color: #fff; text-decoration: none; font-weight: 600; }
+
+        /* ── Header ── */
+        .pf-header {
+            background: #fff;
+            padding: 1rem 0; display: flex; align-items: center;
+            justify-content: space-between;
+        }
+        .pf-header .container {
+            display: flex; align-items: center; gap: 1.25rem;
+        }
+        .pf-logo { display: flex; align-items: center; flex-shrink: 0; }
+        .pf-logo img, .pf-logo svg { height: 4.5rem; width: auto; max-width: none; }
+        .pf-search-bar {
+            display: flex; align-items: center; background: #f5f5f5;
+            border: none; border-radius: 3rem;
+            padding: 0 .5rem 0 1.25rem; flex: 1; gap: 8px; height: 3rem;
+        }
+        .pf-search-bar input {
+            border: none; background: none; outline: none; flex: 1;
+            font-size: 1rem; color: #232323; font-family: inherit;
+        }
+        .pf-search-bar input::placeholder { color: #757575; }
+        .pf-search-bar .search-btn {
+            background: none; border: .25rem solid #f5f5f5; color: #232323;
+            width: 3rem; height: 3rem; border-radius: 3rem;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; transition: background-color .3s, color .3s;
+        }
+        .pf-search-bar .search-btn:hover { background-color: #205c40; color: #fff; }
+        .pf-header-links { display: flex; gap: 0; align-items: center; list-style: none; flex-shrink: 0; }
+        .pf-header-links li { border-radius: .75rem; }
+        .pf-header-links li:hover { background-color: #f5f5f5; }
+        .pf-header-links a {
+            display: inline-flex; align-items: center; gap: .5rem;
+            padding: 1rem .75rem; border-radius: .75rem;
+            font-size: 1.125rem; font-weight: 600; color: #232323;
+            white-space: nowrap; transition: color 0.15s;
+        }
+        .pf-header-links a:hover { color: #0d57d1; text-decoration: none; }
+        .pf-header-links .link-icon { position: relative; font-size: 1.75rem; }
+        .pf-cart-badge {
+            position: absolute; top: -.5rem; right: -.5rem;
+            background: #c14031; color: #fff; font-size: .6rem;
+            width: 1rem; height: 1rem; border-radius: 1rem;
+            display: flex; justify-content: center; align-items: center;
+            font-weight: 400; line-height: 1.1rem;
+        }
+
+        /* ── Navigation Bar ── */
+        .pf-nav {
+            background: #fff; border-top: 1px solid #d9dadb;
+            box-shadow: 0 3px 6px rgba(0,0,0,.15);
+            padding: .5rem 0; display: flex; align-items: center; gap: 0;
+            position: relative; z-index: 500;
+        }
+        .pf-nav .container {
+            display: flex; align-items: center;
+        }
+        .pf-nav a {
+            padding: .5rem; display: flex; align-items: center;
+            font-size: 1rem; font-weight: 600; color: #232323;
+            white-space: nowrap; border-radius: .75rem;
+            transition: color 0.15s, background-color 0.15s;
+        }
+        .pf-nav a:hover { color: #0d57d1 !important; }
+        .pf-nav > .container > a:hover { background-color: #f5f5f5 !important; border-radius: .75rem; }
+        .pf-nav .nav-cat-wrap > a:hover { background-color: transparent !important; color: #232323 !important; }
+        .pf-nav .nav-secondary { font-size: .875rem; }
+        .pf-nav .nav-shipping { color: #205c40; }
+        .pf-nav .nav-cat-wrap { position: relative; }
+        .pf-nav .nav-cat-wrap:hover .pf-mega { display: flex; }
+
+        /* ── Megamenu ── */
+        .pf-mega {
+            display: none; position: absolute; top: 100%; left: -40px;
+            width: 1200px; background: #fff;
+            box-shadow: 0 6px 20px rgba(0,0,0,.15); z-index: 500;
+            min-height: 383px; padding: 0;
+        }
+        .pf-mega-sidebar {
+            width: 200px; flex-shrink: 0; background: #f5f5f5;
+            min-height: 383px; padding: 0; display: flex; flex-direction: column;
+        }
+        .pf-mega-tab {
+            display: block; padding: .75rem 1rem;
+            font-size: 1rem; font-weight: 600; color: #232323;
+            cursor: pointer; background: #f5f5f5; border: none;
+            text-align: left; width: 100%; transition: background 0.15s;
+        }
+        .pf-mega-tab:hover, .pf-mega-tab.active {
+            background: #fff; color: #0d57d1;
+        }
+        .pf-mega-panel {
+            display: none; flex: 1; padding: 1rem;
+            position: absolute; left: 200px; top: 0;
+            width: 1000px; height: 100%;
+        }
+        .pf-mega-panel.active { display: flex; }
+
+        /* Category panels */
+        .pf-mega-cats {
+            flex: 1; columns: 3; column-gap: 1rem; width: 100%;
+        }
+        .pf-mega-cats a {
+            display: block; padding: .25rem 0; font-size: .875rem;
+            font-weight: 400; color: #232323 !important;
+            text-decoration: none; break-inside: avoid;
+        }
+        .pf-mega-cats a:hover { text-decoration: underline; }
+        .pf-mega-img {
+            width: 200px; flex-shrink: 0; margin-left: 1rem;
+            display: flex; flex-direction: column;
+        }
+        .pf-mega-img img { width: 100%; border-radius: .5rem; object-fit: cover; }
+        .pf-mega-shop-all {
+            display: inline-block; margin-top: .75rem; padding: .5rem 1.25rem;
+            background: #232323; color: #fff; border-radius: .75rem;
+            font-size: .8125rem; font-weight: 600; text-align: center;
+        }
+        .pf-mega-shop-all:hover { background: #444; color: #fff; }
+        .pf-mega-all-link {
+            display: block; padding: .75rem 1rem; font-size: 1rem; font-weight: 600;
+            color: #232323; margin-top: auto; background: #f5f5f5;
+        }
+        .pf-mega-all-link:hover { color: #0d57d1; }
+
+        /* Goals panel */
+        .pf-goals-panel { display: flex; gap: 1.5rem; flex: 1; }
+        .pf-goals-sidebar {
+            width: 180px; flex-shrink: 0; display: flex; flex-direction: column; gap: 0;
+        }
+        .pf-goal-tab {
+            display: block; padding: .5rem .75rem; font-size: .875rem; font-weight: 600;
+            color: #616161; cursor: pointer; border-radius: .5rem;
+            background: none; border: none; text-align: left; width: 100%;
+            transition: all 0.15s;
+        }
+        .pf-goal-tab:hover { color: #0d57d1; background: #f5f5f5; }
+        .pf-goal-tab.active { color: #0d57d1; background: #e8f0fd; }
+        .pf-goals-content { flex: 1; display: flex; flex-direction: column; }
+        .pf-goals-header { margin-bottom: .75rem; }
+        .pf-goals-header h3 { font-size: 1.25rem; font-weight: 700; margin: 0; }
+        .pf-goals-header p { font-size: .8125rem; color: #616161; margin: .25rem 0 0; }
+        .pf-goals-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: .5rem;
+            margin-bottom: .5rem;
+        }
+        .pf-goal-card {
+            border: 1px solid #d9dadb; border-radius: .5rem;
+            padding: .5rem; text-align: center; cursor: pointer;
+            transition: all 0.15s; background: #fff;
+            display: flex; flex-direction: column; align-items: center; gap: .25rem;
+        }
+        .pf-goal-card:hover { border-color: #0d57d1; color: #0d57d1; }
+        .pf-goal-card-icon { width: 20px; height: 20px; stroke-width: 1.5; }
+        .pf-goal-card-label { font-size: .75rem; font-weight: 600; }
+        .pf-goals-cta {
+            display: inline-block; margin-top: .5rem; padding: .375rem 1rem;
+            background: #232323; color: #fff; border-radius: .5rem; border: none;
+            font-size: .8125rem; font-weight: 600;
+        }
+        .pf-goals-cta:hover { background: #444; color: #fff; }
+
+        /* ── Breadcrumb ── */
+        .pf-breadcrumb { padding: 1rem 0 0; font-size: .875rem; color: #616161; }
+        .pf-breadcrumb .current { color: #b24939; font-weight: bold; }
+        .pf-breadcrumb span a { color: #0d57d1; }
+        .pf-breadcrumb span a:hover { text-decoration: underline; }
+
+        /* ── Toolbar ── */
+        .pf-toolbar {
+            padding: 16px 0; display: flex; align-items: center;
+            justify-content: space-between; gap: 16px; flex-wrap: wrap;
+        }
+        .pf-toolbar-left { display: flex; align-items: center; gap: 16px; }
+        .pf-toolbar-left h1 { font-size: 22px; font-weight: 700; margin: 0; color: #232323; }
+        .pf-toolbar-left .count { font-size: 13px; color: #616161; font-weight: 600; }
+        .pf-toolbar-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+        .pf-filter-btn {
+            display: flex; align-items: center; gap: 7px;
+            padding: .5rem .66rem; background: #fff; border: 1px solid #d9dadb;
+            border-radius: .75rem; font-size: 1rem; font-weight: 600; color: #232323;
+            transition: all 0.15s; position: relative;
+        }
+        .pf-filter-btn:hover { border-color: #0d57d1; color: #0d57d1; }
+        .pf-filter-btn .badge {
+            background: #0d57d1; color: #fff; font-size: 10px;
+            width: 18px; height: 18px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-weight: 800; margin-left: 2px;
+        }
+
+        .pf-chip {
+            display: inline-flex; align-items: center; gap: 5px;
+            padding: 5px 10px 5px 12px; background: #e8f0fd;
+            border-radius: 20px; font-size: 11px; font-weight: 600; color: #0d57d1;
+        }
+        .pf-chip button {
+            background: none; border: none; padding: 0; display: flex; color: #0d57d1;
+        }
+
+        .pf-clear-all {
+            background: none; border: none; color: #c14031;
+            font-size: 12px; font-weight: 700;
+        }
+
+        .pf-sort {
+            padding: .5rem .66rem; border: 1px solid #d9dadb;
+            border-radius: .75rem; font-size: 1rem; font-weight: 600; color: #232323;
+            background: #fff; cursor: pointer; margin-left: auto;
+        }
+
+        /* ── Product Grid ── */
+        .pf-grid {
+            padding: 0 0 60px;
+            display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px;
+        }
+
+        /* ── Product Card ── */
+        .pf-card {
+            background: #fff; border-radius: .75rem; overflow: hidden;
+            display: flex; flex-direction: column;
+            transition: box-shadow 0.25s ease, transform 0.25s ease;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            border: 1px solid #d9dadb;
+            cursor: pointer; position: relative; height: 100%;
+            margin-bottom: 1.5rem;
+        }
+        .pf-card:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.10);
+            transform: translateY(-3px);
+        }
+        .pf-card:hover .pf-card-atc { background-color: #1a4d35; }
+
+        .pf-card-promo {
+            position: absolute; top: 10px; left: 10px; z-index: 2;
+            border: 2px solid #c14031; color: #c14031; background: #fff;
+            font-size: 10px; font-weight: 800;
+            padding: 3px 8px; border-radius: .25rem; letter-spacing: 0.02em;
+        }
+
+        .pf-card-img {
+            padding: 0; position: relative;
+        }
+        .pf-card-img img {
+            width: 100%; height: auto; display: block;
+            object-fit: contain; aspect-ratio: 3/4;
+            max-width: 225px; margin: 0 auto;
+        }
+
+        .pf-card-body {
+            padding: .5rem .5rem 0; flex: 0;
+            display: flex; flex-direction: column;
+            row-gap: .25rem;
+            padding-left: .6rem;
+        }
+
+        .pf-card-brand {
+            display: flex; align-items: center; gap: 4px;
+        }
+        .pf-card-brand span {
+            font-size: 10px; color: #616161; font-weight: 600;
+        }
+
+        .pf-card-name {
+            font-size: 14px; font-weight: 700; color: #232323;
+            line-height: 1.35;
+            display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+        }
+
+        .pf-card-stars { display: flex; align-items: center; gap: 5px; height: 19px; }
+        .pf-card-stars .review-count { font-size: 11px; font-weight: 700; color: #444; }
+
+        .pf-card-pricing { margin-top: 0; }
+        .pf-card-action { margin-top: auto; padding: 0 .5rem 1rem; padding-left: .6rem; }
+        .pf-card-price {
+            display: inline-flex; align-items: flex-start; line-height: 1.2;
+            font-weight: 700; margin-bottom: 5px;
+        }
+        .pf-card-price .currency { font-size: 12px; margin-top: 4px; }
+        .pf-card-price .main-price { font-size: 24px; margin: 0 .1em; }
+        .pf-card-price .decimals { font-size: 12px; margin-top: 4px; }
+
+        .pf-card-autoship { font-size: 14px; color: #232323; margin-top: -3px; }
+        .pf-card-autoship strong { font-weight: 700; }
+
+        .pf-card-offer { font-size: 12px; margin-top: 3px; }
+        .pf-card-offer .c-red-promo { color: #c14031; font-weight: 700; }
+        .pf-card-shipping { font-size: 12px; color: #666; margin-top: .5rem; text-wrap: nowrap; margin-bottom: 3px; }
+
+        .pf-card-atc {
+            width: 100%; padding: .5rem .66rem;
+            background-color: #205c40; color: #fff !important; border: 1px solid rgba(0,0,0,0) !important;
+            border-radius: .75rem; font-size: 15px; font-weight: 700;
+            text-wrap: nowrap; text-decoration: none !important;
+            transition: background-color 0.2s;
+        }
+        .pf-card-atc:hover { background-color: #1a4d35; }
+
+        /* ── Stars ── */
+        .star-row { display: flex; gap: 2px; align-items: center; }
+        .star-row svg { flex-shrink: 0; }
+
+        /* ── Pagination ── */
+        .pf-pagination {
+            padding: 0 40px 60px;
+            display: flex; justify-content: center; align-items: center; gap: 4px;
+        }
+        .pf-page-btn {
+            width: 36px; height: 36px; border-radius: .75rem;
+            border: 1px solid #d9dadb; background: #fff;
+            color: #555; font-weight: 700; font-size: 13px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .pf-page-btn.active {
+            border: 2px solid #0d57d1; background: #e8f0fd; color: #0d57d1;
+        }
+        .pf-page-next {
+            padding: 0 14px; height: 36px; border-radius: .75rem;
+            border: 1px solid #d9dadb; background: #fff; color: #555;
+            font-weight: 700; font-size: 12px;
+            display: flex; align-items: center; gap: 4px;
+        }
+
+        /* ── Drawer Overlay ── */
+        .pf-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.35);
+            z-index: 1000; backdrop-filter: blur(2px);
+            opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+        }
+        .pf-overlay.open { opacity: 1; pointer-events: auto; }
+
+        /* ── Filter Drawer ── */
+        .pf-drawer {
+            position: fixed; top: 0; left: 0; width: 360px; height: 100vh;
+            background: #fff; z-index: 1001;
+            transform: translateX(-100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; flex-direction: column;
+            box-shadow: none;
+        }
+        .pf-drawer.open {
+            transform: translateX(0);
+            box-shadow: 4px 0 30px rgba(0,0,0,0.12);
+        }
+
+        .pf-drawer-header {
+            padding: 20px 24px; border-bottom: 1px solid #e9ecef;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .pf-drawer-header-left { display: flex; align-items: center; gap: 10px; }
+        .pf-drawer-header-left .title { font-size: 18px; font-weight: 700; }
+        .pf-drawer-header-left .active-badge {
+            background: #0d57d1; color: #fff; font-size: 11px;
+            padding: 2px 8px; border-radius: 10px; font-weight: 700; display: none;
+        }
+        .pf-drawer-close {
+            background: none; border: none; padding: 4px; display: flex;
+        }
+
+        .pf-drawer-body { flex: 1; overflow-y: auto; padding: 4px 24px 24px; }
+
+        .pf-filter-section { border-bottom: 1px solid #e9ecef; }
+        .pf-filter-toggle {
+            width: 100%; display: flex; justify-content: space-between; align-items: center;
+            padding: 14px 0; background: none; border: none;
+            font-weight: 700; font-size: .875rem; color: #232323;
+            letter-spacing: 0.03em; text-transform: uppercase;
+        }
+        .pf-filter-toggle svg { transition: transform 0.2s; }
+        .pf-filter-toggle.expanded svg { transform: rotate(180deg); }
+
+        .pf-filter-options { padding-bottom: 14px; display: none; }
+        .pf-filter-options.show { display: block; }
+
+        .pf-filter-option {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: .25rem 0; cursor: pointer; font-size: .875rem; color: #232323;
+        }
+        .pf-filter-option .left { display: flex; align-items: center; gap: 8px; }
+        .pf-filter-option input { accent-color: #0d57d1; width: 15px; height: 15px; }
+        .pf-filter-option .facet-count { font-size: .75rem; color: #616161; font-weight: 600; }
+
+        .pf-drawer-footer {
+            padding: 16px 24px; border-top: 1px solid #e9ecef;
+            display: flex; gap: 10px;
+        }
+        .pf-drawer-footer .clear {
+            flex: 1; padding: .5rem .66rem; border: 1px solid #d9dadb; border-radius: .75rem;
+            background: #fff; font-size: 1rem; font-weight: 700; color: #555;
+        }
+        .pf-drawer-footer .apply {
+            flex: 2; padding: .5rem .66rem; border: 1px solid rgba(0,0,0,0); border-radius: .75rem;
+            background-color: #205c40; color: #fff; font-size: 15px; font-weight: 700;
+        }
+        .pf-drawer-footer .apply:hover { background-color: #1a4d35; }
+
+        /* ── Trusted Badge (inline SVG) ── */
+        .trusted-badge { flex-shrink: 0; }
+
+        /* ── Responsive ── */
+        @media (max-width: 1200px) {
+            .pf-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+        @media (max-width: 900px) {
+            .pf-grid { grid-template-columns: repeat(3, 1fr); }
+            .container, .pf-pagination { padding-left: 20px; padding-right: 20px; }
+        }
+        @media (max-width: 600px) {
+            .pf-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .pf-drawer { width: 100%; }
+            .pf-nav { display: none; }
+        }
+
+        /* Body scroll lock */
+        body.drawer-open { overflow: hidden; }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="pf-header">
+    <div class="container">
+        <a href="#" class="pf-logo">
+            <svg viewBox="0 0 109.5 72" xmlns="http://www.w3.org/2000/svg">
+                <g>
+                    <path fill="#221F1F" d="M21.5,22.7L21.5,22.7c0-5.5-3.8-9.3-10.2-9.3H3.4c-1.6,0-2.9,1.3-2.9,2.9v21c0,1.6,1.3,2.9,2.9,2.9s2.9-1.3,2.9-2.9V32h4.4C16.7,32,21.5,28.8,21.5,22.7 M15.6,22.8c0,2.3-1.7,4-4.6,4H6.3v-8.1h4.5C13.8,18.7,15.6,20.1,15.6,22.8L15.6,22.8z"/>
+                    <path fill="#221F1F" d="M50.7,28.4V16.1c0-1.6-1.3-2.9-2.9-2.9c-1.6,0-2.9,1.3-2.9,2.9v12.5c0,4.2-2.2,6.4-5.7,6.4c-3.6,0-5.7-2.2-5.7-6.6V16.1c0-1.6-1.3-2.9-2.9-2.9s-2.9,1.3-2.9,2.9v12.5c0,7.8,4.4,11.8,11.5,11.8C46.2,40.4,50.7,36.5,50.7,28.4"/>
+                    <path fill="#221F1F" d="M59.7,40.2c1.6,0,2.9-1.3,2.9-2.9v-5.8h4.7l5.7,7.2c0.7,0.9,1.6,1.5,2.9,1.5c1.4,0,2.8-1.1,2.8-2.7c0-0.9-0.4-1.5-0.9-2.2l-4.1-4.9c3.2-1.3,5.3-3.9,5.3-8.1v-0.1c0-2.5-0.8-4.6-2.3-6.1c-1.7-1.7-4.4-2.7-7.7-2.7h-9.2c-1.6,0-2.9,1.3-2.9,2.9v21C56.8,38.9,58,40.2,59.7,40.2 M62.6,18.7h5.8c2.8,0,4.6,1.3,4.6,3.8v0.1c0,2.2-1.6,3.8-4.5,3.8h-5.9V18.7z"/>
+                    <path fill="#221F1F" d="M103.2,34.8h-12v-5.6h10.1c1.4,0,2.6-1.1,2.6-2.6s-1.2-2.6-2.6-2.6H91.2v-5.4H103c1.4,0,2.6-1.1,2.6-2.6c0-1.4-1.2-2.6-2.6-2.6H88.3c-1.6,0-2.9,1.3-2.9,2.9V37c0,1.6,1.3,2.9,2.9,2.9h14.9c1.4,0,2.6-1.1,2.6-2.6S104.6,34.8,103.2,34.8"/>
+                    <path fill="#221F1F" d="M8,47.1H1.7c-0.7,0-1.2,0.5-1.2,1.2v8.9c0,0.7,0.5,1.2,1.2,1.2s1.2-0.5,1.2-1.2V54h4.3c0.6,0,1.1-0.5,1.1-1.1s-0.5-1.1-1.1-1.1H2.9v-2.4H8c0.6,0,1.1-0.5,1.1-1.1C9.1,47.6,8.6,47.1,8,47.1"/>
+                    <path fill="#221F1F" d="M18.4,46.9c-3.5,0-6,2.6-6,5.8l0,0c0,3.2,2.5,5.8,6,5.8s6-2.6,6-5.8l0,0C24.3,49.5,21.9,46.9,18.4,46.9 M21.8,52.7c0,1.9-1.4,3.5-3.4,3.5S15,54.6,15,52.7l0,0c0-1.9,1.4-3.5,3.4-3.5S21.8,50.8,21.8,52.7L21.8,52.7z"/>
+                    <path fill="#221F1F" d="M33.5,47.1h-3.9c-0.7,0-1.2,0.5-1.2,1.2v8.9c0,0.7,0.5,1.2,1.2,1.2s1.2-0.5,1.2-1.2v-2.5h2l2.4,3c0.3,0.4,0.7,0.6,1.2,0.6c0.6,0,1.2-0.4,1.2-1.1c0-0.4-0.2-0.6-0.4-0.9l-1.7-2.1c1.4-0.6,2.2-1.7,2.2-3.4l0,0c0-1.1-0.3-1.9-1-2.6C36.1,47.5,35,47.1,33.5,47.1 M35.3,50.9c0,0.9-0.7,1.6-1.9,1.6h-2.5v-3.2h2.5C34.5,49.3,35.3,49.8,35.3,50.9L35.3,50.9z"/>
+                    <path fill="#221F1F" d="M51.9,47h-0.3c-0.5,0-0.9,0.2-1.1,0.6l-3,4.9l-3-4.9c-0.2-0.4-0.6-0.6-1.1-0.6h-0.3c-0.7,0-1.2,0.5-1.2,1.2v9c0,0.7,0.5,1.2,1.2,1.2s1.2-0.5,1.2-1.2v-5.6l2.1,3.3c0.3,0.4,0.6,0.6,1,0.6s0.8-0.2,1-0.6l2.2-3.3v5.6c0,0.7,0.5,1.2,1.2,1.2s1.2-0.5,1.2-1.2v-8.9C53.1,47.5,52.6,47,51.9,47"/>
+                    <path fill="#221F1F" d="M66.1,47c-0.7,0-1.2,0.5-1.2,1.2v5.3c0,1.8-0.9,2.7-2.4,2.7s-2.4-0.9-2.4-2.8v-5.2c0-0.7-0.5-1.2-1.2-1.2s-1.2,0.5-1.2,1.2v5.3c0,3.3,1.8,5,4.9,5c3,0,4.9-1.7,4.9-5.1v-5.2C67.3,47.5,66.8,47,66.1,47"/>
+                    <path fill="#221F1F" d="M78.7,56h-4.6v-7.8c0-0.7-0.5-1.2-1.2-1.2s-1.2,0.5-1.2,1.2v8.9c0,0.7,0.5,1.2,1.2,1.2h5.8c0.6,0,1.1-0.5,1.1-1.1C79.9,56.5,79.4,56,78.7,56"/>
+                    <path fill="#221F1F" d="M89.8,47.9c-0.3-0.6-0.8-1-1.4-1h-0.1c-0.7,0-1.2,0.4-1.4,1L83,56.7c-0.1,0.2-0.1,0.4-0.1,0.5c0,0.6,0.5,1.2,1.1,1.2c0.5,0,0.9-0.3,1.1-0.8l0.8-1.8h4.9l0.8,1.8c0.2,0.5,0.6,0.9,1.2,0.9c0.7,0,1.2-0.5,1.2-1.2c0-0.2,0-0.3-0.1-0.5L89.8,47.9z M86.7,53.6l1.6-3.7l1.6,3.7H86.7z"/>
+                    <path fill="#221F1F" d="M102.3,51.6c-1.9-0.5-2.4-0.7-2.4-1.5l0,0c0-0.5,0.5-1,1.4-1c0.8,0,1.5,0.3,2.4,0.8c0.2,0.1,0.4,0.2,0.6,0.2c0.6,0,1.2-0.5,1.2-1.1c0-0.5-0.3-0.8-0.5-1c-1-0.6-2.2-1-3.6-1c-2.3,0-3.9,1.3-3.9,3.4l0,0c0,2.2,1.5,2.9,3.7,3.4c1.9,0.5,2.3,0.8,2.3,1.4l0,0c0,0.7-0.6,1.1-1.6,1.1c-1.1,0-2-0.4-2.9-1c-0.2-0.1-0.4-0.2-0.7-0.2c-0.6,0-1.2,0.5-1.2,1.1c0,0.4,0.2,0.7,0.5,0.9c1.3,0.9,2.7,1.3,4.2,1.3c2.4,0,4.1-1.3,4.1-3.5l0,0C105.8,53,104.5,52.2,102.3,51.6"/>
+                </g>
+                <path fill="#221F1F" d="M107.9,47.1c-0.7,0-1.2,0.5-1.2,1.2s0.5,1.2,1.2,1.2s1.2-0.5,1.2-1.2C109.1,47.7,108.5,47.1,107.9,47.1 M107.9,49.3c-0.6,0-1-0.5-1-1c0-0.6,0.5-1,1-1c0.6,0,1,0.5,1,1C108.9,48.9,108.4,49.3,107.9,49.3"/>
+                <path fill="#221F1F" d="M108.1,48.4L108.1,48.4c0.1,0,0.3-0.2,0.3-0.3c0-0.2-0.2-0.4-0.5-0.4c-0.2,0-0.3,0-0.4,0v1.2h0.2v-0.5h0.2c0.1,0,0.2,0.1,0.3,0.2c0,0.2,0.1,0.3,0.1,0.3h0.2c0-0.1-0.1-0.2-0.1-0.4C108.3,48.5,108.2,48.4,108.1,48.4 M107.8,48.2h-0.2v-0.4c0,0,0.1,0,0.2,0c0.2,0,0.3,0.1,0.3,0.2C108.1,48.2,108,48.2,107.8,48.2"/>
+            </svg>
+        </a>
+        <div class="pf-search-bar">
+            <input type="text" value="l theanine" placeholder="Search top supplements, pantry staples, personal care & more">
+            <button class="search-btn" aria-label="Search">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.8"/><path d="M12.5 12.5L16 16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </button>
+        </div>
+        <ul class="pf-header-links">
+            <li><a href="#">Favorites</a></li>
+            <li><a href="#">Account</a></li>
+            <li>
+                <a href="#">
+            <span class="link-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M3 3H5L7 16H18L21 6H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8.5" cy="20" r="1.5" fill="currentColor"/><circle cx="17" cy="20" r="1.5" fill="currentColor"/></svg>
+              <span class="pf-cart-badge">0</span>
+            </span>
+                    Cart
+                </a>
+            </li>
+        </ul>
+    </div>
+</header>
+
+<!-- Navigation Bar -->
+<nav class="pf-nav">
+    <div class="container">
+        <a href="#">Brands</a>
+        <div class="nav-cat-wrap">
+            <a href="#">Categories</a>
+            <div class="pf-mega" id="megamenu">
+                <div class="pf-mega-sidebar">
+                    <button class="pf-mega-tab active" data-panel="goals">Shop by Goals</button>
+                    <button class="pf-mega-tab" data-panel="supplements">Supplements</button>
+                    <button class="pf-mega-tab" data-panel="personalcare">Personal Care</button>
+                    <button class="pf-mega-tab" data-panel="pantry">Pantry Essentials</button>
+                    <button class="pf-mega-tab" data-panel="fitness">Fitness</button>
+                    <button class="pf-mega-tab" data-panel="kids">Kids</button>
+                    <button class="pf-mega-tab" data-panel="pets">Pets</button>
+                    <a href="#" class="pf-mega-all-link">All Categories</a>
+                </div>
+
+                <!-- Goals Panel -->
+                <div class="pf-mega-panel active" id="panel-goals">
+                    <div class="pf-goals-panel">
+                        <div class="pf-goals-sidebar">
+                            <button class="pf-goal-tab active" data-goal="targeted">Targeted Health</button>
+                            <button class="pf-goal-tab" data-goal="foundational">Foundational Wellness</button>
+                            <button class="pf-goal-tab" data-goal="beauty">Beauty &amp; Glow</button>
+                            <button class="pf-goal-tab" data-goal="diet">Diet &amp; Active Life</button>
+                            <button class="pf-goal-tab" data-goal="family">Family &amp; Home</button>
+                        </div>
+                        <div class="pf-goals-content">
+                            <div class="pf-goals-header">
+                                <h3 id="goalTitle">Targeted Health</h3>
+                                <p id="goalSubtitle">Solutions for: Heart, Brain, Joints</p>
+                            </div>
+                            <div class="pf-goals-grid" id="goalGrid">
+                                <div class="pf-goal-card"><i data-lucide="fish" class="pf-goal-card-icon"></i><span class="pf-goal-card-label">Omega-3 Fish Oil</span></div>
+                                <div class="pf-goal-card"><i data-lucide="bone" class="pf-goal-card-icon"></i><span class="pf-goal-card-label">Joint Support</span></div>
+                                <div class="pf-goal-card"><i data-lucide="brain" class="pf-goal-card-icon"></i><span class="pf-goal-card-label">Brain &amp; Memory</span></div>
+                                <div class="pf-goal-card"><i data-lucide="eye" class="pf-goal-card-icon"></i><span class="pf-goal-card-label">Eye Health</span></div>
+                                <div class="pf-goal-card"><i data-lucide="heart-pulse" class="pf-goal-card-icon"></i><span class="pf-goal-card-label">Heart Health</span></div>
+                                <div class="pf-goal-card"><i data-lucide="accessibility" class="pf-goal-card-icon"></i><span class="pf-goal-card-label">Bone Support</span></div>
+                                <div class="pf-goal-card"><i data-lucide="wind" class="pf-goal-card-icon"></i><span class="pf-goal-card-label">Respiratory</span></div>
+                                <div class="pf-goal-card"><i data-lucide="droplets" class="pf-goal-card-icon"></i><span class="pf-goal-card-label">Blood Sugar</span></div>
+                            </div>
+                            <div class="pf-goals-desc" id="goalDesc">Focused support for your body's specific needs, when and where it matters most</div>
+                            <div><button class="pf-goals-cta" id="goalCta">Shop All Targeted</button></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Supplements Panel -->
+                <div class="pf-mega-panel" id="panel-supplements">
+                    <div class="pf-mega-cats">
+                        <a href="#">Multivitamins</a><a href="#">Vitamins</a><a href="#">Minerals</a>
+                        <a href="#">Probiotics</a><a href="#">Enzymes</a><a href="#">Protein &amp; Collagen</a>
+                        <a href="#">Fiber</a><a href="#">Antioxidants</a><a href="#">Herbal Remedies</a>
+                        <a href="#">Immune Support</a><a href="#">Nervous System Support</a><a href="#">Cardiovascular Support</a>
+                        <a href="#">Gastrointestinal Health</a><a href="#">Liver Health &amp; Detox Support</a><a href="#">Urinary Tract Health</a>
+                        <a href="#">Musculoskeletal Health</a><a href="#">Energy Support</a><a href="#">Healthy Body Composition</a>
+                        <a href="#">Memory &amp; Cognitive Support</a><a href="#">Sleep Support</a><a href="#">Stress Management</a>
+                        <a href="#">Mood Support</a><a href="#">Cholesterol</a><a href="#">Glucose Control</a>
+                        <a href="#">Thyroid Support</a><a href="#">Eye Health</a><a href="#">Hair, Skin &amp; Nails</a>
+                        <a href="#">Sexual Health</a><a href="#">Omega-3</a><a href="#">Hormone &amp; Glandular Support</a>
+                    </div>
+                    <div class="pf-mega-img">
+                        <img src="https://images.ctfassets.net/ey5ztoac3ljk/CONT22F85D4099934354A8341AB98188726F_IMG/b41c0de7eb7fcfcc87358526636c4103/Supplements.jpg?fm=avif" alt="Shop All Supplements">
+                        <a href="#" class="pf-mega-shop-all">Shop All Supplements</a>
+                    </div>
+                </div>
+
+                <!-- Personal Care Panel -->
+                <div class="pf-mega-panel" id="panel-personalcare">
+                    <div class="pf-mega-cats">
+                        <a href="#">Facial Skin Care</a><a href="#">Body Lotions &amp; Oils</a><a href="#">Hair</a>
+                        <a href="#">Soap &amp; Bodywash</a><a href="#">Oral Care</a><a href="#">Deodorants &amp; Antiperspirants</a>
+                        <a href="#">Shaving Needs</a><a href="#">Feminine Care</a><a href="#">Aromatherapy</a>
+                        <a href="#">Makeup</a><a href="#">Hand &amp; Foot Care</a><a href="#">Sun &amp; Tanning</a>
+                    </div>
+                    <div class="pf-mega-img">
+                        <img src="https://images.ctfassets.net/ey5ztoac3ljk/CONTA31B9F5C4852486FADFB066CF1897568_IMG/0a5ad1525b7a8d8dd6745f6b4aa073fa/Personal-Care.jpg?fm=avif" alt="Shop All Personal Care">
+                        <a href="#" class="pf-mega-shop-all">Shop All Personal Care</a>
+                    </div>
+                </div>
+
+                <!-- Pantry Essentials Panel -->
+                <div class="pf-mega-panel" id="panel-pantry">
+                    <div class="pf-mega-cats">
+                        <a href="#">Cooking Oils</a><a href="#">Flours</a><a href="#">Sugars &amp; Sugar Alternatives</a>
+                        <a href="#">Sauces, Condiments &amp; Dips</a><a href="#">Spices</a><a href="#">Greens &amp; Superfoods</a>
+                        <a href="#">Pasta</a><a href="#">Honey</a><a href="#">Baking Mixes</a>
+                        <a href="#">Cereals &amp; Grains</a><a href="#">Nuts &amp; Seeds</a><a href="#">Dried Fruit</a>
+                        <a href="#">Snack Bars</a><a href="#">Teas, Coffees &amp; Beverages</a><a href="#">Accessories</a>
+                    </div>
+                    <div class="pf-mega-img">
+                        <img src="https://images.ctfassets.net/ey5ztoac3ljk/CONT90CD633A99CB401E88C60EC4EAF7B1F7_IMG/d2404f5bd4a4c4d8cf1b5bf02f5e0a61/Category_Banner.jpg?fm=avif" alt="Shop All Pantry Essentials">
+                        <a href="#" class="pf-mega-shop-all">Shop All Pantry Essentials</a>
+                    </div>
+                </div>
+
+                <!-- Fitness Panel -->
+                <div class="pf-mega-panel" id="panel-fitness">
+                    <div class="pf-mega-cats">
+                        <a href="#">Protein</a><a href="#">Nutritional Bars</a><a href="#">Electrolytes</a>
+                        <a href="#">Pre-Workout</a><a href="#">Exercise Stamina</a><a href="#">Workout Recovery</a>
+                        <a href="#">Sports Amino Acids</a><a href="#">Sports Drinks &amp; Mixes</a><a href="#">Strength Training Equipment</a>
+                    </div>
+                    <div class="pf-mega-img">
+                        <img src="https://images.ctfassets.net/ey5ztoac3ljk/CONTA0165B34B7DF40FBA858B8AA4FA8C32B_IMG/22420db69e884a0394d2ebaf076152e9/Fitness.jpg?fm=avif" alt="Shop All Fitness">
+                        <a href="#" class="pf-mega-shop-all">Shop All Fitness</a>
+                    </div>
+                </div>
+
+                <!-- Kids Panel -->
+                <div class="pf-mega-panel" id="panel-kids">
+                    <div class="pf-mega-cats">
+                        <a href="#">Children's Multivitamins</a><a href="#">Teen's Multivitamins</a><a href="#">Children's Essential Fatty Acids</a>
+                        <a href="#">Children's Digestive Support</a><a href="#">Children's Nervous System</a><a href="#">Children's Probiotics</a>
+                        <a href="#">Children's Cold &amp; Flu</a><a href="#">Children's Allergy Relief</a><a href="#">Children's Bath Time</a>
+                        <a href="#">Children's Cream &amp; Ointments</a><a href="#">Kids Oral Care</a><a href="#">New &amp; Expecting Moms</a>
+                    </div>
+                    <div class="pf-mega-img">
+                        <img src="https://images.ctfassets.net/ey5ztoac3ljk/CONT195C035BC10C45BCB1C68DBC3F86F1A7_IMG/c58771cbd06d97b8455a8961b3d68b4d/Kids.jpg?fm=avif" alt="Shop All Kids">
+                        <a href="#" class="pf-mega-shop-all">Shop All Kids</a>
+                    </div>
+                </div>
+
+                <!-- Pets Panel -->
+                <div class="pf-mega-panel" id="panel-pets">
+                    <div class="pf-mega-cats">
+                        <a href="#">Dog Treats</a><a href="#">Cat Treats</a><a href="#">Dog Grooming</a>
+                        <a href="#">Cat Grooming</a><a href="#">Dog Immune Support</a><a href="#">Cat Immune Support</a>
+                        <a href="#">Dog Gastrointestinal Care</a><a href="#">Cat Gastrointestinal Care</a><a href="#">Joint Support for Dogs</a>
+                        <a href="#">Joint Support for Cats</a><a href="#">Dog Urinary Health</a><a href="#">Cat Urinary Health</a>
+                        <a href="#">Dental Care for Dogs</a><a href="#">Dental Care for Cats</a><a href="#">Ear Support for Dogs</a>
+                        <a href="#">Ear Support for Cats</a><a href="#">Canine Flea &amp; Tick Relief</a><a href="#">Feline Flea &amp; Tick Relief</a>
+                    </div>
+                    <div class="pf-mega-img">
+                        <img src="https://images.ctfassets.net/ey5ztoac3ljk/CONTCF5236816CA3493F9C1B88A3D8715313_IMG/1dd22f93fa7f1016dda56f420031a0cc/Pets.jpg?fm=avif" alt="Shop All Pets">
+                        <a href="#" class="pf-mega-shop-all">Shop All Pets</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="#" style="color:#c14031">Deals</a>
+        <a href="#">Autoship &amp; Save</a>
+        <a href="#">Just in!</a>
+        <a href="#">Discover</a>
+        <a href="#">Recipes</a>
+        <a href="#">Blog</a>
+        <a href="#" class="nav-secondary">PureRewards</a>
+        <a href="#" class="nav-secondary">Help</a>
+        <a href="#" class="nav-secondary">1-800-383-6008</a>
+        <a href="#" class="nav-secondary nav-shipping">⚡️Fast Free Shipping Over $25</a>
+    </div>
+</nav>
+
+<!-- Promo Banner -->
+<div class="pf-promo-bar">
+    <a href="#">🎁 Now through February 28th: Get your FREE GIFT on orders of $49+. Choose from 16 FREE products, worth up to $69.99! 🎁</a>
+</div>
+
+<!-- Breadcrumb -->
+<div class="container">
+    <div class="pf-breadcrumb">
+        <span><a href="#">Home</a></span> <span style="margin:0 6px">&gt;</span> <span class="current">Search Results for "l theanine"</span>
+    </div>
+</div>
+
+<!-- Toolbar -->
+<div class="container">
+    <div class="pf-toolbar">
+        <div class="pf-toolbar-left">
+            <h1>L-Theanine</h1>
+            <span class="count">90 Results</span>
+        </div>
+        <div class="pf-toolbar-right">
+            <button class="pf-filter-btn" onclick="openDrawer()">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4H14M4 8H12M6 12H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                Filters
+                <span class="badge" id="filterBadge" style="display:none">0</span>
+            </button>
+            <div id="activeChips"></div>
+            <button class="pf-clear-all" id="clearAllToolbar" style="display:none" onclick="clearAll()">Clear All</button>
+            <select class="pf-sort" onchange="sortProducts(this.value)">
+                <option value="relevance">Most Relevant</option>
+                <option value="nameAsc">Name (A-Z)</option>
+                <option value="nameDesc">Name (Z-A)</option>
+                <option value="newest">Newest</option>
+                <option value="priceAsc">Price: Low to High</option>
+                <option value="priceDesc">Price: High to Low</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<!-- Product Grid -->
+<div class="container">
+    <div class="pf-grid" id="productGrid"></div>
+</div>
+
+<!-- Pagination -->
+<div class="pf-pagination">
+    <button class="pf-page-btn active">1</button>
+    <button class="pf-page-btn">2</button>
+    <button class="pf-page-btn">3</button>
+    <button class="pf-page-btn">4</button>
+    <button class="pf-page-next">
+        Next
+        <svg width="12" height="12" viewBox="0 0 12 12"><path d="M4 2L8 6L4 10" stroke="#555" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+    </button>
+</div>
+
+<!-- Drawer Overlay -->
+<div class="pf-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+
+<!-- Filter Drawer -->
+<div class="pf-drawer" id="filterDrawer">
+    <div class="pf-drawer-header">
+        <div class="pf-drawer-header-left">
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M2 4H14M4 8H12M6 12H10" stroke="#232323" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <span class="title">Filters</span>
+            <span class="active-badge" id="drawerBadge">0 active</span>
+        </div>
+        <button class="pf-drawer-close" onclick="closeDrawer()">
+            <svg width="20" height="20" viewBox="0 0 20 20"><path d="M5 5L15 15M15 5L5 15" stroke="#666" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+    </div>
+    <div class="pf-drawer-body" id="drawerBody"></div>
+    <div class="pf-drawer-footer">
+        <button class="clear" onclick="clearAll()">Clear All</button>
+        <button class="apply" onclick="closeDrawer()">Show 90 Results</button>
+    </div>
+</div>
+
+<script>
+    // ── Data ──
+    const products = [
+        { id:"PUF1012", name:"L-Theanine 100 mg", size:"60 Vegetarian Capsules", brand:"PureFormulas", trusted:true, price:14.99, autoship:11.99, rating:4.5, reviews:31, promo:{text:"25% OFF",code:"25PF"}, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v5011794323661272228/products/ltheanine-60-capsules-by-pureformulas.jpg&height=940&width=940" },
+        { id:"PE1385", name:"l-Theanine", size:"60 Capsules", brand:"Pure Encapsulations", trusted:true, price:65.50, autoship:null, rating:4.5, reviews:38, promo:null, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v5450665970445094816/products/ltheanine-60-vegetable-capsules-by-pure-encapsulations.jpg&height=940&width=940" },
+        { id:"IT1176", name:"L-Theanine", size:"60 Veg Capsules", brand:"Integrative Therapeutics", trusted:true, price:21.50, autoship:19.35, rating:4.5, reviews:53, promo:null, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v60162849820671207/products/ltheanine-100-mg-60-ultracaps-by-integrative-therapeutics.jpg&height=940&width=940" },
+        { id:"NOW2556", name:"L-Theanine 200 mg (Double Strength)", size:"120 Veg Capsules", brand:"NOW", trusted:false, price:22.38, autoship:20.14, rating:4.5, reviews:38, promo:null, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v2353362390748939304/products/double-strength-l-theanine-200-mg-90-veg-capsules-by-now.jpg&height=940&width=940" },
+        { id:"TR1258", name:"Theanine", size:"90 Capsules", brand:"Thorne", trusted:true, price:68.00, autoship:null, rating:5.0, reviews:12, promo:null, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v5450665970445094816/products/ltheanine-60-vegetable-capsules-by-pure-encapsulations.jpg&height=940&width=940" },
+        { id:"PE1384", name:"l-Theanine", size:"120 Capsules", brand:"Pure Encapsulations", trusted:true, price:115.00, autoship:null, rating:4.5, reviews:38, promo:null, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v7361721578159733309/products/ltheanine-120-vegetable-capsules-by-pure-encapsulations.jpg&height=940&width=940" },
+        { id:"NOW1302", name:"L-Theanine 100 mg", size:"90 Veg Capsules", brand:"NOW", trusted:false, price:12.96, autoship:11.66, rating:4.5, reviews:13, promo:null, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v2641760413046169303/products/ltheanine-100-mg-90-vegetarian-capsules-by-now.jpg&height=940&width=940" },
+        { id:"JF1111", name:"Theanine 200 mg", size:"60 Capsules", brand:"Jarrow Formulas", trusted:false, price:20.99, autoship:17.84, rating:4.5, reviews:26, promo:null, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v4843386582605059421/products/theanine-200-mg-60-capsules-by-jarrow-formulas.jpg&height=940&width=940" },
+        { id:"PUF1251", name:"L-Theanine 100 mg", size:"120 Vegetarian Capsules", brand:"PureFormulas", trusted:true, price:27.99, autoship:22.39, rating:4.5, reviews:31, promo:{text:"25% OFF",code:"25PF"}, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v5011794323661272228/products/ltheanine-60-capsules-by-pureformulas.jpg&height=940&width=940" },
+        { id:"JF1110", name:"Theanine 100 mg", size:"60 Capsules", brand:"Jarrow Formulas", trusted:false, price:11.99, autoship:10.19, rating:5.0, reviews:24, promo:null, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v5348369107891980990/products/theanine-100-mg-60-capsules-by-jarrow-formulas.jpg&height=940&width=940" },
+        { id:"MMT1031", name:"L-Theanine", size:"60 Capsules", brand:"Momentous", trusted:true, price:39.95, autoship:null, rating:0, reviews:0, promo:null, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v4650149351734271770/products/l-theanine-60-capsules-by-momentous.jpg&height=940&width=940" },
+        { id:"NOW2762", name:"L-Theanine 100 mg", size:"90 Chewables", brand:"NOW", trusted:false, price:14.35, autoship:12.92, rating:4.5, reviews:13, promo:null, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v2037673067550218634/products/l-theanine-100-mg-90-chewables-by-now.jpg&height=940&width=940" },
+        { id:"LE1185", name:"L-Theanine 100 mg", size:"60 Vegetarian Capsules", brand:"Life Extension", trusted:true, price:18.00, autoship:15.30, rating:5.0, reviews:3, promo:null, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v7228341742577549388/products/ltheanine-100-mg-60-capsules-by-life-extension.jpg&height=940&width=940" },
+        { id:"WAY1639", name:"L-Theanine", size:"180 Veg Capsules", brand:"Nature's Way", trusted:false, price:35.82, autoship:30.45, rating:5.0, reviews:2, promo:null, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v2311793392085990592/products/l-theanine-180-veg-capsules-by-natures-way.jpg&height=940&width=940" },
+        { id:"NOW2940", name:"L-Theanine (Pure Powder)", size:"1 oz (28 Grams)", brand:"NOW", trusted:false, price:20.90, autoship:18.81, rating:5.0, reviews:2, promo:null, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v3215747219544348955/products/l-theanine-pure-powder-1-oz-28-grams-by-now.jpg&height=940&width=940" },
+    ];
+
+    const filters = {
+        category: { label:"Category", type:"radio", options:[{name:"Kids",count:2},{name:"Supplements",count:90}] },
+        brand: { label:"Brand", type:"checkbox", options:[{name:"Source Naturals",count:15},{name:"NOW",count:6},{name:"Natural Vitality",count:4},{name:"Jarrow Formulas",count:3},{name:"DaVinci Labs",count:3},{name:"NuMedica",count:3},{name:"Vital Nutrients",count:3},{name:"Pure Encapsulations",count:2},{name:"PureFormulas",count:2},{name:"Life Extension",count:2}] },
+        price: { label:"Price Range", type:"checkbox", options:[{name:"$0 - $10",count:7},{name:"$10 - $20",count:27},{name:"$20 - $30",count:24},{name:"$30 - $40",count:13},{name:"$40 - $50",count:9},{name:"$50 - $60",count:2}] },
+        ingredient: { label:"Main Ingredient", type:"checkbox", options:[{name:"Theanine / L-Theanine",count:77},{name:"Sleep Support Formula",count:4},{name:"Stress Management Formula",count:3},{name:"GABA",count:1}] },
+        form: { label:"Form", type:"checkbox", options:[{name:"Capsules",count:57},{name:"Tablets",count:18},{name:"Liquid",count:6},{name:"Powder",count:4},{name:"Gummies",count:2},{name:"Chewable",count:1}] },
+        strength: { label:"Strength", type:"checkbox", options:[{name:"200 mg",count:34},{name:"100 mg",count:15},{name:"400 mg",count:2}] },
+        highlights: { label:"Highlights", type:"checkbox", options:[{name:"Gluten Free",count:71},{name:"Dairy Free",count:59},{name:"Non-GMO",count:33},{name:"Vegan",count:32},{name:"Vegetarian",count:46}] },
+    };
+
+    // ── State ──
+    let selected = {};
+    let expandedFilters = ["category","brand","form"];
+
+    // ── Stars HTML ──
+    function starsHTML(rating, size=12) {
+        const full = Math.floor(rating);
+        const half = rating % 1 >= 0.25;
+        const empty = 5 - full - (half ? 1 : 0);
+        let html = '<div class="star-row">';
+        for (let i = 0; i < full; i++)
+            html += `<svg width="${size}" height="${size}" viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#D2801F" stroke="#D2801F" stroke-width="0.5"/></svg>`;
+        if (half)
+            html += `<svg width="${size}" height="${size}" viewBox="0 0 18 18"><defs><linearGradient id="hg${rating}"><stop offset="50%" stop-color="#D2801F"/><stop offset="50%" stop-color="#fff"/></linearGradient></defs><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="url(#hg${rating})" stroke="#D2801F" stroke-width="0.5"/></svg>`;
+        for (let i = 0; i < empty; i++)
+            html += `<svg width="${size}" height="${size}" viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#fff" stroke="#D2801F" stroke-width="0.5"/></svg>`;
+        html += '</div>';
+        return html;
+    }
+
+    // ── Render Product Card ──
+    function cardHTML(p) {
+        const dollars = Math.floor(p.price);
+        const cents = String(Math.round((p.price % 1) * 100)).padStart(2, '0');
+        const trustedSVG = p.trusted ? '<span class="trusted-badge" style="color:#10833f;font-size:12px;" title="Doctor Trusted">&#10003;</span>' : '';
+        const promoTag = p.promo ? `<div class="pf-card-promo">${p.promo.text}</div>` : '';
+        const reviewsHTML = p.reviews > 0 ? `<div class="pf-card-stars">${starsHTML(p.rating, 15)} <span class="review-count">(${p.reviews})</span></div>` : '';
+        const autoshipHTML = p.autoship
+            ? `<div class="pf-card-autoship"><strong>$${p.autoship.toFixed(2)}</strong> with Autoship &amp; Save</div>`
+            : `<div class="pf-card-autoship">Autoship &amp; Save at checkout</div>`;
+        const offerHTML = p.promo ? `<div class="pf-card-offer"><span class="c-red-promo">${p.promo.text}</span> Code: <span class="c-red-promo">${p.promo.code}</span></div>` : '';
+        const shipText = p.price >= 25 ? '⚡️ Free Shipping' : '⚡️ Free Shipping on Orders $25+';
+
+        return `
+    <div class="pf-card">
+      ${promoTag}
+      <div class="pf-card-img">
+        <img src="${p.img}" alt="${p.name} by ${p.brand}" loading="lazy">
+      </div>
+      <div class="pf-card-body">
+        <div class="pf-card-brand">
+          <span>${p.brand}</span>
+          ${trustedSVG}
+        </div>
+        <div class="pf-card-name">${p.name} - ${p.size}</div>
+        ${reviewsHTML}
+        <div class="pf-card-pricing">
+          <div class="pf-card-price">
+            <span class="currency">$</span><span class="main-price">${dollars}</span><span class="decimals">${cents}</span>
+          </div>
+          ${autoshipHTML}
+          <div class="pf-card-shipping">${shipText}</div>
+          ${offerHTML}
+        </div>
+      </div>
+      <div class="pf-card-action">
+        <button class="pf-card-atc"><span>Add to Cart</span></button>
+      </div>
+    </div>`;
+    }
+
+    // ── Render Grid ──
+    function renderGrid() {
+        document.getElementById('productGrid').innerHTML = products.map(cardHTML).join('');
+    }
+
+    // ── Render Drawer Filters ──
+    function renderDrawer() {
+        const body = document.getElementById('drawerBody');
+        let html = '';
+        for (const [key, filter] of Object.entries(filters)) {
+            const isExpanded = expandedFilters.includes(key);
+            html += `<div class="pf-filter-section">
+      <button class="pf-filter-toggle ${isExpanded ? 'expanded' : ''}" onclick="toggleSection('${key}', this)">
+        ${filter.label}
+        <svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 4L6 8L10 4" stroke="#666" stroke-width="1.5" fill="none"/></svg>
+      </button>
+      <div class="pf-filter-options ${isExpanded ? 'show' : ''}" id="opts-${key}">`;
+            for (const opt of filter.options) {
+                const checked = (selected[key] || []).includes(opt.name) ? 'checked' : '';
+                html += `<label class="pf-filter-option">
+        <span class="left">
+          <input type="${filter.type}" name="filter-${key}" value="${opt.name}" ${checked} onchange="handleFilter('${key}','${opt.name.replace(/'/g,"\\'")}','${filter.type}')">
+          ${opt.name}
+        </span>
+        <span class="facet-count">${opt.count}</span>
+      </label>`;
+            }
+            html += `</div></div>`;
+        }
+        body.innerHTML = html;
+    }
+
+    // ── Filter Logic ──
+    function handleFilter(key, value, type) {
+        if (!selected[key]) selected[key] = [];
+        if (type === 'radio') {
+            selected[key] = [value];
+        } else {
+            const idx = selected[key].indexOf(value);
+            if (idx > -1) selected[key].splice(idx, 1);
+            else selected[key].push(value);
+            if (selected[key].length === 0) delete selected[key];
+        }
+        updateUI();
+    }
+
+    function removeFilter(key, value) {
+        if (selected[key]) {
+            selected[key] = selected[key].filter(v => v !== value);
+            if (selected[key].length === 0) delete selected[key];
+        }
+        updateUI();
+        renderDrawer();
+    }
+
+    function clearAll() {
+        selected = {};
+        updateUI();
+        renderDrawer();
+    }
+
+    function getActiveCount() {
+        return Object.values(selected).flat().length;
+    }
+
+    function updateUI() {
+        const count = getActiveCount();
+        // Badge on filter button
+        const badge = document.getElementById('filterBadge');
+        badge.textContent = count;
+        badge.style.display = count > 0 ? 'flex' : 'none';
+        // Badge in drawer
+        const dbadge = document.getElementById('drawerBadge');
+        dbadge.textContent = count + ' active';
+        dbadge.style.display = count > 0 ? 'inline' : 'none';
+        // Chips
+        const chipsEl = document.getElementById('activeChips');
+        let chipsHTML = '';
+        for (const [key, vals] of Object.entries(selected)) {
+            for (const val of vals) {
+                chipsHTML += `<span class="pf-chip">${val}<button onclick="removeFilter('${key}','${val.replace(/'/g,"\\'")}')"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M3 3L9 9M9 3L3 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button></span> `;
+            }
+        }
+        chipsEl.innerHTML = chipsHTML;
+        // Clear All in toolbar
+        document.getElementById('clearAllToolbar').style.display = count > 0 ? 'inline' : 'none';
+    }
+
+    // ── Drawer Toggle ──
+    function openDrawer() {
+        document.getElementById('filterDrawer').classList.add('open');
+        document.getElementById('drawerOverlay').classList.add('open');
+        document.body.classList.add('drawer-open');
+        renderDrawer();
+    }
+    function closeDrawer() {
+        document.getElementById('filterDrawer').classList.remove('open');
+        document.getElementById('drawerOverlay').classList.remove('open');
+        document.body.classList.remove('drawer-open');
+    }
+
+    // ── Filter Section Expand/Collapse ──
+    function toggleSection(key, btn) {
+        const idx = expandedFilters.indexOf(key);
+        if (idx > -1) expandedFilters.splice(idx, 1);
+        else expandedFilters.push(key);
+        btn.classList.toggle('expanded');
+        document.getElementById('opts-' + key).classList.toggle('show');
+    }
+
+    // ── Sort (visual only) ──
+    function sortProducts(val) {
+        const sorted = [...products];
+        if (val === 'priceAsc') sorted.sort((a,b) => a.price - b.price);
+        else if (val === 'priceDesc') sorted.sort((a,b) => b.price - a.price);
+        else if (val === 'nameAsc') sorted.sort((a,b) => a.name.localeCompare(b.name));
+        else if (val === 'nameDesc') sorted.sort((a,b) => b.name.localeCompare(a.name));
+        document.getElementById('productGrid').innerHTML = sorted.map(cardHTML).join('');
+    }
+
+    // ── Megamenu Tabs ──
+    const megaTabs = document.querySelectorAll('.pf-mega-tab[data-panel]');
+    const megaPanels = document.querySelectorAll('.pf-mega-panel');
+    megaTabs.forEach(tab => {
+        tab.addEventListener('mouseenter', () => {
+            megaTabs.forEach(t => t.classList.remove('active'));
+            megaPanels.forEach(p => p.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById('panel-' + tab.dataset.panel).classList.add('active');
+        });
+    });
+
+    // ── Goals Sub-Tabs ──
+    const goalsData = {
+        targeted: {
+            title: 'Targeted Health', subtitle: 'Solutions for: Heart, Brain, Joints',
+            desc: 'Focused support for your body\'s specific needs, when and where it matters most',
+            cta: 'Shop All Targeted',
+            cards: [
+                { icon: 'fish', label: 'Omega-3 Fish Oil' }, { icon: 'bone', label: 'Joint Support' },
+                { icon: 'brain', label: 'Brain & Memory' }, { icon: 'eye', label: 'Eye Health' },
+                { icon: 'heart-pulse', label: 'Heart Health' }, { icon: 'accessibility', label: 'Bone Support' },
+                { icon: 'wind', label: 'Respiratory' }, { icon: 'droplets', label: 'Blood Sugar' }
+            ]
+        },
+        foundational: {
+            title: 'Foundational Wellness', subtitle: 'Solutions for: Daily Health, Immunity, Digestion',
+            desc: 'Build a strong foundation for overall health with essential daily supplements',
+            cta: 'Shop All Foundational',
+            cards: [
+                { icon: 'pill', label: 'Multivitamins' }, { icon: 'shield', label: 'Immune Support' },
+                { icon: 'microscope', label: 'Probiotics' }, { icon: 'tablet', label: 'Vitamins' },
+                { icon: 'zap', label: 'Energy Support' }, { icon: 'gem', label: 'Minerals' },
+                { icon: 'leaf', label: 'Herbal Remedies' }, { icon: 'flask-conical', label: 'Enzymes' }
+            ]
+        },
+        beauty: {
+            title: 'Beauty & Glow', subtitle: 'Solutions for: Skin, Hair, Nails',
+            desc: 'Nourish your natural beauty from the inside out and outside in',
+            cta: 'Shop All Beauty',
+            cards: [
+                { icon: 'sparkles', label: 'Skin Care' }, { icon: 'scissors', label: 'Hair Health' },
+                { icon: 'hand', label: 'Nail Support' }, { icon: 'bath', label: 'Body Care' },
+                { icon: 'dna', label: 'Collagen' }, { icon: 'apple', label: 'Antioxidants' },
+                { icon: 'sun', label: 'Sun Protection' }, { icon: 'flower-2', label: 'Aromatherapy' }
+            ]
+        },
+        diet: {
+            title: 'Diet & Active Life', subtitle: 'Solutions for: Fitness, Weight, Performance',
+            desc: 'Support your active lifestyle with nutrition designed for performance and recovery',
+            cta: 'Shop All Diet & Active',
+            cards: [
+                { icon: 'cup-soda', label: 'Protein' }, { icon: 'zap', label: 'Pre-Workout' },
+                { icon: 'droplet', label: 'Electrolytes' }, { icon: 'rotate-ccw', label: 'Recovery' },
+                { icon: 'dumbbell', label: 'Amino Acids' }, { icon: 'scale', label: 'Body Composition' },
+                { icon: 'candy', label: 'Nutrition Bars' }, { icon: 'glass-water', label: 'Sports Drinks' }
+            ]
+        },
+        family: {
+            title: 'Family & Home', subtitle: 'Solutions for: Kids, Pets, Household',
+            desc: 'Natural wellness solutions for every member of your family, including furry ones',
+            cta: 'Shop All Family',
+            cards: [
+                { icon: 'baby', label: 'Kids Vitamins' }, { icon: 'heart', label: 'Prenatal' },
+                { icon: 'dog', label: 'Dog Health' }, { icon: 'cat', label: 'Cat Health' },
+                { icon: 'user', label: 'Teen Health' }, { icon: 'users', label: 'Family Packs' },
+                { icon: 'home', label: 'Home Care' }, { icon: 'leaf', label: 'Natural Cleaning' }
+            ]
+        }
+    };
+
+    const goalTabs = document.querySelectorAll('.pf-goal-tab[data-goal]');
+    goalTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            goalTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            const g = goalsData[tab.dataset.goal];
+            document.getElementById('goalTitle').textContent = g.title;
+            document.getElementById('goalSubtitle').textContent = g.subtitle;
+            document.getElementById('goalDesc').textContent = g.desc;
+            document.getElementById('goalCta').textContent = g.cta;
+            document.getElementById('goalGrid').innerHTML = g.cards.map(c =>
+                `<div class="pf-goal-card"><i data-lucide="${c.icon}" class="pf-goal-card-icon"></i><span class="pf-goal-card-label">${c.label}</span></div>`
+            ).join('');
+            lucide.createIcons();
+        });
+    });
+
+    // ── Init ──
+    renderGrid();
+    lucide.createIcons();
+</script>
+</body>
+</html>
