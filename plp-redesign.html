@@ -439,6 +439,739 @@
 
         /* Body scroll lock */
         body.drawer-open { overflow: hidden; }
+
+        /* ========================================
+           LIVE-BRANDED SLIDEOUT CART
+           ======================================== */
+
+        /* Overlay */
+        .lv-overlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(0,0,0,.35);
+          z-index: 1099;
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 300ms ease;
+        }
+        .lv-overlay.is-open {
+          opacity: 1;
+          pointer-events: auto;
+        }
+
+        /* Panel */
+        .lv-cart-panel {
+          position: fixed;
+          top: 0;
+          right: 0;
+          width: 420px;
+          max-width: 100vw;
+          height: 100vh;
+          background: #f5f5f5;
+          box-shadow: -4px 0 24px rgba(0,0,0,.12);
+          z-index: 1100;
+          display: flex;
+          flex-direction: column;
+          transform: translateX(100%);
+          transition: transform 350ms cubic-bezier(.4,0,.2,1);
+          font-family: "Helvetica Neue", Inter, Roboto, Arial, sans-serif;
+          color: #232323;
+          font-size: 14px;
+        }
+        .lv-cart-panel.is-open {
+          transform: translateX(0);
+        }
+
+        /* Header */
+        .lv-cart-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 16px 20px;
+          background: #fff;
+          border-bottom: 1px solid #d9dadb;
+          flex-shrink: 0;
+        }
+        .lv-cart-header__title {
+          font-size: 18px;
+          font-weight: 700;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+        .lv-cart-header__check {
+          width: 22px;
+          height: 22px;
+          border-radius: 50%;
+          background: #205c40;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+        .lv-close {
+          width: 32px; height: 32px;
+          border: none; background: none;
+          cursor: pointer; display: flex;
+          align-items: center; justify-content: center;
+          border-radius: 0.375rem; color: #555;
+          transition: background 0.15s;
+        }
+        .lv-close:hover { background: #e9ecef; }
+
+        /* Scrollable body */
+        .lv-cart-body {
+          flex: 1;
+          overflow-y: auto;
+          overscroll-behavior: contain;
+          background: #fff;
+        }
+
+        /* Upper section (white bg) */
+        .lv-cart-upper {
+          background: #fff;
+          padding: 0;
+        }
+
+        /* Free shipping banner */
+        .lv-free-ship {
+          padding: 10px 20px;
+          font-size: 12px;
+          font-weight: 700;
+          color: #205c40;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          border-bottom: 1px solid #e9ecef;
+        }
+
+        /* Cart item */
+        .lv-cart-item {
+          padding: 16px 20px;
+          border-bottom: 1px solid #e9ecef;
+        }
+        .lv-cart-item__row {
+          display: flex;
+          gap: 12px;
+          align-items: flex-start;
+        }
+        .lv-cart-item__img {
+          width: 90px;
+          height: 90px;
+          flex-shrink: 0;
+          background: #fff;
+        }
+        .lv-cart-item__img img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
+        .lv-cart-item__info {
+          flex: 1;
+          min-width: 0;
+        }
+        .lv-cart-item__name {
+          font-size: 14px;
+          font-weight: 700;
+          line-height: 1.35;
+          color: #232323;
+          text-decoration: none;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+        .lv-cart-item__name:hover { color: #0d57d1; }
+
+        /* Qty control — live style */
+        .lv-qty-control {
+          display: inline-flex;
+          align-items: center;
+          border: 1px solid #d9dadb;
+          border-radius: 0.375rem;
+          overflow: hidden;
+          margin-top: 8px;
+        }
+        .lv-qty-btn {
+          width: 34px; height: 34px;
+          border: none;
+          background: #f5f5f5;
+          cursor: pointer;
+          display: flex;
+          align-items: center; justify-content: center;
+          color: #555; font-size: 14px;
+          font-family: inherit;
+          transition: background 0.15s;
+        }
+        .lv-qty-btn:hover { background: #e9ecef; }
+        .lv-qty-btn:disabled { opacity: .35; cursor: default; }
+        .lv-qty-btn:disabled:hover { background: #f5f5f5; }
+        .lv-qty-val {
+          width: 40px;
+          text-align: center;
+          font-size: 14px;
+          font-weight: 600;
+          border: none;
+          border-left: 1px solid #d9dadb;
+          border-right: 1px solid #d9dadb;
+          background: #fff;
+          font-family: inherit;
+          height: 34px;
+        }
+
+        /* Autoship upsell — live style */
+        .lv-autoship-upsell {
+          margin-top: 10px;
+          border: 1.5px solid #d9dadb;
+          border-radius: 0.375rem;
+          overflow: hidden;
+          transition: border-color 0.15s;
+        }
+        .lv-autoship-upsell.is-active {
+          border-color: #205c40;
+        }
+        .lv-autoship-toggle {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 10px 12px;
+          cursor: pointer;
+          user-select: none;
+          background: #f5f5f5;
+          transition: background 0.15s;
+        }
+        .lv-autoship-toggle:hover { background: #eee; }
+        .lv-autoship-upsell.is-active .lv-autoship-toggle {
+          background: #e6f4ee;
+        }
+
+        /* Custom checkbox */
+        .lv-check {
+          width: 18px; height: 18px;
+          border-radius: 4px;
+          border: 2px solid #d9dadb;
+          background: #fff;
+          flex-shrink: 0;
+          display: flex;
+          align-items: center; justify-content: center;
+          transition: all 0.15s;
+        }
+        .lv-check svg {
+          opacity: 0;
+          transform: scale(.5);
+          transition: all 150ms ease;
+        }
+        .lv-autoship-upsell.is-active .lv-check {
+          background: #205c40;
+          border-color: #205c40;
+        }
+        .lv-autoship-upsell.is-active .lv-check svg {
+          opacity: 1;
+          transform: scale(1);
+        }
+
+        .lv-autoship-label {
+          flex: 1;
+          font-size: 12px;
+          font-weight: 700;
+          color: #232323;
+          line-height: 1.3;
+        }
+        .lv-autoship-label .savings {
+          color: #205c40;
+          font-weight: 800;
+        }
+        .lv-autoship-badge {
+          display: inline-flex;
+          align-items: center;
+          padding: 2px 7px;
+          background: #e6f4ee;
+          border-radius: 3px;
+          font-size: 10px;
+          font-weight: 800;
+          color: #205c40;
+          white-space: nowrap;
+          flex-shrink: 0;
+        }
+
+        /* Expanded detail */
+        .lv-autoship-detail {
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 250ms ease, padding 250ms ease;
+          padding: 0 12px;
+          background: #e6f4ee;
+        }
+        .lv-autoship-upsell.is-active .lv-autoship-detail {
+          max-height: 120px;
+          padding: 8px 12px 10px;
+        }
+        .lv-autoship-detail-text {
+          font-size: 11px;
+          color: #555;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          line-height: 1.3;
+        }
+        .lv-autoship-detail-text svg { flex-shrink: 0; color: #205c40; }
+
+        /* Frequency control — live style */
+        .lv-freq-row {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-top: 6px;
+        }
+        .lv-freq-label {
+          font-size: 11px;
+          font-weight: 700;
+          color: #232323;
+          white-space: nowrap;
+        }
+        .lv-freq-control {
+          display: inline-flex;
+          align-items: center;
+          border: 1px solid #b8dece;
+          border-radius: 4px;
+          overflow: hidden;
+          background: #fff;
+        }
+        .lv-freq-btn {
+          width: 26px; height: 26px;
+          border: none;
+          background: #fff;
+          cursor: pointer;
+          display: flex;
+          align-items: center; justify-content: center;
+          color: #205c40; font-size: 13px; font-weight: 700;
+          font-family: inherit;
+          transition: background 0.15s;
+        }
+        .lv-freq-btn:hover { background: #e6f4ee; }
+        .lv-freq-val {
+          width: 30px;
+          text-align: center;
+          font-size: 12px;
+          font-weight: 700;
+          border: none;
+          border-left: 1px solid #b8dece;
+          border-right: 1px solid #b8dece;
+          background: #fff;
+          font-family: inherit;
+          height: 26px;
+          color: #232323;
+        }
+        .lv-freq-unit {
+          font-size: 12px;
+          font-weight: 700;
+          color: #232323;
+        }
+
+        /* Price row */
+        .lv-item-price-row {
+          display: flex;
+          align-items: baseline;
+          gap: 6px;
+          margin-top: 4px;
+        }
+        .lv-item-price {
+          font-size: 16px;
+          font-weight: 700;
+          color: #232323;
+        }
+        .lv-item-price--autoship { color: #205c40; }
+        .lv-item-price-was {
+          font-size: 12px;
+          color: #999;
+          text-decoration: line-through;
+        }
+
+        /* Remove button */
+        .lv-item-remove {
+          font-size: 11px;
+          color: #999;
+          background: none; border: none;
+          cursor: pointer; font-family: inherit;
+          text-decoration: underline;
+          transition: color 0.15s;
+          margin-left: auto;
+        }
+        .lv-item-remove:hover { color: #c14031; }
+
+        .lv-item-actions {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          margin-top: 8px;
+        }
+
+        /* Divider */
+        .lv-divider {
+          border: none;
+          border-top: 1px solid #d9dadb;
+          margin: 0 20px;
+        }
+
+        /* Subtotal row */
+        .lv-subtotal-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: baseline;
+          padding: 6px 0 0;
+          font-size: 18px;
+          font-weight: 700;
+        }
+        .lv-subtotal-label span {
+          font-weight: 400;
+          font-size: 14px;
+          color: #555;
+        }
+        .lv-subtotal-prices {
+          display: flex;
+          align-items: baseline;
+          gap: 6px;
+        }
+        .lv-subtotal-was {
+          font-size: 14px;
+          font-weight: 400;
+          color: #757575;
+          text-decoration: line-through;
+          display: none;
+        }
+        .lv-subtotal-was.is-visible { display: inline; }
+
+        /* Footer */
+        .lv-cart-footer {
+          flex-shrink: 0;
+          padding: 20px;
+          background: #f5f5f5;
+        }
+        .lv-cart-footer hr {
+          border: none;
+          border-top: 1px solid #d9dadb;
+          margin: 10px 0;
+        }
+
+        /* Savings line — compact */
+        .lv-savings-banner {
+          display: none;
+          align-items: center;
+          gap: 5px;
+          font-size: 12px;
+          font-weight: 600;
+          color: #205c40;
+          margin-bottom: 4px;
+        }
+        .lv-savings-banner.is-visible { display: flex; }
+        .lv-savings-banner svg { flex-shrink: 0; width: 12px; height: 12px; }
+
+        /* CTA buttons — live style */
+        .lv-btn {
+          width: 100%;
+          padding: 13px;
+          border: none;
+          border-radius: 0.375rem;
+          font-family: inherit;
+          font-size: 14px;
+          font-weight: 700;
+          cursor: pointer;
+          transition: background 0.15s;
+          display: block;
+          text-align: center;
+        }
+        .lv-btn--primary {
+          background: #205c40;
+          color: #fff;
+          margin-bottom: 8px;
+        }
+        .lv-btn--primary:hover { background: #1a4d35; }
+        .lv-btn--secondary {
+          background: transparent;
+          color: #232323;
+          border: 1.5px solid #d9dadb;
+        }
+        .lv-btn--secondary:hover { background: #e9ecef; }
+
+        /* Promo code — live style */
+        .lv-promo {
+          margin: 4px 0 0;
+        }
+        .lv-promo__row {
+          display: flex;
+          gap: 8px;
+        }
+        .lv-promo__input {
+          flex: 1;
+          padding: 9px 12px;
+          border: 1px solid #d9dadb;
+          border-radius: 0.375rem;
+          font-family: inherit;
+          font-size: 13px;
+          color: #232323;
+          background: #fff;
+        }
+        .lv-promo__input:focus {
+          outline: none;
+          border-color: #205c40;
+        }
+        .lv-promo__input::placeholder { color: #757575; }
+        .lv-promo__btn {
+          padding: 9px 16px;
+          background: #fff;
+          border: 1px solid #d9dadb;
+          border-radius: 0.375rem;
+          font-family: inherit;
+          font-size: 13px;
+          font-weight: 700;
+          color: #232323;
+          cursor: pointer;
+          transition: background 0.15s;
+        }
+        .lv-promo__btn:hover { background: #e9ecef; }
+        .lv-promo__row.is-hidden { display: none; }
+
+        .lv-promo__applied { display: none; }
+        .lv-promo__applied.is-visible {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+        .lv-promo__tag {
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          padding: 4px 8px;
+          margin-left: 6px;
+          border-radius: 100px;
+          background: #e6f0eb;
+          border: 1px solid #b8d5c8;
+          font-size: 12px;
+          font-weight: 700;
+          color: #205c40;
+          flex-shrink: 0;
+        }
+        .lv-promo__tag-remove {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 16px;
+          height: 16px;
+          border: none;
+          background: none;
+          cursor: pointer;
+          padding: 0;
+          color: #757575;
+          border-radius: 50%;
+          transition: color 0.15s, background 0.15s;
+        }
+        .lv-promo__tag-remove:hover { color: #c14031; background: rgba(0,0,0,.06); }
+        .lv-promo__msg {
+          font-size: 11px;
+          color: #205c40;
+        }
+
+        .lv-discount-row {
+          display: none;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 12px;
+          font-weight: 600;
+          color: #205c40;
+          margin-bottom: 4px;
+        }
+        .lv-discount-row.is-visible { display: flex; }
+
+        /* Forgot Something — slider recs */
+        .lv-recs {
+          padding: 20px 20px 24px;
+          background: #fff;
+          border-top: 6px solid #e9ecef;
+        }
+        .lv-recs__header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 14px;
+        }
+        .lv-recs__title {
+          font-size: 18px;
+          font-weight: 700;
+        }
+        .lv-recs__arrows {
+          display: flex;
+          gap: 6px;
+        }
+        .lv-recs__arrow {
+          width: 34px; height: 34px;
+          border-radius: 50%;
+          border: 1.5px solid #d9dadb;
+          background: #fff;
+          display: flex;
+          align-items: center; justify-content: center;
+          cursor: pointer;
+          color: #232323;
+          transition: all 0.15s;
+          flex-shrink: 0;
+          font-family: inherit;
+        }
+        .lv-recs__arrow:hover { border-color: #232323; background: #f5f5f5; }
+        .lv-recs__arrow:disabled { opacity: .3; cursor: default; }
+        .lv-recs__arrow:disabled:hover { border-color: #d9dadb; background: #fff; }
+
+        /* Slider track */
+        .lv-slider-viewport {
+          overflow: hidden;
+          margin: 0 -4px;
+        }
+        .lv-slider-track {
+          display: flex;
+          gap: 12px;
+          transition: transform 0.35s cubic-bezier(.4,0,.2,1);
+          padding: 0 4px;
+        }
+
+        /* Rec card — horizontal layout in slider */
+        .lv-rec-card {
+          flex: 0 0 85%;
+          min-width: 0;
+          border: 1px solid #d9dadb;
+          border-radius: 0.75rem;
+          overflow: hidden;
+          display: flex;
+          gap: 0;
+        }
+
+        .lv-rec-card__img {
+          width: 40%;
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 12px;
+          background: #fff;
+        }
+        .lv-rec-card__img img {
+          width: 100%;
+          height: auto;
+          object-fit: contain;
+          aspect-ratio: 3/4;
+        }
+
+        .lv-rec-card__info {
+          flex: 1;
+          min-width: 0;
+          display: flex;
+          flex-direction: column;
+          padding: 14px 14px 14px 0;
+        }
+        .lv-rec-card__brand {
+          font-size: 10px;
+          color: #616161;
+          margin-bottom: 2px;
+          display: flex;
+          align-items: center;
+          gap: 3px;
+        }
+        .lv-rec-card__brand .trusted {
+          color: #205c40;
+          font-size: 12px;
+        }
+        .lv-rec-card__name {
+          font-size: 14px;
+          font-weight: 700;
+          line-height: 1.35;
+          color: #232323;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          margin-bottom: 4px;
+        }
+
+        /* Star rating row */
+        .lv-rec-card__stars {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          margin-bottom: 6px;
+        }
+        .lv-rec-card__stars .review-count {
+          font-size: 12px;
+          color: #555;
+        }
+
+        .lv-rec-card__price {
+          font-weight: 700;
+          font-size: 14px;
+          display: inline-flex;
+          align-items: flex-start;
+          line-height: 1;
+          margin-bottom: 2px;
+        }
+        .lv-rec-card__price .currency { font-size: 11px; margin-top: 1px; margin-right: 1px; }
+        .lv-rec-card__price .main-price { font-size: 18px; font-weight: 800; }
+        .lv-rec-card__price .decimals { font-size: 11px; margin-top: 1px; }
+
+        .lv-rec-card__autoship {
+          font-size: 13px;
+          color: #232323;
+          margin-top: 2px;
+          line-height: 1.3;
+        }
+        .lv-rec-card__shipping {
+          font-size: 11px;
+          color: #666;
+          margin-top: 4px;
+        }
+        .lv-rec-card__shipping.free { color: #205c40; font-weight: 600; }
+
+        .lv-rec-card__atc {
+          width: 100%;
+          padding: 8px 14px;
+          background: #205c40;
+          color: #fff;
+          border: none;
+          border-radius: 0.375rem;
+          font-size: 13px;
+          font-weight: 700;
+          cursor: pointer;
+          font-family: inherit;
+          transition: background 0.15s;
+          margin-top: auto;
+          margin-top: 8px;
+          text-align: center;
+        }
+        .lv-rec-card__atc:hover { background: #1a4d35; }
+
+        /* Variant buttons — live style */
+        .lv-variant-row { margin-top: 8px; }
+        .lv-variant-label {
+          font-size: 11px;
+          font-weight: 700;
+          color: #616161;
+          margin-bottom: 4px;
+        }
+        .lv-variant-btns { display: flex; gap: 6px; }
+        .lv-variant-btn {
+          padding: 5px 10px;
+          font-family: inherit;
+          font-size: 11px;
+          font-weight: 700;
+          border: 1.5px solid #d9dadb;
+          border-radius: 0.375rem;
+          background: #fff;
+          color: #555;
+          cursor: pointer;
+          transition: all 0.15s;
+        }
+        .lv-variant-btn:hover { border-color: #999; }
+        .lv-variant-btn.is-active {
+          border-color: #205c40;
+          background: #e6f4ee;
+          color: #205c40;
+          font-weight: 800;
+        }
     </style>
 </head>
 <body>
@@ -476,10 +1209,10 @@
             <li><a href="#">Favorites</a></li>
             <li><a href="#">Account</a></li>
             <li>
-                <a href="#">
+                <a href="#" class="js-open-lv-cart">
             <span class="link-icon">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M3 3H5L7 16H18L21 6H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8.5" cy="20" r="1.5" fill="currentColor"/><circle cx="17" cy="20" r="1.5" fill="currentColor"/></svg>
-              <span class="pf-cart-badge">0</span>
+              <span class="pf-cart-badge">2</span>
             </span>
                     Cart
                 </a>
@@ -1023,6 +1756,545 @@
     // ── Init ──
     renderGrid();
     lucide.createIcons();
+</script>
+
+<!-- ============================================
+     LIVE-BRANDED OVERLAY
+     ============================================ -->
+<div class="lv-overlay js-lv-overlay"></div>
+
+<!-- ============================================
+     LIVE-BRANDED SLIDEOUT CART PANEL
+     ============================================ -->
+<div class="lv-cart-panel js-lv-cart-panel">
+
+  <!-- Header -->
+  <div class="lv-cart-header">
+    <div class="lv-cart-header__title">
+      <span class="lv-cart-header__check">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      Added to cart
+    </div>
+    <button class="lv-close js-close-lv-cart" aria-label="Close cart">
+      <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M12 4L4 12M4 4l8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+
+  <!-- Scrollable body -->
+  <div class="lv-cart-body">
+    <div class="lv-cart-upper">
+
+      <!-- Free shipping -->
+      <div class="lv-free-ship">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 3h9v7H1zM10 6h3l2 3v3h-5V6z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="4" cy="12" r="1.5" stroke="currentColor" stroke-width="1.2"/><circle cx="12.5" cy="12" r="1.5" stroke="currentColor" stroke-width="1.2"/></svg>
+        This order qualifies for FREE shipping
+      </div>
+
+      <!-- Item 1: O.N.E. Omega -->
+      <div class="lv-cart-item" data-price="76.00" data-autoship-price="68.40" data-savings="7.60">
+        <div class="lv-cart-item__row">
+          <div class="lv-cart-item__img">
+            <img src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v1724738122147274404/products/one-omega-60-softgel-capsules-by-pure-encapsulations.jpg&height=300&width=300" alt="O.N.E. Omega">
+          </div>
+          <div class="lv-cart-item__info">
+            <a class="lv-cart-item__name" href="#">O.N.E. Omega - 60 Softgel Capsules</a>
+            <div class="lv-item-price-row">
+              <span class="lv-item-price js-lv-price">$76.00</span>
+            </div>
+            <div class="lv-item-actions">
+              <div class="lv-qty-control">
+                <button class="lv-qty-btn js-lv-qty-down" disabled>-</button>
+                <input class="lv-qty-val js-lv-qty-val" type="text" value="1" readonly>
+                <button class="lv-qty-btn js-lv-qty-up">+</button>
+              </div>
+              <button class="lv-item-remove">Remove</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Variant options -->
+        <div class="lv-variant-row">
+          <div class="lv-variant-label">Options:</div>
+          <div class="lv-variant-btns">
+            <button class="lv-variant-btn is-active" data-price="76.00">60 Caps</button>
+            <button class="lv-variant-btn" data-price="142.00">120 Caps</button>
+          </div>
+        </div>
+
+        <!-- Autoship upsell -->
+        <div class="lv-autoship-upsell js-lv-upsell">
+          <div class="lv-autoship-toggle js-lv-toggle">
+            <div class="lv-check">
+              <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="lv-autoship-label">
+              Autoship & Save <span class="savings">$7.60</span>
+            </div>
+            <span class="lv-autoship-badge">SAVE 10%</span>
+          </div>
+          <div class="lv-autoship-detail">
+            <div class="lv-autoship-detail-text">
+              <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 12.6A5.6 5.6 0 1113.6 8 5.607 5.607 0 018 13.6zm2.94-7.54a.7.7 0 010 .99l-3.5 3.5a.7.7 0 01-.99 0l-1.4-1.4a.7.7 0 11.99-.99l.91.91 3.01-3.01a.7.7 0 01.99 0z" fill="currentColor"/></svg>
+              Skip, change, or cancel anytime
+            </div>
+            <div class="lv-freq-row">
+              <span class="lv-freq-label">Deliver every:</span>
+              <div class="lv-freq-control">
+                <button class="lv-freq-btn js-lv-freq-down">-</button>
+                <input class="lv-freq-val js-lv-freq-val" type="text" value="60" readonly>
+                <button class="lv-freq-btn js-lv-freq-up">+</button>
+              </div>
+              <span class="lv-freq-unit">Days</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 2: Magnesium Glycinate -->
+      <div class="lv-cart-item" data-price="87.00" data-autoship-price="78.30" data-savings="8.70">
+        <div class="lv-cart-item__row">
+          <div class="lv-cart-item__img">
+            <img src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v8728600664936678570/products/magnesium-glycinate-360-vegetable-capsules-by-pure-encapsulations.jpg&height=300&width=300" alt="Magnesium Glycinate">
+          </div>
+          <div class="lv-cart-item__info">
+            <a class="lv-cart-item__name" href="#">Magnesium Glycinate - 360 Capsules</a>
+            <div class="lv-item-price-row">
+              <span class="lv-item-price js-lv-price">$87.00</span>
+            </div>
+            <div class="lv-item-actions">
+              <div class="lv-qty-control">
+                <button class="lv-qty-btn js-lv-qty-down" disabled>-</button>
+                <input class="lv-qty-val js-lv-qty-val" type="text" value="1" readonly>
+                <button class="lv-qty-btn js-lv-qty-up">+</button>
+              </div>
+              <button class="lv-item-remove">Remove</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Variant options -->
+        <div class="lv-variant-row">
+          <div class="lv-variant-label">Options:</div>
+          <div class="lv-variant-btns">
+            <button class="lv-variant-btn" data-price="29.60">90 Caps</button>
+            <button class="lv-variant-btn" data-price="52.60">180 Caps</button>
+            <button class="lv-variant-btn is-active" data-price="87.00">360 Caps</button>
+          </div>
+        </div>
+
+        <div class="lv-autoship-upsell js-lv-upsell">
+          <div class="lv-autoship-toggle js-lv-toggle">
+            <div class="lv-check">
+              <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="lv-autoship-label">
+              Autoship & Save <span class="savings">$8.70</span>
+            </div>
+            <span class="lv-autoship-badge">SAVE 10%</span>
+          </div>
+          <div class="lv-autoship-detail">
+            <div class="lv-autoship-detail-text">
+              <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 12.6A5.6 5.6 0 1113.6 8 5.607 5.607 0 018 13.6zm2.94-7.54a.7.7 0 010 .99l-3.5 3.5a.7.7 0 01-.99 0l-1.4-1.4a.7.7 0 11.99-.99l.91.91 3.01-3.01a.7.7 0 01.99 0z" fill="currentColor"/></svg>
+              Skip, change, or cancel anytime
+            </div>
+            <div class="lv-freq-row">
+              <span class="lv-freq-label">Deliver every:</span>
+              <div class="lv-freq-control">
+                <button class="lv-freq-btn js-lv-freq-down">-</button>
+                <input class="lv-freq-val js-lv-freq-val" type="text" value="60" readonly>
+                <button class="lv-freq-btn js-lv-freq-up">+</button>
+              </div>
+              <span class="lv-freq-unit">Days</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /lv-cart-upper -->
+
+    <!-- Forgot Something — slider recs -->
+    <div class="lv-recs">
+      <div class="lv-recs__header">
+        <div class="lv-recs__title">Forgot Something?</div>
+        <div class="lv-recs__arrows">
+          <button class="lv-recs__arrow js-lv-slider-prev" disabled aria-label="Previous">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M8.5 3L4.5 7L8.5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="lv-recs__arrow js-lv-slider-next" aria-label="Next">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5.5 3L9.5 7L5.5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="lv-slider-viewport">
+        <div class="lv-slider-track js-lv-slider-track">
+
+          <!-- Slide 1 -->
+          <div class="lv-rec-card">
+            <div class="lv-rec-card__img">
+              <img src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v6913310681168725351/products/liposomal-vitamin-c-120-capsules-by-pure-encapsulations.jpg&height=940&width=940" alt="Liposomal Vitamin C">
+            </div>
+            <div class="lv-rec-card__info">
+              <div class="lv-rec-card__brand">Pure Encapsulations <span class="trusted">&#10003;</span></div>
+              <div class="lv-rec-card__name">Liposomal Vitamin C - 120 Capsules</div>
+              <div class="lv-rec-card__stars">
+                <svg width="14" height="14" viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#D2801F"/></svg>
+                <svg width="14" height="14" viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#D2801F"/></svg>
+                <svg width="14" height="14" viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#D2801F"/></svg>
+                <svg width="14" height="14" viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#D2801F"/></svg>
+                <svg width="14" height="14" viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#D2801F"/></svg>
+                <span class="review-count">( 4 )</span>
+              </div>
+              <div class="lv-rec-card__price"><span class="currency">$</span><span class="main-price">36</span><span class="decimals">00</span></div>
+              <div class="lv-rec-card__autoship">Autoship & Save at checkout</div>
+              <div class="lv-rec-card__shipping free">Free Shipping</div>
+              <button class="lv-rec-card__atc">Add to Cart</button>
+            </div>
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="lv-rec-card">
+            <div class="lv-rec-card__img">
+              <img src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v4919539529910985620/products/zinc-30-180-vegetable-capsules-by-pure-encapsulations.jpg&height=940&width=940" alt="Zinc 30">
+            </div>
+            <div class="lv-rec-card__info">
+              <div class="lv-rec-card__brand">Pure Encapsulations <span class="trusted">&#10003;</span></div>
+              <div class="lv-rec-card__name">Zinc 30 - 180 Capsules</div>
+              <div class="lv-rec-card__stars">
+                <svg width="14" height="14" viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#D2801F"/></svg>
+                <svg width="14" height="14" viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#D2801F"/></svg>
+                <svg width="14" height="14" viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#D2801F"/></svg>
+                <svg width="14" height="14" viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#D2801F"/></svg>
+                <svg width="14" height="14" viewBox="0 0 18 18"><defs><linearGradient id="hg45z"><stop offset="50%" stop-color="#D2801F"/><stop offset="50%" stop-color="#fff"/></linearGradient></defs><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="url(#hg45z)" stroke="#D2801F" stroke-width="0.5"/></svg>
+                <span class="review-count">( 12 )</span>
+              </div>
+              <div class="lv-rec-card__price"><span class="currency">$</span><span class="main-price">40</span><span class="decimals">50</span></div>
+              <div class="lv-rec-card__autoship">Autoship & Save at checkout</div>
+              <div class="lv-rec-card__shipping free">Free Shipping</div>
+              <button class="lv-rec-card__atc">Add to Cart</button>
+            </div>
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="lv-rec-card">
+            <div class="lv-rec-card__img">
+              <img src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v4832359369143936000/products/b-12-folic-60-vegetable-capsules-by-pure-encapsulations.jpg&height=940&width=940" alt="B12 Folate">
+            </div>
+            <div class="lv-rec-card__info">
+              <div class="lv-rec-card__brand">Pure Encapsulations <span class="trusted">&#10003;</span></div>
+              <div class="lv-rec-card__name">B12 Folate - 60 Capsules</div>
+              <div class="lv-rec-card__stars">
+                <svg width="14" height="14" viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#D2801F"/></svg>
+                <svg width="14" height="14" viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#D2801F"/></svg>
+                <svg width="14" height="14" viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#D2801F"/></svg>
+                <svg width="14" height="14" viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#D2801F"/></svg>
+                <svg width="14" height="14" viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#fff" stroke="#D2801F" stroke-width="0.5"/></svg>
+                <span class="review-count">( 8 )</span>
+              </div>
+              <div class="lv-rec-card__price"><span class="currency">$</span><span class="main-price">22</span><span class="decimals">50</span></div>
+              <div class="lv-rec-card__autoship">Autoship & Save at checkout</div>
+              <div class="lv-rec-card__shipping">FREE Shipping on Orders $25+</div>
+              <button class="lv-rec-card__atc">Add to Cart</button>
+            </div>
+          </div>
+
+          <!-- Slide 4 -->
+          <div class="lv-rec-card">
+            <div class="lv-rec-card__img">
+              <img src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v3417793550841579303/products/vitamin-d3-k2-4000-iu-100-mcg-60-capsules-by-pure-encapsulations.jpg&height=940&width=940" alt="Vitamin D3 & K2">
+            </div>
+            <div class="lv-rec-card__info">
+              <div class="lv-rec-card__brand">Pure Encapsulations <span class="trusted">&#10003;</span></div>
+              <div class="lv-rec-card__name">Vitamin D3 & K2 4,000 IU / 100 mcg - 60 Capsules</div>
+              <div class="lv-rec-card__stars">
+                <svg width="14" height="14" viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#D2801F"/></svg>
+                <svg width="14" height="14" viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#D2801F"/></svg>
+                <svg width="14" height="14" viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#D2801F"/></svg>
+                <svg width="14" height="14" viewBox="0 0 18 18"><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="#D2801F"/></svg>
+                <svg width="14" height="14" viewBox="0 0 18 18"><defs><linearGradient id="hg45d"><stop offset="50%" stop-color="#D2801F"/><stop offset="50%" stop-color="#fff"/></linearGradient></defs><path d="M9 14.118L14.562 17.475L13.086 11.148L18 6.891L11.529 6.342L9 0.375L6.471 6.342L0 6.891L4.914 11.148L3.438 17.475L9 14.118Z" fill="url(#hg45d)" stroke="#D2801F" stroke-width="0.5"/></svg>
+                <span class="review-count">( 6 )</span>
+              </div>
+              <div class="lv-rec-card__price"><span class="currency">$</span><span class="main-price">19</span><span class="decimals">50</span></div>
+              <div class="lv-rec-card__autoship">Autoship & Save at checkout</div>
+              <div class="lv-rec-card__shipping">FREE Shipping on Orders $25+</div>
+              <button class="lv-rec-card__atc">Add to Cart</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div><!-- /lv-recs -->
+
+  </div><!-- /lv-cart-body -->
+
+  <!-- Footer -->
+  <div class="lv-cart-footer">
+    <div class="lv-discount-row js-lv-discount-row is-visible">
+      <span>Promo Discount</span>
+      <div class="lv-promo__tag js-lv-promo-applied is-visible">
+        SAVE10
+        <button class="lv-promo__tag-remove js-lv-promo-remove" aria-label="Remove promo code">
+          <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M9 3L3 9M3 3l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <span class="js-lv-discount-amount" style="margin-left:auto">-$16.30</span>
+    </div>
+    <div class="lv-savings-banner js-lv-savings-banner">
+      <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="js-lv-savings-text">Saving $16.30 with Autoship</span>
+    </div>
+    <div class="lv-subtotal-row">
+      <div class="lv-subtotal-label">Cart Subtotal <span class="js-lv-item-count">(2 items):</span></div>
+      <div class="lv-subtotal-prices">
+        <span class="lv-subtotal-was js-lv-subtotal-was">$163.00</span>
+        <span class="js-lv-subtotal">$163.00</span>
+      </div>
+    </div>
+    <div class="lv-promo">
+      <div class="lv-promo__row js-lv-promo-row is-hidden">
+        <input class="lv-promo__input js-lv-promo-input" type="text" placeholder="Enter code">
+        <button class="lv-promo__btn js-lv-promo-apply">Apply</button>
+      </div>
+    </div>
+    <hr>
+    <button class="lv-btn lv-btn--primary">View Cart and Checkout</button>
+    <button class="lv-btn lv-btn--secondary js-close-lv-cart">Continue Shopping</button>
+  </div>
+
+</div><!-- /lv-cart-panel -->
+
+<script>
+  // ============================================
+  // LIVE-BRANDED CART — open/close
+  // ============================================
+  const lvPanel = document.querySelector('.js-lv-cart-panel');
+  const lvOverlay = document.querySelector('.js-lv-overlay');
+
+  function openLvCart() {
+    lvPanel.classList.add('is-open');
+    lvOverlay.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLvCart() {
+    lvPanel.classList.remove('is-open');
+    lvOverlay.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelector('.js-open-lv-cart').addEventListener('click', function(e) {
+    e.preventDefault();
+    openLvCart();
+  });
+  document.querySelectorAll('.js-close-lv-cart').forEach(b => b.addEventListener('click', closeLvCart));
+  lvOverlay.addEventListener('click', closeLvCart);
+
+  // ============================================
+  // LIVE-BRANDED — Autoship toggles
+  // ============================================
+  function updateLvTotals() {
+    let subtotal = 0;
+    let totalSavings = 0;
+    let itemCount = 0;
+
+    document.querySelectorAll('.lv-cart-item').forEach(item => {
+      const qty = parseInt(item.querySelector('.js-lv-qty-val').value) || 1;
+      const upsell = item.querySelector('.js-lv-upsell');
+      const isAutoship = upsell.classList.contains('is-active');
+      const price = parseFloat(item.dataset.price);
+      const autoshipPrice = parseFloat(item.dataset.autoshipPrice);
+      const savings = parseFloat(item.dataset.savings);
+      const priceEl = item.querySelector('.js-lv-price');
+
+      if (isAutoship) {
+        priceEl.textContent = '$' + autoshipPrice.toFixed(2);
+        priceEl.classList.add('lv-item-price--autoship');
+        let wasEl = item.querySelector('.lv-item-price-was');
+        if (!wasEl) {
+          wasEl = document.createElement('span');
+          wasEl.className = 'lv-item-price-was';
+          priceEl.parentElement.appendChild(wasEl);
+        }
+        wasEl.textContent = '$' + price.toFixed(2);
+        subtotal += autoshipPrice * qty;
+        totalSavings += savings * qty;
+      } else {
+        priceEl.textContent = '$' + price.toFixed(2);
+        priceEl.classList.remove('lv-item-price--autoship');
+        const wasEl = item.querySelector('.lv-item-price-was');
+        if (wasEl) wasEl.remove();
+        subtotal += price * qty;
+      }
+      itemCount += qty;
+    });
+
+    // Promo discount (10% off full-price subtotal when applied)
+    const lvPromoApplied = document.querySelector('.js-lv-promo-applied');
+    const lvDiscountRow = document.querySelector('.js-lv-discount-row');
+    const isLvPromo = lvPromoApplied && lvPromoApplied.classList.contains('is-visible');
+    let fullSubtotal = 0;
+    document.querySelectorAll('.lv-cart-item').forEach(item => {
+      const qty = parseInt(item.querySelector('.js-lv-qty-val').value) || 1;
+      fullSubtotal += parseFloat(item.dataset.price) * qty;
+    });
+    let promoDiscount = 0;
+    if (isLvPromo) {
+      promoDiscount = Math.round(fullSubtotal * 0.10 * 100) / 100;
+      lvDiscountRow.classList.add('is-visible');
+      document.querySelector('.js-lv-discount-amount').textContent = '-$' + promoDiscount.toFixed(2);
+    } else {
+      lvDiscountRow.classList.remove('is-visible');
+    }
+
+    const subtotalWas = document.querySelector('.js-lv-subtotal-was');
+    if (promoDiscount > 0 || totalSavings > 0) {
+      subtotalWas.textContent = '$' + fullSubtotal.toFixed(2);
+      subtotalWas.classList.add('is-visible');
+    } else {
+      subtotalWas.classList.remove('is-visible');
+    }
+    document.querySelector('.js-lv-subtotal').textContent = '$' + (subtotal - promoDiscount).toFixed(2);
+    document.querySelector('.js-lv-item-count').textContent = '(' + itemCount + ' item' + (itemCount !== 1 ? 's' : '') + '):';
+
+    const banner = document.querySelector('.js-lv-savings-banner');
+    if (totalSavings > 0) {
+      banner.classList.add('is-visible');
+      document.querySelector('.js-lv-savings-text').textContent =
+        "Saving $" + totalSavings.toFixed(2) + " with Autoship";
+    } else {
+      banner.classList.remove('is-visible');
+    }
+  }
+
+  document.querySelectorAll('.js-lv-toggle').forEach(toggle => {
+    toggle.addEventListener('click', () => {
+      const upsell = toggle.closest('.js-lv-upsell');
+      upsell.classList.toggle('is-active');
+      updateLvTotals();
+    });
+  });
+
+  // ============================================
+  // LIVE-BRANDED — Variant buttons
+  // ============================================
+  document.querySelectorAll('.lv-variant-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.closest('.lv-variant-btns').querySelectorAll('.lv-variant-btn').forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+
+      const item = btn.closest('.lv-cart-item');
+      const newPrice = parseFloat(btn.dataset.price);
+      const newAutoshipPrice = +(newPrice * 0.90).toFixed(2);
+      const newSavings = +(newPrice * 0.10).toFixed(2);
+
+      item.dataset.price = newPrice.toFixed(2);
+      item.dataset.autoshipPrice = newAutoshipPrice.toFixed(2);
+      item.dataset.savings = newSavings.toFixed(2);
+
+      const savingsEl = item.querySelector('.lv-autoship-label .savings');
+      if (savingsEl) savingsEl.textContent = '$' + newSavings.toFixed(2);
+
+      updateLvTotals();
+    });
+  });
+
+  // ============================================
+  // LIVE-BRANDED — Frequency controls
+  // ============================================
+  document.querySelectorAll('.lv-freq-control').forEach(ctrl => {
+    const down = ctrl.querySelector('.js-lv-freq-down');
+    const up = ctrl.querySelector('.js-lv-freq-up');
+    const val = ctrl.querySelector('.js-lv-freq-val');
+
+    down.addEventListener('click', (e) => {
+      e.stopPropagation();
+      let v = parseInt(val.value) - 5;
+      if (v < 5) v = 5;
+      val.value = v;
+    });
+    up.addEventListener('click', (e) => {
+      e.stopPropagation();
+      let v = parseInt(val.value) + 5;
+      val.value = v;
+    });
+  });
+
+  // ============================================
+  // LIVE-BRANDED — Quantity controls
+  // ============================================
+  document.querySelectorAll('.lv-qty-control').forEach(ctrl => {
+    const down = ctrl.querySelector('.js-lv-qty-down');
+    const up = ctrl.querySelector('.js-lv-qty-up');
+    const val = ctrl.querySelector('.js-lv-qty-val');
+
+    function updateLvQty(delta) {
+      let v = parseInt(val.value) + delta;
+      if (v < 1) v = 1;
+      if (v > 99) v = 99;
+      val.value = v;
+      down.disabled = (v <= 1);
+      updateLvTotals();
+    }
+
+    down.addEventListener('click', () => updateLvQty(-1));
+    up.addEventListener('click', () => updateLvQty(1));
+  });
+
+  // ============================================
+  // LIVE-BRANDED — "Forgot Something?" slider
+  // ============================================
+  (function() {
+    const track = document.querySelector('.js-lv-slider-track');
+    const prevBtn = document.querySelector('.js-lv-slider-prev');
+    const nextBtn = document.querySelector('.js-lv-slider-next');
+    if (!track || !prevBtn || !nextBtn) return;
+
+    const cards = track.querySelectorAll('.lv-rec-card');
+    const total = cards.length;
+    let current = 0;
+
+    function goTo(index) {
+      if (index < 0) index = 0;
+      if (index > total - 1) index = total - 1;
+      current = index;
+      // Each card is 85% of viewport width + 12px gap
+      const offset = current * 85;
+      track.style.transform = 'translateX(-' + offset + '%)';
+      prevBtn.disabled = (current === 0);
+      nextBtn.disabled = (current >= total - 1);
+    }
+
+    prevBtn.addEventListener('click', () => goTo(current - 1));
+    nextBtn.addEventListener('click', () => goTo(current + 1));
+
+    // Init state
+    goTo(0);
+  })();
+
+  // ============================================
+  // LIVE-BRANDED — Promo code toggle
+  // ============================================
+  const lvPromoRow = document.querySelector('.js-lv-promo-row');
+  const lvPromoApplied = document.querySelector('.js-lv-promo-applied');
+  const lvPromoApplyBtn = document.querySelector('.js-lv-promo-apply');
+  const lvPromoRemoveBtn = document.querySelector('.js-lv-promo-remove');
+  const lvPromoInput = document.querySelector('.js-lv-promo-input');
+
+  lvPromoApplyBtn.addEventListener('click', () => {
+    const code = lvPromoInput.value.trim();
+    if (!code) return;
+    lvPromoRow.classList.add('is-hidden');
+    lvPromoApplied.classList.add('is-visible');
+    lvPromoApplied.firstChild.textContent = code + ' ';
+    updateLvTotals();
+  });
+
+  lvPromoRemoveBtn.addEventListener('click', () => {
+    lvPromoApplied.classList.remove('is-visible');
+    lvPromoRow.classList.remove('is-hidden');
+    lvPromoInput.value = '';
+    updateLvTotals();
+  });
 </script>
 </body>
 </html>
