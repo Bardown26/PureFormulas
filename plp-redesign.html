@@ -1769,7 +1769,7 @@
         const dollars = Math.floor(p.price);
         const cents = String(Math.round((p.price % 1) * 100)).padStart(2, '0');
         const trustedSVG = p.trusted ? '<span class="trusted-badge" style="color:#10833f;font-size:12px;" title="Doctor Trusted">&#10003;</span>' : '';
-        const promoTag = p.promo ? `<div class="pf-card-promo">${p.promo.text}</div>` : '';
+        const promoTag = '';
         const reviewsHTML = p.reviews > 0 ? `<div class="pf-card-stars">${starsHTML(p.rating, 15)} <span class="review-count">(${p.reviews})</span></div>` : '';
         const autoshipHTML = p.autoship
             ? `<div class="pf-card-autoship"><strong>$${p.autoship.toFixed(2)}</strong> with Autoship &amp; Save</div>`
@@ -1810,7 +1810,7 @@
         const dollars = Math.floor(p.price);
         const cents = String(Math.round((p.price % 1) * 100)).padStart(2, '0');
         const trustedSVG = p.trusted ? '<span class="trusted-badge" style="color:#10833f;font-size:12px;" title="Doctor Trusted">&#10003;</span>' : '';
-        const promoTag = p.promo ? `<div class="pf-card-promo">${p.promo.text}</div>` : '';
+        const promoTag = '';
         const reviewsHTML = p.reviews > 0 ? `<div class="pf-card-stars">${starsHTML(p.rating, 15)} <span class="review-count">(${p.reviews})</span></div>` : '';
         const offerHTML = p.promo ? `<div class="pf-card-offer"><span class="c-red-promo">${p.promo.text}</span> Code: <span class="c-red-promo">${p.promo.code}</span></div>` : '';
         const shipText = p.price >= 25 ? '⚡️ Free Shipping' : '⚡️ Free Shipping on Orders $25+';
@@ -1873,7 +1873,7 @@
         const dollars = Math.floor(p.price);
         const cents = String(Math.round((p.price % 1) * 100)).padStart(2, '0');
         const trustedSVG = p.trusted ? '<span class="trusted-badge" style="color:#10833f;font-size:12px;" title="Doctor Trusted">&#10003;</span>' : '';
-        const promoTag = p.promo ? `<div class="pf-card-promo">${p.promo.text}</div>` : '';
+        const promoTag = '';
         const reviewsHTML = p.reviews > 0 ? `<div class="pf-card-stars">${starsHTML(p.rating, 15)} <span class="review-count">(${p.reviews})</span></div>` : '';
         const offerHTML = p.promo ? `<div class="pf-card-offer"><span class="c-red-promo">${p.promo.text}</span> Code: <span class="c-red-promo">${p.promo.code}</span></div>` : '';
         const shipText = p.price >= 25 ? '⚡️ Free Shipping' : '⚡️ Free Shipping on Orders $25+';
