@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://unpkg.com/lucide@latest"></script>
     <title>PureFormulas – Search Results for "l theanine"</title>
+    <link rel="stylesheet" href="style.css">
     <style>
         /* ── Reset & Base ── */
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -256,6 +257,7 @@
             transform: translateY(-3px);
         }
         .pf-card:hover .pf-card-atc { background-color: #1a4d35; }
+        /* ATC on image always visible */
 
         .pf-card-promo {
             position: absolute; top: 10px; left: 10px; z-index: 2;
@@ -313,6 +315,45 @@
         .pf-card-offer .c-red-promo { color: #c14031; font-weight: 700; }
         .pf-card-shipping { font-size: 12px; color: #666; margin-top: .5rem; text-wrap: nowrap; margin-bottom: 3px; }
 
+        /* Learn More link */
+        .pf-autoship-learn-more {
+            display: block; font-size: 13px; color: #205c40; font-weight: 400;
+            margin-top: 2px; cursor: pointer;
+        }
+        .pf-autoship-learn-more:hover { text-decoration: underline; }
+
+        /* ATC button on image overlay */
+        .pf-card-img-atc {
+            position: absolute; bottom: 8px; right: 8px;
+            z-index: 3;
+            display: flex; align-items: center; gap: 6px;
+            background-color: #205c40; color: #fff; border: none;
+            border-radius: 2rem; padding: 6px 14px;
+            font-size: 13px; font-weight: 700; white-space: nowrap;
+            cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.18); border: 2px solid #fff;
+        }
+        .pf-card-img-atc:hover { background-color: #1a4d35; }
+        .pf-card-img-atc svg { flex-shrink: 0; }
+
+        /* Quantity stepper on image */
+        .pf-card-img-qty {
+            position: absolute; bottom: 8px; right: 8px;
+            z-index: 3; display: flex; align-items: center; gap: 0;
+            background: #fff; border-radius: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.18); overflow: hidden;
+            border: 2px solid #fff; background: #205c40;
+        }
+        .pf-card-img-qty button {
+            width: 32px; height: 32px; border: none; background: #205c40;
+            color: #fff; font-size: 16px; font-weight: 700; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .pf-card-img-qty button:hover { background: #1a4d35; }
+        .pf-card-img-qty .pf-card-img-qty__val {
+            width: 28px; text-align: center; font-size: 14px; font-weight: 700;
+            border: none; background: #205c40; color: #fff; font-family: inherit;
+        }
+
         .pf-card-atc {
             width: 100%; padding: .5rem .66rem;
             background-color: #205c40; color: #fff !important; border: 1px solid rgba(0,0,0,0) !important;
@@ -321,6 +362,41 @@
             transition: background-color 0.2s;
         }
         .pf-card-atc:hover { background-color: #1a4d35; }
+
+        /* Autoship & Save Modal */
+        .pf-autoship-modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+            z-index: 1200; backdrop-filter: blur(2px);
+            opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .pf-autoship-modal-overlay.is-open { opacity: 1; pointer-events: auto; }
+        .pf-autoship-modal {
+            background: #f4f4f5; border-radius: 1rem; max-width: 520px; width: 90%;
+            padding: 1.5rem 1.25rem; position: relative;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+        }
+        .pf-autoship-modal__close {
+            position: absolute; top: 14px; right: 14px;
+            background: none; border: none; cursor: pointer; color: #666;
+            width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
+            border-radius: 50%;
+        }
+        .pf-autoship-modal__close:hover { background: #f0f0f0; color: #232323; }
+        .pf-autoship-modal__title {
+            font-size: 1.35rem; font-weight: 800; color: #232323; margin-bottom: 1.25rem;
+        }
+        .pf-autoship-modal__list { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+        .pf-autoship-modal__list li {
+            display: flex; gap: .75rem; font-size: .95rem; line-height: 1.5; color: #444;
+        }
+        .pf-autoship-modal__list li .check-icon {
+            flex-shrink: 0; width: 20px; height: 20px; margin-top: 2px;
+            background: #205c40; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .pf-autoship-modal__list li .check-icon svg { width: 11px; height: 11px; }
+        .pf-autoship-modal__list li strong { color: #232323; }
 
         /* ── Stars ── */
         .star-row { display: flex; gap: 2px; align-items: center; }
@@ -444,12 +520,19 @@
            LIVE-BRANDED SLIDEOUT CART
            ======================================== */
 
+        /* Suppress missing PF icon font 404s — we use inline SVGs instead */
+        @font-face { font-family: "pf"; src: url(data:font/woff2;base64,) format("woff2"); }
+
+        /* Override Bootstrap offcanvas hidden visibility so our JS-controlled panel works */
+        .pfSlideoutCart.offcanvas { visibility: visible; z-index: 1100; }
+        .pfSlideoutCart .offcanvas-body { padding: 0; }
+
         /* Overlay */
         .lv-overlay {
           position: fixed;
           inset: 0;
           background: rgba(0,0,0,.35);
-          z-index: 1099;
+          z-index: 1050;
           opacity: 0;
           pointer-events: none;
           transition: opacity 300ms ease;
@@ -459,29 +542,6 @@
           pointer-events: auto;
         }
 
-        /* Panel */
-        .lv-cart-panel {
-          position: fixed;
-          top: 0;
-          right: 0;
-          width: 420px;
-          max-width: 100vw;
-          height: 100vh;
-          background: #f5f5f5;
-          box-shadow: -4px 0 24px rgba(0,0,0,.12);
-          z-index: 1100;
-          display: flex;
-          flex-direction: column;
-          transform: translateX(100%);
-          transition: transform 350ms cubic-bezier(.4,0,.2,1);
-          font-family: "Helvetica Neue", Inter, Roboto, Arial, sans-serif;
-          color: #232323;
-          font-size: 14px;
-        }
-        .lv-cart-panel.is-open {
-          transform: translateX(0);
-        }
-
         /* Header */
         .lv-cart-header {
           display: flex;
@@ -489,7 +549,7 @@
           justify-content: space-between;
           padding: 16px 20px;
           background: #fff;
-          border-bottom: 1px solid #d9dadb;
+          border-bottom: 1px solid #dee2e6;
           flex-shrink: 0;
         }
         .lv-cart-header__title {
@@ -542,13 +602,13 @@
           display: flex;
           align-items: center;
           gap: 6px;
-          border-bottom: 1px solid #e9ecef;
+          border-bottom: 1px solid #dee2e6;
         }
 
         /* Cart item */
         .lv-cart-item {
           padding: 16px 20px;
-          border-bottom: 1px solid #e9ecef;
+          border-bottom: 1px solid #dee2e6;
         }
         .lv-cart-item__row {
           display: flex;
@@ -1338,7 +1398,9 @@
 
         .pf-card-option__label { font-weight: 700; }
 
-        .pf-card-option__price { margin-left: auto; font-weight: 700; font-size: 13px; }
+        .pf-card-option__price { margin-left: auto; font-weight: 700; font-size: 13px; transition: all 0.2s; }
+        .pf-card-option.is-active .pf-card-option__price { font-size: 16px; }
+        .pf-card-option:not(.is-active) .pf-card-option__price { color: #888; font-size: 12px; }
         .pf-card-option.is-active[data-mode="autoship"] .pf-card-option__price { color: #205c40; }
 
         .pf-card-option__badge {
@@ -1380,10 +1442,10 @@
         .pf-card-pick { margin-top: 0; }
 
         .pf-card-pick__row {
-          display: flex; align-items: center; gap: 5px;
+          display: flex; align-items: flex-start; gap: 5px;
           cursor: pointer; color: #232323; flex-wrap: wrap;
         }
-        .pf-card-pick__row[data-mode="onetime"] { margin-bottom: 5px; }
+        .pf-card-pick__row[data-mode="onetime"] { margin-bottom: 5px; align-items: center; }
 
         .pf-card-pick__dot {
           width: 13px; height: 13px; border-radius: 50%;
@@ -1399,11 +1461,20 @@
         }
 
         /* One-time row keeps the big price */
-        .pf-card-pick .pf-card-price { margin-bottom: 0; }
+        .pf-card-pick .pf-card-price { margin-bottom: 0; transition: all 0.2s; }
+
+        /* When autoship is active, shrink one-time price */
+        .pf-card-pick__row[data-mode="onetime"]:not(.is-active) .pf-card-price .main-price { font-size: 14px; }
+        .pf-card-pick__row[data-mode="onetime"]:not(.is-active) .pf-card-price .currency,
+        .pf-card-pick__row[data-mode="onetime"]:not(.is-active) .pf-card-price .decimals { font-size: 10px; margin-top: 2px; }
+        .pf-card-pick__row[data-mode="onetime"]:not(.is-active) .pf-card-price { color: #666; }
 
         /* Autoship row keeps existing style */
-        .pf-card-pick .pf-card-autoship { margin-top: 0; }
-        .pf-card-pick__row.is-active[data-mode="autoship"] .pf-card-autoship strong { color: #205c40; }
+        .pf-card-pick .pf-card-autoship { margin-top: 0; transition: all 0.2s; }
+        .pf-card-pick__row[data-mode="autoship"] .pf-card-pick__dot { margin-top: 5px; }
+        .pf-card-pick__row.is-active[data-mode="autoship"] .pf-card-autoship strong { color: #205c40; font-size: 18px; }
+        .pf-card-pick__row[data-mode="autoship"]:not(.is-active) .pf-card-autoship { font-size: 13px; color: #666; }
+        .pf-card-pick__row[data-mode="autoship"]:not(.is-active) .pf-card-autoship strong { font-size: 13px; }
 
         .pf-card-pick__freq {
           display: none; padding: 3px 0 0 18px;
@@ -1695,6 +1766,38 @@
 <!-- Drawer Overlay -->
 <div class="pf-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
 
+<!-- Autoship & Save Modal -->
+<div class="pf-autoship-modal-overlay js-autoship-modal-overlay">
+  <div class="pf-autoship-modal">
+    <button class="pf-autoship-modal__close js-autoship-modal-close" aria-label="Close">
+      <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M12 4L4 12M4 4l8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+    <div class="pf-autoship-modal__title">Autoship &amp; Save</div>
+    <ul class="pf-autoship-modal__list">
+      <li>
+        <span class="check-icon"><svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span><strong>Savings on repeat</strong> - Save now and on all future Autoship deliveries.</span>
+      </li>
+      <li>
+        <span class="check-icon"><svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span><strong>No Commitment</strong> - Skip, reschedule, or cancel anytime. We'll email a reminder before each order ships.</span>
+      </li>
+      <li>
+        <span class="check-icon"><svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span><strong>Never miss a deal</strong> - If we're running a sale that beats your Autoship discount, we'll automatically apply it</span>
+      </li>
+      <li>
+        <span class="check-icon"><svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span><strong>Earn PureRewards</strong> - Earn points on every order and redeem them for future savings.</span>
+      </li>
+      <li>
+        <span class="check-icon"><svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span><strong>Fast, Free Shipping</strong> - On every Autoship order of $25 or more.</span>
+      </li>
+    </ul>
+  </div>
+</div>
+
 <!-- Filter Drawer -->
 <div class="pf-drawer" id="filterDrawer">
     <div class="pf-drawer-header">
@@ -1772,16 +1875,19 @@
         const promoTag = '';
         const reviewsHTML = p.reviews > 0 ? `<div class="pf-card-stars">${starsHTML(p.rating, 15)} <span class="review-count">(${p.reviews})</span></div>` : '';
         const autoshipHTML = p.autoship
-            ? `<div class="pf-card-autoship"><strong>$${p.autoship.toFixed(2)}</strong> with Autoship &amp; Save</div>`
-            : `<div class="pf-card-autoship">Autoship &amp; Save at checkout</div>`;
+            ? `<div class="pf-card-autoship"><strong>$${p.autoship.toFixed(2)}</strong> with Autoship &amp; Save<a href="#" class="pf-autoship-learn-more js-autoship-learn-more">Learn More</a></div>`
+            : `<div class="pf-card-autoship">Autoship &amp; Save at checkout<a href="#" class="pf-autoship-learn-more js-autoship-learn-more">Learn More</a></div>`;
         const offerHTML = p.promo ? `<div class="pf-card-offer"><span class="c-red-promo">${p.promo.text}</span> Code: <span class="c-red-promo">${p.promo.code}</span></div>` : '';
-        const shipText = p.price >= 25 ? '⚡️ Free Shipping' : '⚡️ Free Shipping on Orders $25+';
 
         return `
     <div class="pf-card">
       ${promoTag}
       <div class="pf-card-img">
         <img src="${p.img}" alt="${p.name} by ${p.brand}" loading="lazy">
+        <button class="pf-card-img-atc js-img-atc" type="button">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+          Add to Cart
+        </button>
       </div>
       <div class="pf-card-body">
         <div class="pf-card-brand">
@@ -1795,12 +1901,8 @@
             <span class="currency">$</span><span class="main-price">${dollars}</span><span class="decimals">${cents}</span>
           </div>
           ${autoshipHTML}
-          <div class="pf-card-shipping">${shipText}</div>
           ${offerHTML}
         </div>
-      </div>
-      <div class="pf-card-action">
-        <button class="pf-card-atc"><span>Add to Cart</span></button>
       </div>
     </div>`;
     }
@@ -1813,7 +1915,6 @@
         const promoTag = '';
         const reviewsHTML = p.reviews > 0 ? `<div class="pf-card-stars">${starsHTML(p.rating, 15)} <span class="review-count">(${p.reviews})</span></div>` : '';
         const offerHTML = p.promo ? `<div class="pf-card-offer"><span class="c-red-promo">${p.promo.text}</span> Code: <span class="c-red-promo">${p.promo.code}</span></div>` : '';
-        const shipText = p.price >= 25 ? '⚡️ Free Shipping' : '⚡️ Free Shipping on Orders $25+';
 
         const hasAutoship = !!p.autoship;
         const autoPrice = hasAutoship ? p.autoship.toFixed(2) : '';
@@ -1843,6 +1944,10 @@
       ${promoTag}
       <div class="pf-card-img">
         <img src="${p.img}" alt="${p.name} by ${p.brand}" loading="lazy">
+        <button class="pf-card-img-atc js-img-atc" type="button">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+          Add to Cart
+        </button>
       </div>
       <div class="pf-card-body">
         <div class="pf-card-brand">
@@ -1858,12 +1963,8 @@
             <span class="pf-card-option__price">$${dollars}.${cents}</span>
           </div>
           ${autoshipRow}
-          <div class="pf-card-shipping">${shipText}</div>
           ${offerHTML}
         </div>
-      </div>
-      <div class="pf-card-action">
-        <button class="pf-card-atc"><span>Subscribe &amp; Save</span></button>
       </div>
     </div>`;
     }
@@ -1876,14 +1977,13 @@
         const promoTag = '';
         const reviewsHTML = p.reviews > 0 ? `<div class="pf-card-stars">${starsHTML(p.rating, 15)} <span class="review-count">(${p.reviews})</span></div>` : '';
         const offerHTML = p.promo ? `<div class="pf-card-offer"><span class="c-red-promo">${p.promo.text}</span> Code: <span class="c-red-promo">${p.promo.code}</span></div>` : '';
-        const shipText = p.price >= 25 ? '⚡️ Free Shipping' : '⚡️ Free Shipping on Orders $25+';
 
         const hasAutoship = !!p.autoship;
         const autoPrice = hasAutoship ? p.autoship.toFixed(2) : '';
         const autoshipRow = hasAutoship
             ? `<div class="pf-card-pick__row is-active" data-mode="autoship">
                 <span class="pf-card-pick__dot"></span>
-                <div class="pf-card-autoship"><strong>$${autoPrice}</strong> with Autoship &amp; Save</div>
+                <div class="pf-card-autoship"><strong>$${autoPrice}</strong> with Autoship &amp; Save<a href="#" class="pf-autoship-learn-more js-autoship-learn-more">Learn More</a></div>
                 <div class="pf-card-pick__freq">
                   <span>Every</span>
                   <span class="pf-card-pick__freq-ctrl">
@@ -1896,7 +1996,7 @@
               </div>`
             : `<div class="pf-card-pick__row is-active" data-mode="autoship">
                 <span class="pf-card-pick__dot"></span>
-                <div class="pf-card-autoship">Autoship &amp; Save at checkout</div>
+                <div class="pf-card-autoship">Autoship &amp; Save at checkout<a href="#" class="pf-autoship-learn-more js-autoship-learn-more">Learn More</a></div>
               </div>`;
 
         return `
@@ -1904,6 +2004,10 @@
       ${promoTag}
       <div class="pf-card-img">
         <img src="${p.img}" alt="${p.name} by ${p.brand}" loading="lazy">
+        <button class="pf-card-img-atc js-img-atc" type="button">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+          Add to Cart
+        </button>
       </div>
       <div class="pf-card-body">
         <div class="pf-card-brand">
@@ -1920,12 +2024,8 @@
             </div>
           </div>
           ${autoshipRow}
-          <div class="pf-card-shipping">${shipText}</div>
           ${offerHTML}
         </div>
-      </div>
-      <div class="pf-card-action">
-        <button class="pf-card-atc"><span>Add to Cart</span></button>
       </div>
     </div>`;
     }
@@ -2158,6 +2258,15 @@
 
     // ── Card V2 + V3: Radio option + frequency handlers ──
     document.getElementById('productGrid').addEventListener('click', function(e) {
+        // Learn More → open Autoship modal (must be before row/option handlers)
+        const learnMore = e.target.closest('.js-autoship-learn-more');
+        if (learnMore) {
+            e.preventDefault();
+            e.stopPropagation();
+            document.querySelector('.js-autoship-modal-overlay').classList.add('is-open');
+            return;
+        }
+
         // V2: Bordered radio option toggle
         const opt = e.target.closest('.pf-card-option');
         if (opt) {
@@ -2206,6 +2315,60 @@
             if (pickBtn.classList.contains('js-freq-up')) val += 5;
             if (pickBtn.classList.contains('js-freq-down') && val > 5) val -= 5;
             input.value = val;
+            return;
+        }
+
+        // ATC on image → swap to qty stepper
+        const imgAtc = e.target.closest('.js-img-atc');
+        if (imgAtc) {
+            e.preventDefault();
+            e.stopPropagation();
+            const imgWrap = imgAtc.closest('.pf-card-img');
+            imgAtc.style.display = 'none';
+            const qty = document.createElement('div');
+            qty.className = 'pf-card-img-qty';
+            qty.innerHTML = '<button type="button" class="js-img-qty-down">&minus;</button><input class="pf-card-img-qty__val" type="text" value="1" readonly><button type="button" class="js-img-qty-up">+</button>';
+            imgWrap.appendChild(qty);
+            return;
+        }
+
+        // Qty stepper on image
+        const qtyUp = e.target.closest('.js-img-qty-up');
+        if (qtyUp) {
+            e.preventDefault(); e.stopPropagation();
+            const input = qtyUp.parentElement.querySelector('.pf-card-img-qty__val');
+            input.value = parseInt(input.value, 10) + 1;
+            return;
+        }
+        const qtyDown = e.target.closest('.js-img-qty-down');
+        if (qtyDown) {
+            e.preventDefault(); e.stopPropagation();
+            const wrap = qtyDown.closest('.pf-card-img-qty');
+            const input = wrap.querySelector('.pf-card-img-qty__val');
+            let val = parseInt(input.value, 10) - 1;
+            if (val < 1) {
+                const imgWrap2 = wrap.closest('.pf-card-img');
+                wrap.remove();
+                const hiddenAtc = imgWrap2.querySelector('.js-img-atc');
+                if (hiddenAtc) hiddenAtc.style.display = '';
+            } else {
+                input.value = val;
+            }
+            return;
+        }
+    });
+
+    // ── Autoship Modal close ──
+    const autoshipModalOverlay = document.querySelector('.js-autoship-modal-overlay');
+    document.querySelector('.js-autoship-modal-close').addEventListener('click', () => {
+        autoshipModalOverlay.classList.remove('is-open');
+    });
+    autoshipModalOverlay.addEventListener('click', (e) => {
+        if (e.target === autoshipModalOverlay) autoshipModalOverlay.classList.remove('is-open');
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && autoshipModalOverlay.classList.contains('is-open')) {
+            autoshipModalOverlay.classList.remove('is-open');
         }
     });
 
@@ -2222,24 +2385,22 @@
 <!-- ============================================
      LIVE-BRANDED SLIDEOUT CART PANEL
      ============================================ -->
-<div class="lv-cart-panel js-lv-cart-panel">
+<div class="lv-cart-panel js-lv-cart-panel pfSlideoutCart bg bg-grey-200 offcanvas offcanvas-end" role="dialog" aria-modal="true" tabindex="-1">
 
   <!-- Header -->
-  <div class="lv-cart-header">
-    <div class="lv-cart-header__title">
+  <div class="lv-cart-header offcanvas-header">
+    <h2 class="lv-cart-header__title h3 mb-0 checkmark">
       <span class="lv-cart-header__check">
         <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </span>
       Added to cart
-    </div>
-    <button class="lv-close js-close-lv-cart" aria-label="Close cart">
-      <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M12 4L4 12M4 4l8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-    </button>
+    </h2>
+    <button type="button" class="lv-close js-close-lv-cart btn-close" aria-label="Close"></button>
   </div>
 
   <!-- Scrollable body -->
-  <div class="lv-cart-body">
-    <div class="lv-cart-upper">
+  <div class="lv-cart-body offcanvas-body">
+    <section class="lv-cart-upper pfSlideoutCart-upper">
 
       <!-- Free shipping -->
       <div class="lv-free-ship">
@@ -2248,19 +2409,19 @@
       </div>
 
       <!-- Item 1: O.N.E. Omega -->
-      <div class="lv-cart-item" data-price="76.00" data-autoship-price="68.40" data-savings="7.60">
-        <div class="lv-cart-item__row">
-          <div class="lv-cart-item__img">
-            <img src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v1724738122147274404/products/one-omega-60-softgel-capsules-by-pure-encapsulations.jpg&height=300&width=300" alt="O.N.E. Omega">
+      <div class="lv-cart-item pfSlideoutCart-item" data-price="76.00" data-autoship-price="68.40" data-savings="7.60">
+        <div class="lv-cart-item__row row align-items-center flex-nowrap gx-2">
+          <div class="lv-cart-item__img col-4">
+            <div class="ratio ratio-1x1"><img class="contain" src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v1724738122147274404/products/one-omega-60-softgel-capsules-by-pure-encapsulations.jpg&height=300&width=300" alt="O.N.E. Omega"></div>
           </div>
-          <div class="lv-cart-item__info">
-            <a class="lv-cart-item__name" href="#">O.N.E. Omega - 60 Softgel Capsules</a>
+          <div class="lv-cart-item__info col-8 fw-bold">
+            <a class="lv-cart-item__name link-2" href="#">O.N.E. Omega - 60 Softgel Capsules</a>
             <div class="lv-item-price-row">
-              <span class="lv-item-price js-lv-price">$76.00</span>
+              <span class="lv-item-price js-lv-price fw-bold fs-14">$76.00</span>
             </div>
-            <div class="lv-item-actions">
+            <div class="lv-item-actions mt-2">
               <div class="lv-qty-control">
-                <button class="lv-qty-btn js-lv-qty-down" disabled>-</button>
+                <button class="lv-qty-btn js-lv-qty-down" disabled>−</button>
                 <input class="lv-qty-val js-lv-qty-val" type="text" value="1" readonly>
                 <button class="lv-qty-btn js-lv-qty-up">+</button>
               </div>
@@ -2308,19 +2469,19 @@
       </div>
 
       <!-- Item 2: Magnesium Glycinate -->
-      <div class="lv-cart-item" data-price="87.00" data-autoship-price="78.30" data-savings="8.70">
-        <div class="lv-cart-item__row">
-          <div class="lv-cart-item__img">
-            <img src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v8728600664936678570/products/magnesium-glycinate-360-vegetable-capsules-by-pure-encapsulations.jpg&height=300&width=300" alt="Magnesium Glycinate">
+      <div class="lv-cart-item pfSlideoutCart-item" data-price="87.00" data-autoship-price="78.30" data-savings="8.70">
+        <div class="lv-cart-item__row row align-items-center flex-nowrap gx-2">
+          <div class="lv-cart-item__img col-4">
+            <div class="ratio ratio-1x1"><img class="contain" src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v8728600664936678570/products/magnesium-glycinate-360-vegetable-capsules-by-pure-encapsulations.jpg&height=300&width=300" alt="Magnesium Glycinate"></div>
           </div>
-          <div class="lv-cart-item__info">
-            <a class="lv-cart-item__name" href="#">Magnesium Glycinate - 360 Capsules</a>
+          <div class="lv-cart-item__info col-8 fw-bold">
+            <a class="lv-cart-item__name link-2" href="#">Magnesium Glycinate - 360 Capsules</a>
             <div class="lv-item-price-row">
-              <span class="lv-item-price js-lv-price">$87.00</span>
+              <span class="lv-item-price js-lv-price fw-bold fs-14">$87.00</span>
             </div>
-            <div class="lv-item-actions">
+            <div class="lv-item-actions mt-2">
               <div class="lv-qty-control">
-                <button class="lv-qty-btn js-lv-qty-down" disabled>-</button>
+                <button class="lv-qty-btn js-lv-qty-down" disabled>−</button>
                 <input class="lv-qty-val js-lv-qty-val" type="text" value="1" readonly>
                 <button class="lv-qty-btn js-lv-qty-up">+</button>
               </div>
@@ -2367,7 +2528,42 @@
         </div>
       </div>
 
-    </div><!-- /lv-cart-upper -->
+      <!-- Subtotal + buttons (inside upper, matching live site) -->
+      <hr class="mt-0" style="margin:0 20px; border:none; border-top:1px solid #dee2e6;">
+      <div style="padding:12px 20px;">
+        <div class="lv-discount-row js-lv-discount-row is-visible">
+          <span>Promo Discount</span>
+          <div class="lv-promo__tag js-lv-promo-applied is-visible">
+            SAVE10
+            <button class="lv-promo__tag-remove js-lv-promo-remove" aria-label="Remove promo code">
+              <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M9 3L3 9M3 3l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </button>
+          </div>
+          <span class="js-lv-discount-amount" style="margin-left:auto">-$16.30</span>
+        </div>
+        <div class="lv-savings-banner js-lv-savings-banner">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="js-lv-savings-text">Saving $16.30 with Autoship</span>
+        </div>
+        <div class="lv-subtotal-row">
+          <div class="lv-subtotal-label">Cart Subtotal <span class="js-lv-item-count">(2 items):</span></div>
+          <div class="lv-subtotal-prices">
+            <span class="lv-subtotal-was js-lv-subtotal-was">$163.00</span>
+            <span class="js-lv-subtotal">$163.00</span>
+          </div>
+        </div>
+        <hr style="border:none; border-top:1px solid #dee2e6; margin:10px 0;">
+        <button class="lv-btn lv-btn--primary">View Cart and Checkout</button>
+        <button class="lv-btn lv-btn--secondary js-close-lv-cart">Continue Shopping</button>
+        <div class="lv-promo" style="margin-top:8px;">
+          <div class="lv-promo__row js-lv-promo-row is-hidden">
+            <input class="lv-promo__input js-lv-promo-input" type="text" placeholder="Enter code">
+            <button class="lv-promo__btn js-lv-promo-apply">Apply</button>
+          </div>
+        </div>
+      </div>
+
+    </section><!-- /lv-cart-upper -->
 
     <!-- Free Gift Selection (hidden for now)
     <div class="lv-free-gift">
@@ -2519,40 +2715,6 @@
 
   </div><!-- /lv-cart-body -->
 
-  <!-- Footer -->
-  <div class="lv-cart-footer">
-    <div class="lv-discount-row js-lv-discount-row is-visible">
-      <span>Promo Discount</span>
-      <div class="lv-promo__tag js-lv-promo-applied is-visible">
-        SAVE10
-        <button class="lv-promo__tag-remove js-lv-promo-remove" aria-label="Remove promo code">
-          <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M9 3L3 9M3 3l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </button>
-      </div>
-      <span class="js-lv-discount-amount" style="margin-left:auto">-$16.30</span>
-    </div>
-    <div class="lv-savings-banner js-lv-savings-banner">
-      <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span class="js-lv-savings-text">Saving $16.30 with Autoship</span>
-    </div>
-    <div class="lv-subtotal-row">
-      <div class="lv-subtotal-label">Cart Subtotal <span class="js-lv-item-count">(2 items):</span></div>
-      <div class="lv-subtotal-prices">
-        <span class="lv-subtotal-was js-lv-subtotal-was">$163.00</span>
-        <span class="js-lv-subtotal">$163.00</span>
-      </div>
-    </div>
-    <div class="lv-promo">
-      <div class="lv-promo__row js-lv-promo-row is-hidden">
-        <input class="lv-promo__input js-lv-promo-input" type="text" placeholder="Enter code">
-        <button class="lv-promo__btn js-lv-promo-apply">Apply</button>
-      </div>
-    </div>
-    <hr>
-    <button class="lv-btn lv-btn--primary">View Cart and Checkout</button>
-    <button class="lv-btn lv-btn--secondary js-close-lv-cart">Continue Shopping</button>
-  </div>
-
 </div><!-- /lv-cart-panel -->
 
 <script>
@@ -2563,12 +2725,12 @@
   const lvOverlay = document.querySelector('.js-lv-overlay');
 
   function openLvCart() {
-    lvPanel.classList.add('is-open');
+    lvPanel.classList.add('show');
     lvOverlay.classList.add('is-open');
     document.body.style.overflow = 'hidden';
   }
   function closeLvCart() {
-    lvPanel.classList.remove('is-open');
+    lvPanel.classList.remove('show');
     lvOverlay.classList.remove('is-open');
     document.body.style.overflow = '';
   }
