@@ -15006,3 +15006,13 @@ section.apple-pay {
         opacity: .05
     }
 }
+
+.pfCardProduct button span {
+    font-weight: 700;
+    font-size: 15px;
+    text-wrap: nowrap;
+}
+
+.filter-list .h3 {
+    font-size: .875rem;
+}

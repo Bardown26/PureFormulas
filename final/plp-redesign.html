@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://unpkg.com/lucide@latest"></script>
     <title>PureFormulas – Search Results for "l theanine"</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
     <style>
         /* ── Reset & Base ── */
@@ -13,9 +14,7 @@
         a { text-decoration: none; color: inherit; }
         button, select { font-family: inherit; cursor: pointer; }
         img { max-width: 100%; display: block; }
-        .container {
-            max-width: 1320px; margin: 0 auto; padding: 0 40px; width: 100%;
-        }
+
 
         /* ── Promo Banner ── */
         .pf-promo-bar {
@@ -239,7 +238,7 @@
         /* ── Product Grid ── */
         .pf-grid {
             padding: 0 0 60px;
-            display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px;
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
         }
 
         /* ── Product Card ── */
@@ -250,7 +249,8 @@
             box-shadow: 0 1px 4px rgba(0,0,0,0.06);
             border: 1px solid #d9dadb;
             cursor: pointer; position: relative; height: 100%;
-            margin-bottom: 1.5rem;
+            /*margin-bottom: 1.5rem;*/
+            padding: 2rem .5rem 1rem;
         }
         .pf-card:hover {
             box-shadow: 0 8px 30px rgba(0,0,0,0.10);
@@ -267,12 +267,7 @@
         }
 
         .pf-card-img {
-            padding: 0; position: relative;
-        }
-        .pf-card-img img {
-            width: 100%; height: auto; display: block;
-            object-fit: contain; aspect-ratio: 3/4;
-            max-width: 225px; margin: 0 auto;
+            padding: 0 1rem; position: relative;
         }
 
         .pf-card-body {
@@ -286,41 +281,134 @@
             display: flex; align-items: center; gap: 4px;
         }
         .pf-card-brand span {
-            font-size: 10px; color: #616161; font-weight: 600;
+            font-size: 10px; color: #6a6a6a; font-weight: 400;
         }
 
         .pf-card-name {
-            font-size: 14px; font-weight: 700; color: #232323;
+            font-size: 14px; font-weight: 600; color: #232323;
             line-height: 1.35;
             display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
         }
 
         .pf-card-stars { display: flex; align-items: center; gap: 5px; height: 19px; }
-        .pf-card-stars .review-count { font-size: 11px; font-weight: 700; color: #444; }
+        .pf-card-stars .review-count { font-size: 11px; font-weight: 400; color: #6a6a6a; }
 
         .pf-card-pricing { margin-top: 0; }
         .pf-card-action { margin-top: auto; padding: 0 .5rem 1rem; padding-left: .6rem; }
         .pf-card-price {
             display: inline-flex; align-items: flex-start; line-height: 1.2;
-            font-weight: 700; margin-bottom: 5px;
+            font-weight: 600; margin-bottom: 5px;
         }
-        .pf-card-price .currency { font-size: 12px; margin-top: 4px; }
-        .pf-card-price .main-price { font-size: 24px; margin: 0 .1em; }
-        .pf-card-price .decimals { font-size: 12px; margin-top: 4px; }
+        .pf-card-price .currency { font-size: 12px; margin-top: 3px; }
+        .pf-card-price .main-price { font-size: 21px; margin: 0 .1em; }
+        .pf-card-price .decimals { font-size: 12px; margin-top: 3px; }
 
         .pf-card-autoship { font-size: 14px; color: #232323; margin-top: -3px; }
-        .pf-card-autoship strong { font-weight: 700; }
+        .pf-card-autoship strong { font-weight: 600; }
 
         .pf-card-offer { font-size: 12px; margin-top: 3px; }
         .pf-card-offer .c-red-promo { color: #c14031; font-weight: 700; }
         .pf-card-shipping { font-size: 12px; color: #666; margin-top: .5rem; text-wrap: nowrap; margin-bottom: 3px; }
 
-        /* Learn More link */
+        /* Autoship info icon */
         .pf-autoship-learn-more {
-            display: block; font-size: 13px; color: #205c40; font-weight: 400;
-            margin-top: 2px; cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            margin-left: 4px;
+            vertical-align: middle;
+            line-height: 1;
+            cursor: pointer;
         }
-        .pf-autoship-learn-more:hover { text-decoration: underline; }
+        .pf-autoship-learn-more:hover svg circle,
+        .pf-autoship-learn-more:hover svg path {
+            stroke: #0a4ab5;
+        }
+
+        /* Sidebar filter overrides — match live site accordion exactly */
+        .filter-list {
+            padding-top: 56px;
+        }
+        .filter-list .accordion-item {
+            border-radius: 0 !important;
+            border: none !important;
+            border-bottom: 1px solid #d9dadb !important;
+        }
+        .filter-list .accordion-item:first-of-type {
+            border-top: 1px solid #d9dadb !important;
+        }
+        /*
+        .filter-list .accordion-button {
+            padding: 0.75rem 3rem 0.75rem 0;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            letter-spacing: 0.03em;
+            color: #232323 !important;
+            background-color: transparent !important;
+            box-shadow: none !important;
+        }*/
+        .filter-list .accordion-button::after {
+            content: "" !important;
+            font-family: inherit !important;
+            background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z' fill='%23232323'/%3e%3c/svg%3e") !important;
+            background-size: 1.25rem !important;
+            background-repeat: no-repeat !important;
+            background-position: center !important;
+            width: 1.25rem;
+            height: 1.25rem;
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s ease;
+        }
+        .filter-list .accordion-button:not(.collapsed)::after {
+            transform: translateY(-50%) rotate(-180deg);
+        }
+        .filter-list .accordion-body {
+            padding: 0 1rem 1rem;
+        }
+        .filter-list .accordion-collapse {
+            /* override Bootstrap JS — we toggle .show manually */
+        }
+        .filter-list .form-check {
+            padding-left: 1.5rem;
+            margin-bottom: 0.35rem;
+        }
+        .filter-list .form-check-input {
+            width: 14px;
+            height: 14px;
+            margin-top: 0.2em;
+        }
+        .filter-list .form-check-input:not(:checked) {
+            border-color: #58585a;
+        }
+        .filter-list .form-check-input:checked {
+            background-color: #205c40;
+            border-color: #205c40;
+        }
+        .filter-list .form-check-label {
+            font-size: 13px;
+            color: #232323;
+            justify-content: space-between;
+        }
+        .filter-list .product-count {
+            font-size: 12px;
+            color: #6a6a6a;
+            margin-left: auto;
+        }
+
+        /* NEW badge on card image */
+        .pf-card .card-badge {
+            position: absolute;
+            left: 0; top: 0;
+            z-index: 5;
+        }
+        .PfProductListing .out-of-stock-label {
+            font-size: .8rem !important;
+            display: inline-block;
+            font-weight: bold;
+            color: #c14031;
+        }
 
         /* ATC button on image overlay */
         .pf-card-img-atc {
@@ -501,10 +589,10 @@
 
         /* ── Responsive ── */
         @media (max-width: 1200px) {
-            .pf-grid { grid-template-columns: repeat(4, 1fr); }
+            .pf-grid { grid-template-columns: repeat(3, 1fr); }
         }
         @media (max-width: 900px) {
-            .pf-grid { grid-template-columns: repeat(3, 1fr); }
+            .pf-grid { grid-template-columns: repeat(2, 1fr); }
             .container, .pf-pagination { padding-left: 20px; padding-right: 20px; }
         }
         @media (max-width: 600px) {
@@ -1027,8 +1115,28 @@
         }
         .lv-promo__tag-remove:hover { color: #c14031; background: rgba(0,0,0,.06); }
         .lv-promo__msg {
-          font-size: 11px;
+          font-size: 12px;
           color: #205c40;
+          margin-top: 6px;
+        }
+        .lv-promo__msg.is-error {
+          color: #c14031;
+        }
+        .lv-promo__msg.is-visible {
+          display: block;
+        }
+        .lv-promo__input.is-error {
+          border-color: #c14031;
+        }
+        .lv-item-promo-tag {
+          display: inline-block;
+          font-size: 11px;
+          font-weight: 700;
+          color: #205c40;
+          background: #e6f0eb;
+          border-radius: 3px;
+          padding: 1px 5px;
+          margin-top: 4px;
         }
 
         .lv-discount-row {
@@ -1467,13 +1575,13 @@
         .pf-card-pick__row[data-mode="onetime"]:not(.is-active) .pf-card-price .main-price { font-size: 14px; }
         .pf-card-pick__row[data-mode="onetime"]:not(.is-active) .pf-card-price .currency,
         .pf-card-pick__row[data-mode="onetime"]:not(.is-active) .pf-card-price .decimals { font-size: 10px; margin-top: 2px; }
-        .pf-card-pick__row[data-mode="onetime"]:not(.is-active) .pf-card-price { color: #666; }
+        .pf-card-pick__row[data-mode="onetime"]:not(.is-active) .pf-card-price { color: #232323; }
 
         /* Autoship row keeps existing style */
         .pf-card-pick .pf-card-autoship { margin-top: 0; transition: all 0.2s; }
         .pf-card-pick__row[data-mode="autoship"] .pf-card-pick__dot { margin-top: 5px; }
-        .pf-card-pick__row.is-active[data-mode="autoship"] .pf-card-autoship strong { color: #205c40; font-size: 18px; }
-        .pf-card-pick__row[data-mode="autoship"]:not(.is-active) .pf-card-autoship { font-size: 13px; color: #666; }
+        .pf-card-pick__row.is-active[data-mode="autoship"] .pf-card-autoship strong { color: #232323; font-size: 18px; display: block; }
+        .pf-card-pick__row[data-mode="autoship"] .pf-card-autoship { font-size: 13px; color: #232323; }
         .pf-card-pick__row[data-mode="autoship"]:not(.is-active) .pf-card-autoship strong { font-size: 13px; }
 
         .pf-card-pick__freq {
@@ -1539,7 +1647,7 @@
                 <a href="#" class="js-open-lv-cart">
             <span class="link-icon">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M3 3H5L7 16H18L21 6H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8.5" cy="20" r="1.5" fill="currentColor"/><circle cx="17" cy="20" r="1.5" fill="currentColor"/></svg>
-              <span class="pf-cart-badge">2</span>
+              <span class="pf-cart-badge js-cart-badge" style="display:none">0</span>
             </span>
                     Cart
                 </a>
@@ -1719,21 +1827,23 @@
     </div>
 </div>
 
-<!-- Toolbar -->
+<!-- PLP: Sidebar + Grid -->
+<div class="PfProductListing section pfPLP">
 <div class="container">
-    <div class="pf-toolbar">
+  <div class="row gx-5">
+    <!-- Sidebar Filters -->
+    <div class="col-lg-3 d-none d-lg-block">
+      <div class="filter-list">
+        <div class="accordion" id="filterAccordion"></div>
+      </div>
+    </div>
+    <!-- Main Content -->
+    <div class="col-lg-9">
+      <div class="pf-toolbar">
         <div class="pf-toolbar-left">
-            <h1>L-Theanine</h1>
-            <span class="count">90 Results</span>
+            <h2 class="h4 mt-0 mb-0">90 Results</h2>
         </div>
         <div class="pf-toolbar-right">
-            <button class="pf-filter-btn" onclick="openDrawer()">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4H14M4 8H12M6 12H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                Filters
-                <span class="badge" id="filterBadge" style="display:none">0</span>
-            </button>
-            <div id="activeChips"></div>
-            <button class="pf-clear-all" id="clearAllToolbar" style="display:none" onclick="clearAll()">Clear All</button>
             <select class="pf-sort" onchange="sortProducts(this.value)">
                 <option value="relevance">Most Relevant</option>
                 <option value="nameAsc">Name (A-Z)</option>
@@ -1743,13 +1853,12 @@
                 <option value="priceDesc">Price: High to Low</option>
             </select>
         </div>
+      </div>
+      <div class="pf-grid" id="productGrid"></div>
     </div>
+  </div>
 </div>
-
-<!-- Product Grid -->
-<div class="container">
-    <div class="pf-grid" id="productGrid"></div>
-</div>
+</div><!-- /PfProductListing -->
 
 <!-- Pagination -->
 <div class="pf-pagination">
@@ -1763,8 +1872,9 @@
     </button>
 </div>
 
-<!-- Drawer Overlay -->
+<!-- Drawer Overlay (commented out — replaced by sidebar)
 <div class="pf-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+-->
 
 <!-- Autoship & Save Modal -->
 <div class="pf-autoship-modal-overlay js-autoship-modal-overlay">
@@ -1798,7 +1908,7 @@
   </div>
 </div>
 
-<!-- Filter Drawer -->
+<!-- Filter Drawer (commented out — replaced by sidebar)
 <div class="pf-drawer" id="filterDrawer">
     <div class="pf-drawer-header">
         <div class="pf-drawer-header-left">
@@ -1816,20 +1926,21 @@
         <button class="apply" onclick="closeDrawer()">Show 90 Results</button>
     </div>
 </div>
+-->
 
 <script>
     // ── Data ──
     const products = [
-        { id:"PUF1012", name:"L-Theanine 100 mg", size:"60 Vegetarian Capsules", brand:"PureFormulas", trusted:true, price:14.99, autoship:11.99, rating:4.5, reviews:31, promo:{text:"25% OFF",code:"25PF"}, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v5011794323661272228/products/ltheanine-60-capsules-by-pureformulas.jpg&height=940&width=940" },
+        { id:"PUF1012", name:"L-Theanine 100 mg", size:"60 Vegetarian Capsules", brand:"PureFormulas", trusted:true, price:14.99, autoship:11.99, rating:4.5, reviews:31, promo:{text:"25% OFF",code:"25PF"}, isNew:true, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v5011794323661272228/products/ltheanine-60-capsules-by-pureformulas.jpg&height=940&width=940" },
         { id:"PE1385", name:"l-Theanine", size:"60 Capsules", brand:"Pure Encapsulations", trusted:true, price:65.50, autoship:null, rating:4.5, reviews:38, promo:null, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v5450665970445094816/products/ltheanine-60-vegetable-capsules-by-pure-encapsulations.jpg&height=940&width=940" },
-        { id:"IT1176", name:"L-Theanine", size:"60 Veg Capsules", brand:"Integrative Therapeutics", trusted:true, price:21.50, autoship:19.35, rating:4.5, reviews:53, promo:null, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v60162849820671207/products/ltheanine-100-mg-60-ultracaps-by-integrative-therapeutics.jpg&height=940&width=940" },
+        { id:"IT1176", name:"L-Theanine", size:"60 Veg Capsules", brand:"Integrative Therapeutics", trusted:true, price:21.50, autoship:19.35, rating:4.5, reviews:53, promo:null, isNew:true, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v60162849820671207/products/ltheanine-100-mg-60-ultracaps-by-integrative-therapeutics.jpg&height=940&width=940" },
         { id:"NOW2556", name:"L-Theanine 200 mg (Double Strength)", size:"120 Veg Capsules", brand:"NOW", trusted:false, price:22.38, autoship:20.14, rating:4.5, reviews:38, promo:null, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v2353362390748939304/products/double-strength-l-theanine-200-mg-90-veg-capsules-by-now.jpg&height=940&width=940" },
-        { id:"TR1258", name:"Theanine", size:"90 Capsules", brand:"Thorne", trusted:true, price:68.00, autoship:null, rating:5.0, reviews:12, promo:null, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v5450665970445094816/products/ltheanine-60-vegetable-capsules-by-pure-encapsulations.jpg&height=940&width=940" },
+        { id:"JF1110", name:"Theanine 100 mg", size:"60 Capsules", brand:"Jarrow Formulas", trusted:false, price:11.99, autoship:10.19, rating:5.0, reviews:24, promo:null, stock:0, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v5348369107891980990/products/theanine-100-mg-60-capsules-by-jarrow-formulas.jpg&height=940&width=940" },
         { id:"PE1384", name:"l-Theanine", size:"120 Capsules", brand:"Pure Encapsulations", trusted:true, price:115.00, autoship:null, rating:4.5, reviews:38, promo:null, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v7361721578159733309/products/ltheanine-120-vegetable-capsules-by-pure-encapsulations.jpg&height=940&width=940" },
         { id:"NOW1302", name:"L-Theanine 100 mg", size:"90 Veg Capsules", brand:"NOW", trusted:false, price:12.96, autoship:11.66, rating:4.5, reviews:13, promo:null, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v2641760413046169303/products/ltheanine-100-mg-90-vegetarian-capsules-by-now.jpg&height=940&width=940" },
         { id:"JF1111", name:"Theanine 200 mg", size:"60 Capsules", brand:"Jarrow Formulas", trusted:false, price:20.99, autoship:17.84, rating:4.5, reviews:26, promo:null, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v4843386582605059421/products/theanine-200-mg-60-capsules-by-jarrow-formulas.jpg&height=940&width=940" },
         { id:"PUF1251", name:"L-Theanine 100 mg", size:"120 Vegetarian Capsules", brand:"PureFormulas", trusted:true, price:27.99, autoship:22.39, rating:4.5, reviews:31, promo:{text:"25% OFF",code:"25PF"}, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v5011794323661272228/products/ltheanine-60-capsules-by-pureformulas.jpg&height=940&width=940" },
-        { id:"JF1110", name:"Theanine 100 mg", size:"60 Capsules", brand:"Jarrow Formulas", trusted:false, price:11.99, autoship:10.19, rating:5.0, reviews:24, promo:null, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v5348369107891980990/products/theanine-100-mg-60-capsules-by-jarrow-formulas.jpg&height=940&width=940" },
+        { id:"TR1258", name:"Theanine", size:"90 Capsules", brand:"Thorne", trusted:true, price:68.00, autoship:null, rating:5.0, reviews:12, promo:null, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v5450665970445094816/products/ltheanine-60-vegetable-capsules-by-pure-encapsulations.jpg&height=940&width=940" },
         { id:"MMT1031", name:"L-Theanine", size:"60 Capsules", brand:"Momentous", trusted:true, price:39.95, autoship:null, rating:0, reviews:0, promo:null, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v4650149351734271770/products/l-theanine-60-capsules-by-momentous.jpg&height=940&width=940" },
         { id:"NOW2762", name:"L-Theanine 100 mg", size:"90 Chewables", brand:"NOW", trusted:false, price:14.35, autoship:12.92, rating:4.5, reviews:13, promo:null, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v2037673067550218634/products/l-theanine-100-mg-90-chewables-by-now.jpg&height=940&width=940" },
         { id:"LE1185", name:"L-Theanine 100 mg", size:"60 Vegetarian Capsules", brand:"Life Extension", trusted:true, price:18.00, autoship:15.30, rating:5.0, reviews:3, promo:null, img:"https://www.pureformulas.com/ccstore/v1/images/?source=/file/v7228341742577549388/products/ltheanine-100-mg-60-capsules-by-life-extension.jpg&height=940&width=940" },
@@ -1849,7 +1960,7 @@
 
     // ── State ──
     let selected = {};
-    let expandedFilters = ["category","brand","form"];
+    let expandedFilters = [];
 
     // ── Stars HTML ──
     function starsHTML(rating, size=12) {
@@ -1868,26 +1979,37 @@
     }
 
     // ── Render Product Card ──
-    function cardHTML(p) {
+    function cardHTML(p, idx) {
         const dollars = Math.floor(p.price);
         const cents = String(Math.round((p.price % 1) * 100)).padStart(2, '0');
-        const trustedSVG = p.trusted ? '<span class="trusted-badge" style="color:#10833f;font-size:12px;" title="Doctor Trusted">&#10003;</span>' : '';
+        const trustedSVG = p.trusted ? '<svg class="trusted-badge" width="14" height="14" viewBox="0 0 24 24" title="Doctor Trusted" style="vertical-align:-2px;"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" fill="#138030" stroke="#138030" stroke-width="2"/><path d="m9 12 2 2 4-4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' : '';
         const promoTag = '';
         const reviewsHTML = p.reviews > 0 ? `<div class="pf-card-stars">${starsHTML(p.rating, 15)} <span class="review-count">(${p.reviews})</span></div>` : '';
         const autoshipHTML = p.autoship
-            ? `<div class="pf-card-autoship"><strong>$${p.autoship.toFixed(2)}</strong> with Autoship &amp; Save<a href="#" class="pf-autoship-learn-more js-autoship-learn-more">Learn More</a></div>`
-            : `<div class="pf-card-autoship">Autoship &amp; Save at checkout<a href="#" class="pf-autoship-learn-more js-autoship-learn-more">Learn More</a></div>`;
+            ? `<div class="pf-card-autoship"><strong>$${p.autoship.toFixed(2)}</strong> with Autoship &amp; Save<a href="#" class="pf-autoship-learn-more js-autoship-learn-more" aria-label="Learn more about Autoship"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#0d57d1" stroke-width="2"/><path d="M12 16v-4M12 8h.01" stroke="#0d57d1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>`
+            : `<div class="pf-card-autoship">Autoship &amp; Save at checkout<a href="#" class="pf-autoship-learn-more js-autoship-learn-more" aria-label="Learn more about Autoship"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#0d57d1" stroke-width="2"/><path d="M12 16v-4M12 8h.01" stroke="#0d57d1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>`;
         const offerHTML = p.promo ? `<div class="pf-card-offer"><span class="c-red-promo">${p.promo.text}</span> Code: <span class="c-red-promo">${p.promo.code}</span></div>` : '';
-
-        return `
-    <div class="pf-card">
-      ${promoTag}
-      <div class="pf-card-img">
-        <img src="${p.img}" alt="${p.name} by ${p.brand}" loading="lazy">
-        <button class="pf-card-img-atc js-img-atc" type="button">
+        const newBadge = p.isNew ? '<span class="badge badge-yellow card-badge">New</span>' : '';
+        const isOOS = p.stock === 0;
+        const shippingHTML = p.price >= 25
+            ? '<div class="pf-card-shipping free">⚡️ Fast Free Shipping</div>'
+            : '<div class="pf-card-shipping">⚡️ Free Shipping on Orders $25+</div>';
+        const atcBtn = isOOS ? '' : `<button class="pf-card-img-atc js-img-atc" type="button">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
           Add to Cart
-        </button>
+        </button>`;
+        const oosHTML = isOOS ? `<div class="row g-2 justify-content-start align-items-center flex-nowrap mt-2">
+          <div class="col-auto"><button type="button" class="btn btn-secondary"><span>Notify Me</span></button></div>
+          <div class="col-auto flex-shrink-1 text-center fs-11"><span class="out-of-stock-label">Out of Stock</span></div>
+        </div>` : '';
+
+        return `
+    <div class="pf-card pfCardProduct" data-product-idx="${idx}">
+      ${newBadge}
+      ${promoTag}
+      <div class="pf-card-img">
+        <div class="ratio ratio-3x4"><img class="contain" src="${p.img}" alt="${p.name} by ${p.brand}" loading="lazy"></div>
+        ${atcBtn}
       </div>
       <div class="pf-card-body">
         <div class="pf-card-brand">
@@ -1900,21 +2022,25 @@
           <div class="pf-card-price">
             <span class="currency">$</span><span class="main-price">${dollars}</span><span class="decimals">${cents}</span>
           </div>
-          ${autoshipHTML}
+          ${isOOS ? '' : autoshipHTML}
+          ${shippingHTML}
           ${offerHTML}
         </div>
+        ${oosHTML}
       </div>
     </div>`;
     }
 
     // ── Render Product Card V2 (radio options + frequency) ──
-    function cardHTMLv2(p) {
+    function cardHTMLv2(p, idx) {
         const dollars = Math.floor(p.price);
         const cents = String(Math.round((p.price % 1) * 100)).padStart(2, '0');
-        const trustedSVG = p.trusted ? '<span class="trusted-badge" style="color:#10833f;font-size:12px;" title="Doctor Trusted">&#10003;</span>' : '';
+        const trustedSVG = p.trusted ? '<svg class="trusted-badge" width="14" height="14" viewBox="0 0 24 24" title="Doctor Trusted" style="vertical-align:-2px;"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" fill="#138030" stroke="#138030" stroke-width="2"/><path d="m9 12 2 2 4-4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' : '';
         const promoTag = '';
         const reviewsHTML = p.reviews > 0 ? `<div class="pf-card-stars">${starsHTML(p.rating, 15)} <span class="review-count">(${p.reviews})</span></div>` : '';
         const offerHTML = p.promo ? `<div class="pf-card-offer"><span class="c-red-promo">${p.promo.text}</span> Code: <span class="c-red-promo">${p.promo.code}</span></div>` : '';
+        const newBadge = p.isNew ? '<span class="badge badge-yellow card-badge">New</span>' : '';
+        const isOOS = p.stock === 0;
 
         const hasAutoship = !!p.autoship;
         const autoPrice = hasAutoship ? p.autoship.toFixed(2) : '';
@@ -1939,15 +2065,22 @@
                 <span class="pf-card-option__label">Autoship &amp; Save at checkout</span>
               </div>`;
 
-        return `
-    <div class="pf-card">
-      ${promoTag}
-      <div class="pf-card-img">
-        <img src="${p.img}" alt="${p.name} by ${p.brand}" loading="lazy">
-        <button class="pf-card-img-atc js-img-atc" type="button">
+        const atcBtn = isOOS ? '' : `<button class="pf-card-img-atc js-img-atc" type="button">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
           Add to Cart
-        </button>
+        </button>`;
+        const oosHTML = isOOS ? `<div class="row g-2 justify-content-start align-items-center flex-nowrap mt-2">
+          <div class="col-auto"><button type="button" class="btn btn-secondary"><span>Notify Me</span></button></div>
+          <div class="col-auto flex-shrink-1 text-center fs-11"><span class="out-of-stock-label">Out of Stock</span></div>
+        </div>` : '';
+
+        return `
+    <div class="pf-card pfCardProduct" data-product-idx="${idx}">
+      ${newBadge}
+      ${promoTag}
+      <div class="pf-card-img">
+        <div class="ratio ratio-3x4"><img class="contain" src="${p.img}" alt="${p.name} by ${p.brand}" loading="lazy"></div>
+        ${atcBtn}
       </div>
       <div class="pf-card-body">
         <div class="pf-card-brand">
@@ -1956,7 +2089,11 @@
         </div>
         <div class="pf-card-name">${p.name} - ${p.size}</div>
         ${reviewsHTML}
-        <div class="pf-card-options">
+        ${isOOS ? `<div class="pf-card-pricing">
+          <div class="pf-card-price">
+            <span class="currency">$</span><span class="main-price">${dollars}</span><span class="decimals">${cents}</span>
+          </div>
+        </div>` : `<div class="pf-card-options">
           <div class="pf-card-option" data-mode="onetime">
             <span class="pf-card-option__radio"></span>
             <span class="pf-card-option__label">One-time</span>
@@ -1964,26 +2101,29 @@
           </div>
           ${autoshipRow}
           ${offerHTML}
-        </div>
+        </div>`}
+        ${oosHTML}
       </div>
     </div>`;
     }
 
     // ── Render Product Card V3 (super minimal, no borders) ──
-    function cardHTMLv3(p) {
+    function cardHTMLv3(p, idx) {
         const dollars = Math.floor(p.price);
         const cents = String(Math.round((p.price % 1) * 100)).padStart(2, '0');
-        const trustedSVG = p.trusted ? '<span class="trusted-badge" style="color:#10833f;font-size:12px;" title="Doctor Trusted">&#10003;</span>' : '';
+        const trustedSVG = p.trusted ? '<svg class="trusted-badge" width="14" height="14" viewBox="0 0 24 24" title="Doctor Trusted" style="vertical-align:-2px;"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" fill="#138030" stroke="#138030" stroke-width="2"/><path d="m9 12 2 2 4-4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' : '';
         const promoTag = '';
         const reviewsHTML = p.reviews > 0 ? `<div class="pf-card-stars">${starsHTML(p.rating, 15)} <span class="review-count">(${p.reviews})</span></div>` : '';
         const offerHTML = p.promo ? `<div class="pf-card-offer"><span class="c-red-promo">${p.promo.text}</span> Code: <span class="c-red-promo">${p.promo.code}</span></div>` : '';
+        const newBadge = p.isNew ? '<span class="badge badge-yellow card-badge">New</span>' : '';
+        const isOOS = p.stock === 0;
 
         const hasAutoship = !!p.autoship;
         const autoPrice = hasAutoship ? p.autoship.toFixed(2) : '';
         const autoshipRow = hasAutoship
             ? `<div class="pf-card-pick__row is-active" data-mode="autoship">
                 <span class="pf-card-pick__dot"></span>
-                <div class="pf-card-autoship"><strong>$${autoPrice}</strong> with Autoship &amp; Save<a href="#" class="pf-autoship-learn-more js-autoship-learn-more">Learn More</a></div>
+                <div class="pf-card-autoship"><strong>$${autoPrice}</strong> with Autoship &amp; Save<a href="#" class="pf-autoship-learn-more js-autoship-learn-more" aria-label="Learn more about Autoship"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#0d57d1" stroke-width="2"/><path d="M12 16v-4M12 8h.01" stroke="#0d57d1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
                 <div class="pf-card-pick__freq">
                   <span>Every</span>
                   <span class="pf-card-pick__freq-ctrl">
@@ -1996,28 +2136,41 @@
               </div>`
             : `<div class="pf-card-pick__row is-active" data-mode="autoship">
                 <span class="pf-card-pick__dot"></span>
-                <div class="pf-card-autoship">Autoship &amp; Save at checkout<a href="#" class="pf-autoship-learn-more js-autoship-learn-more">Learn More</a></div>
+                <div class="pf-card-autoship">Autoship &amp; Save at checkout<a href="#" class="pf-autoship-learn-more js-autoship-learn-more" aria-label="Learn more about Autoship"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#0d57d1" stroke-width="2"/><path d="M12 16v-4M12 8h.01" stroke="#0d57d1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
               </div>`;
 
-        return `
-    <div class="pf-card">
-      ${promoTag}
-      <div class="pf-card-img">
-        <img src="${p.img}" alt="${p.name} by ${p.brand}" loading="lazy">
-        <button class="pf-card-img-atc js-img-atc" type="button">
+        const shippingHTML = p.price >= 25
+            ? '<div class="pf-card-shipping free">⚡️ Fast Free Shipping</div>'
+            : '<div class="pf-card-shipping">⚡️ Free Shipping on Orders $25+</div>';
+        const atcBtn = isOOS ? '' : `<button class="pf-card-img-atc js-img-atc" type="button">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
           Add to Cart
-        </button>
+        </button>`;
+        const oosHTML = isOOS ? `<div class="row g-2 justify-content-start align-items-center flex-nowrap mt-2">
+          <div class="col-auto"><button type="button" class="btn btn-secondary"><span>Notify Me</span></button></div>
+          <div class="col-auto flex-shrink-1 text-center fs-11"><span class="out-of-stock-label">Out of Stock</span></div>
+        </div>` : '';
+
+        return `
+    <div class="pf-card pfCardProduct" data-product-idx="${idx}">
+      ${newBadge}
+      ${promoTag}
+      <div class="pf-card-img">
+        <div class="ratio ratio-3x4"><img class="contain" src="${p.img}" alt="${p.name} by ${p.brand}" loading="lazy"></div>
+        ${atcBtn}
       </div>
       <div class="pf-card-body">
-        ${offerHTML}
         <div class="pf-card-brand">
           <span>${p.brand}</span>
           ${trustedSVG}
         </div>
         <div class="pf-card-name">${p.name} - ${p.size}</div>
         ${reviewsHTML}
-        <div class="pf-card-pick">
+        ${isOOS ? `<div class="pf-card-pricing">
+          <div class="pf-card-price">
+            <span class="currency">$</span><span class="main-price">${dollars}</span><span class="decimals">${cents}</span>
+          </div>
+        </div>` : `<div class="pf-card-pick">
           <div class="pf-card-pick__row" data-mode="onetime">
             <span class="pf-card-pick__dot"></span>
             <div class="pf-card-price">
@@ -2025,7 +2178,10 @@
             </div>
           </div>
           ${autoshipRow}
-        </div>
+        </div>`}
+        ${shippingHTML}
+        ${offerHTML}
+        ${oosHTML}
       </div>
     </div>`;
     }
@@ -2033,37 +2189,44 @@
     // ── Render Grid ──
     function renderGrid() {
         document.getElementById('productGrid').innerHTML = products.map((p, i) => {
-            if (i === 6) return cardHTMLv2(p);
-            if (i < 5) return cardHTMLv3(p);
-            return cardHTML(p);
+            return cardHTMLv3(p, i);
         }).join('');
+        lucide.createIcons();
     }
 
     // ── Render Drawer Filters ──
-    function renderDrawer() {
-        const body = document.getElementById('drawerBody');
+    function renderSidebar() {
+        const acc = document.getElementById('filterAccordion');
         let html = '';
         for (const [key, filter] of Object.entries(filters)) {
             const isExpanded = expandedFilters.includes(key);
-            html += `<div class="pf-filter-section">
-      <button class="pf-filter-toggle ${isExpanded ? 'expanded' : ''}" onclick="toggleSection('${key}', this)">
-        ${filter.label}
-        <svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 4L6 8L10 4" stroke="#666" stroke-width="1.5" fill="none"/></svg>
-      </button>
-      <div class="pf-filter-options ${isExpanded ? 'show' : ''}" id="opts-${key}">`;
+            html += `<div class="accordion-item">
+              <h2 class="accordion-header h3">
+                <button type="button" aria-expanded="${isExpanded}" class="accordion-button ${isExpanded ? '' : 'collapsed'}" onclick="toggleAccordion(this)">${filter.label.toUpperCase()}</button>
+              </h2>
+              <div class="accordion-collapse collapse ${isExpanded ? 'show' : ''}">
+                <div class="accordion-body">
+                  <fieldset class="filter-list-options">
+                    <legend class="visually-hidden">${filter.label}</legend>`;
             for (const opt of filter.options) {
+                const uid = key + '_' + opt.name.replace(/\s/g,'_');
                 const checked = (selected[key] || []).includes(opt.name) ? 'checked' : '';
-                html += `<label class="pf-filter-option">
-        <span class="left">
-          <input type="${filter.type}" name="filter-${key}" value="${opt.name}" ${checked} onchange="handleFilter('${key}','${opt.name.replace(/'/g,"\\'")}','${filter.type}')">
-          ${opt.name}
-        </span>
-        <span class="facet-count">${opt.count}</span>
-      </label>`;
+                html += `<div class="form-check">
+                      <input type="${filter.type}" class="form-check-input" id="${uid}" value="${opt.name}" ${checked} onchange="handleFilter('${key}','${opt.name.replace(/'/g,"\\'")}','${filter.type}')">
+                      <label class="form-check-label d-flex align-items-center" for="${uid}">${opt.name}<span class="product-count">${opt.count}</span></label>
+                    </div>`;
             }
-            html += `</div></div>`;
+            html += `</fieldset></div></div></div>`;
         }
-        body.innerHTML = html;
+        acc.innerHTML = html;
+    }
+
+    function toggleAccordion(btn) {
+        const collapse = btn.closest('.accordion-item').querySelector('.accordion-collapse');
+        const isOpen = collapse.classList.contains('show');
+        collapse.classList.toggle('show');
+        btn.classList.toggle('collapsed', isOpen);
+        btn.setAttribute('aria-expanded', !isOpen);
     }
 
     // ── Filter Logic ──
@@ -2086,13 +2249,13 @@
             if (selected[key].length === 0) delete selected[key];
         }
         updateUI();
-        renderDrawer();
+        renderSidebar();
     }
 
     function clearAll() {
         selected = {};
         updateUI();
-        renderDrawer();
+        renderSidebar();
     }
 
     function getActiveCount() {
@@ -2100,49 +2263,14 @@
     }
 
     function updateUI() {
-        const count = getActiveCount();
-        // Badge on filter button
-        const badge = document.getElementById('filterBadge');
-        badge.textContent = count;
-        badge.style.display = count > 0 ? 'flex' : 'none';
-        // Badge in drawer
-        const dbadge = document.getElementById('drawerBadge');
-        dbadge.textContent = count + ' active';
-        dbadge.style.display = count > 0 ? 'inline' : 'none';
-        // Chips
-        const chipsEl = document.getElementById('activeChips');
-        let chipsHTML = '';
-        for (const [key, vals] of Object.entries(selected)) {
-            for (const val of vals) {
-                chipsHTML += `<span class="pf-chip">${val}<button onclick="removeFilter('${key}','${val.replace(/'/g,"\\'")}')"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M3 3L9 9M9 3L3 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button></span> `;
-            }
-        }
-        chipsEl.innerHTML = chipsHTML;
-        // Clear All in toolbar
-        document.getElementById('clearAllToolbar').style.display = count > 0 ? 'inline' : 'none';
+        // Sidebar filters are always visible — no badge/chip updates needed for now
     }
 
-    // ── Drawer Toggle ──
-    function openDrawer() {
-        document.getElementById('filterDrawer').classList.add('open');
-        document.getElementById('drawerOverlay').classList.add('open');
-        document.body.classList.add('drawer-open');
-        renderDrawer();
-    }
-    function closeDrawer() {
-        document.getElementById('filterDrawer').classList.remove('open');
-        document.getElementById('drawerOverlay').classList.remove('open');
-        document.body.classList.remove('drawer-open');
-    }
-
-    // ── Filter Section Expand/Collapse ──
-    function toggleSection(key, btn) {
-        const idx = expandedFilters.indexOf(key);
-        if (idx > -1) expandedFilters.splice(idx, 1);
-        else expandedFilters.push(key);
-        btn.classList.toggle('expanded');
-        document.getElementById('opts-' + key).classList.toggle('show');
-    }
+    /* Drawer functions commented out — replaced by sidebar
+    function openDrawer() { ... }
+    function closeDrawer() { ... }
+    function toggleSection(key, btn) { ... }
+    */
 
     // ── Sort (visual only) ──
     function sortProducts(val) {
@@ -2152,9 +2280,7 @@
         else if (val === 'nameAsc') sorted.sort((a,b) => a.name.localeCompare(b.name));
         else if (val === 'nameDesc') sorted.sort((a,b) => b.name.localeCompare(a.name));
         document.getElementById('productGrid').innerHTML = sorted.map((p, i) => {
-            if (i === 6) return cardHTMLv2(p);
-            if (i < 5) return cardHTMLv3(p);
-            return cardHTML(p);
+            return cardHTMLv3(p, i);
         }).join('');
     }
 
@@ -2291,6 +2417,12 @@
             const container = pick.closest('.pf-card-pick');
             container.querySelectorAll('.pf-card-pick__row').forEach(r => r.classList.remove('is-active'));
             pick.classList.add('is-active');
+            // Update card qty stepper to reflect this mode's cart entry
+            const card = pick.closest('.pf-card');
+            const idx = parseInt(card.dataset.productIdx);
+            const mode = pick.dataset.mode;
+            const entry = cart.find(c => c.productIdx === idx && c.mode === mode);
+            syncCardQty(idx, entry ? entry.qty : 0);
             return;
         }
 
@@ -2318,41 +2450,64 @@
             return;
         }
 
-        // ATC on image → swap to qty stepper
+        // ATC on image → add to cart + open slideout
         const imgAtc = e.target.closest('.js-img-atc');
         if (imgAtc) {
             e.preventDefault();
             e.stopPropagation();
-            const imgWrap = imgAtc.closest('.pf-card-img');
-            imgAtc.style.display = 'none';
-            const qty = document.createElement('div');
-            qty.className = 'pf-card-img-qty';
-            qty.innerHTML = '<button type="button" class="js-img-qty-down">&minus;</button><input class="pf-card-img-qty__val" type="text" value="1" readonly><button type="button" class="js-img-qty-up">+</button>';
-            imgWrap.appendChild(qty);
+            const card = imgAtc.closest('.pf-card');
+            const idx = parseInt(card.dataset.productIdx);
+            const p = products[idx];
+            const activeRow = card.querySelector('.pf-card-pick__row.is-active');
+            const mode = activeRow ? activeRow.dataset.mode : 'onetime';
+            const existing = cart.find(c => c.productIdx === idx && c.mode === mode);
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({ product: p, qty: 1, productIdx: idx, mode: mode });
+            }
+            syncCardQty(idx, (existing ? existing.qty : 1));
+            renderCartItems();
+            openLvCart();
             return;
         }
 
-        // Qty stepper on image
+        // Qty stepper on image — up
         const qtyUp = e.target.closest('.js-img-qty-up');
         if (qtyUp) {
             e.preventDefault(); e.stopPropagation();
-            const input = qtyUp.parentElement.querySelector('.pf-card-img-qty__val');
-            input.value = parseInt(input.value, 10) + 1;
+            const card = qtyUp.closest('.pf-card');
+            const idx = parseInt(card.dataset.productIdx);
+            const activeRow = card.querySelector('.pf-card-pick__row.is-active');
+            const mode = activeRow ? activeRow.dataset.mode : 'onetime';
+            const entry = cart.find(c => c.productIdx === idx && c.mode === mode);
+            if (entry) {
+                entry.qty++;
+                syncCardQty(idx, entry.qty);
+                renderCartItems();
+                openLvCart();
+            }
             return;
         }
+        // Qty stepper on image — down
         const qtyDown = e.target.closest('.js-img-qty-down');
         if (qtyDown) {
             e.preventDefault(); e.stopPropagation();
-            const wrap = qtyDown.closest('.pf-card-img-qty');
-            const input = wrap.querySelector('.pf-card-img-qty__val');
-            let val = parseInt(input.value, 10) - 1;
-            if (val < 1) {
-                const imgWrap2 = wrap.closest('.pf-card-img');
-                wrap.remove();
-                const hiddenAtc = imgWrap2.querySelector('.js-img-atc');
-                if (hiddenAtc) hiddenAtc.style.display = '';
-            } else {
-                input.value = val;
+            const card = qtyDown.closest('.pf-card');
+            const idx = parseInt(card.dataset.productIdx);
+            const activeRow = card.querySelector('.pf-card-pick__row.is-active');
+            const mode = activeRow ? activeRow.dataset.mode : 'onetime';
+            const entry = cart.find(c => c.productIdx === idx && c.mode === mode);
+            if (entry) {
+                entry.qty--;
+                if (entry.qty < 1) {
+                    cart = cart.filter(c => !(c.productIdx === idx && c.mode === mode));
+                    syncCardQty(idx, 0);
+                } else {
+                    syncCardQty(idx, entry.qty);
+                }
+                renderCartItems();
+                openLvCart();
             }
             return;
         }
@@ -2373,8 +2528,10 @@
     });
 
     // ── Init ──
+    renderSidebar();
     renderGrid();
     lucide.createIcons();
+
 </script>
 
 <!-- ============================================
@@ -2408,158 +2565,42 @@
         This order qualifies for FREE shipping
       </div>
 
-      <!-- Item 1: O.N.E. Omega -->
-      <div class="lv-cart-item pfSlideoutCart-item" data-price="76.00" data-autoship-price="68.40" data-savings="7.60">
-        <div class="lv-cart-item__row row align-items-center flex-nowrap gx-2">
-          <div class="lv-cart-item__img col-4">
-            <div class="ratio ratio-1x1"><img class="contain" src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v1724738122147274404/products/one-omega-60-softgel-capsules-by-pure-encapsulations.jpg&height=300&width=300" alt="O.N.E. Omega"></div>
-          </div>
-          <div class="lv-cart-item__info col-8 fw-bold">
-            <a class="lv-cart-item__name link-2" href="#">O.N.E. Omega - 60 Softgel Capsules</a>
-            <div class="lv-item-price-row">
-              <span class="lv-item-price js-lv-price fw-bold fs-14">$76.00</span>
-            </div>
-            <div class="lv-item-actions mt-2">
-              <div class="lv-qty-control">
-                <button class="lv-qty-btn js-lv-qty-down" disabled>−</button>
-                <input class="lv-qty-val js-lv-qty-val" type="text" value="1" readonly>
-                <button class="lv-qty-btn js-lv-qty-up">+</button>
-              </div>
-              <button class="lv-item-remove">Remove</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Variant options -->
-        <div class="lv-variant-row">
-          <div class="lv-variant-label">Options:</div>
-          <div class="lv-variant-btns">
-            <button class="lv-variant-btn is-active" data-price="76.00">60 Caps</button>
-            <button class="lv-variant-btn" data-price="142.00">120 Caps</button>
-          </div>
-        </div>
-
-        <!-- Autoship upsell -->
-        <div class="lv-autoship-upsell js-lv-upsell">
-          <div class="lv-autoship-toggle js-lv-toggle">
-            <div class="lv-check">
-              <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <div class="lv-autoship-label">
-              Autoship & Save <span class="savings">$7.60</span>
-            </div>
-            <span class="lv-autoship-badge">SAVE 10%</span>
-          </div>
-          <div class="lv-autoship-detail">
-            <div class="lv-autoship-detail-text">
-              <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 12.6A5.6 5.6 0 1113.6 8 5.607 5.607 0 018 13.6zm2.94-7.54a.7.7 0 010 .99l-3.5 3.5a.7.7 0 01-.99 0l-1.4-1.4a.7.7 0 11.99-.99l.91.91 3.01-3.01a.7.7 0 01.99 0z" fill="currentColor"/></svg>
-              Skip, change, or cancel anytime
-            </div>
-            <div class="lv-freq-row">
-              <span class="lv-freq-label">Deliver every:</span>
-              <div class="lv-freq-control">
-                <button class="lv-freq-btn js-lv-freq-down">-</button>
-                <input class="lv-freq-val js-lv-freq-val" type="text" value="60" readonly>
-                <button class="lv-freq-btn js-lv-freq-up">+</button>
-              </div>
-              <span class="lv-freq-unit">Days</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Item 2: Magnesium Glycinate -->
-      <div class="lv-cart-item pfSlideoutCart-item" data-price="87.00" data-autoship-price="78.30" data-savings="8.70">
-        <div class="lv-cart-item__row row align-items-center flex-nowrap gx-2">
-          <div class="lv-cart-item__img col-4">
-            <div class="ratio ratio-1x1"><img class="contain" src="https://www.pureformulas.com/ccstore/v1/images/?source=/file/v8728600664936678570/products/magnesium-glycinate-360-vegetable-capsules-by-pure-encapsulations.jpg&height=300&width=300" alt="Magnesium Glycinate"></div>
-          </div>
-          <div class="lv-cart-item__info col-8 fw-bold">
-            <a class="lv-cart-item__name link-2" href="#">Magnesium Glycinate - 360 Capsules</a>
-            <div class="lv-item-price-row">
-              <span class="lv-item-price js-lv-price fw-bold fs-14">$87.00</span>
-            </div>
-            <div class="lv-item-actions mt-2">
-              <div class="lv-qty-control">
-                <button class="lv-qty-btn js-lv-qty-down" disabled>−</button>
-                <input class="lv-qty-val js-lv-qty-val" type="text" value="1" readonly>
-                <button class="lv-qty-btn js-lv-qty-up">+</button>
-              </div>
-              <button class="lv-item-remove">Remove</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Variant options -->
-        <div class="lv-variant-row">
-          <div class="lv-variant-label">Options:</div>
-          <div class="lv-variant-btns">
-            <button class="lv-variant-btn" data-price="29.60">90 Caps</button>
-            <button class="lv-variant-btn" data-price="52.60">180 Caps</button>
-            <button class="lv-variant-btn is-active" data-price="87.00">360 Caps</button>
-          </div>
-        </div>
-
-        <div class="lv-autoship-upsell js-lv-upsell">
-          <div class="lv-autoship-toggle js-lv-toggle">
-            <div class="lv-check">
-              <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <div class="lv-autoship-label">
-              Autoship & Save <span class="savings">$8.70</span>
-            </div>
-            <span class="lv-autoship-badge">SAVE 10%</span>
-          </div>
-          <div class="lv-autoship-detail">
-            <div class="lv-autoship-detail-text">
-              <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 12.6A5.6 5.6 0 1113.6 8 5.607 5.607 0 018 13.6zm2.94-7.54a.7.7 0 010 .99l-3.5 3.5a.7.7 0 01-.99 0l-1.4-1.4a.7.7 0 11.99-.99l.91.91 3.01-3.01a.7.7 0 01.99 0z" fill="currentColor"/></svg>
-              Skip, change, or cancel anytime
-            </div>
-            <div class="lv-freq-row">
-              <span class="lv-freq-label">Deliver every:</span>
-              <div class="lv-freq-control">
-                <button class="lv-freq-btn js-lv-freq-down">-</button>
-                <input class="lv-freq-val js-lv-freq-val" type="text" value="60" readonly>
-                <button class="lv-freq-btn js-lv-freq-up">+</button>
-              </div>
-              <span class="lv-freq-unit">Days</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <!-- Dynamic cart items container -->
+      <div class="js-lv-cart-items"></div>
 
       <!-- Subtotal + buttons (inside upper, matching live site) -->
       <hr class="mt-0" style="margin:0 20px; border:none; border-top:1px solid #dee2e6;">
       <div style="padding:12px 20px;">
-        <div class="lv-discount-row js-lv-discount-row is-visible">
+        <div class="lv-discount-row js-lv-discount-row">
           <span>Promo Discount</span>
-          <div class="lv-promo__tag js-lv-promo-applied is-visible">
+          <div class="lv-promo__tag js-lv-promo-applied">
             SAVE10
             <button class="lv-promo__tag-remove js-lv-promo-remove" aria-label="Remove promo code">
               <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M9 3L3 9M3 3l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
             </button>
           </div>
-          <span class="js-lv-discount-amount" style="margin-left:auto">-$16.30</span>
+          <span class="js-lv-discount-amount" style="margin-left:auto">-$0.00</span>
         </div>
         <div class="lv-savings-banner js-lv-savings-banner">
           <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span class="js-lv-savings-text">Saving $16.30 with Autoship</span>
+          <span class="js-lv-savings-text"></span>
         </div>
         <div class="lv-subtotal-row">
-          <div class="lv-subtotal-label">Cart Subtotal <span class="js-lv-item-count">(2 items):</span></div>
+          <div class="lv-subtotal-label">Cart Subtotal <span class="js-lv-item-count">(0 items):</span></div>
           <div class="lv-subtotal-prices">
-            <span class="lv-subtotal-was js-lv-subtotal-was">$163.00</span>
-            <span class="js-lv-subtotal">$163.00</span>
+            <span class="lv-subtotal-was js-lv-subtotal-was">$0.00</span>
+            <span class="js-lv-subtotal">$0.00</span>
           </div>
         </div>
         <hr style="border:none; border-top:1px solid #dee2e6; margin:10px 0;">
         <button class="lv-btn lv-btn--primary">View Cart and Checkout</button>
         <button class="lv-btn lv-btn--secondary js-close-lv-cart">Continue Shopping</button>
         <div class="lv-promo" style="margin-top:8px;">
-          <div class="lv-promo__row js-lv-promo-row is-hidden">
-            <input class="lv-promo__input js-lv-promo-input" type="text" placeholder="Enter code">
+          <div class="lv-promo__row js-lv-promo-row">
+            <input class="lv-promo__input js-lv-promo-input" type="text" placeholder="Enter promo code">
             <button class="lv-promo__btn js-lv-promo-apply">Apply</button>
           </div>
+          <div class="lv-promo__msg js-lv-promo-msg" style="display:none;"></div>
         </div>
       </div>
 
@@ -2745,6 +2786,103 @@
   // ============================================
   // LIVE-BRANDED — Autoship toggles
   // ============================================
+  // CART STATE
+  // ============================================
+  var cart = []; // { product, qty, productIdx }
+
+  function updateCartBadge() {
+    const badge = document.querySelector('.js-cart-badge');
+    const total = cart.reduce((sum, c) => sum + c.qty, 0);
+    badge.textContent = total;
+    badge.style.display = total > 0 ? '' : 'none';
+  }
+
+  function cartItemHTML(entry) {
+    const p = entry.product;
+    const price = p.price.toFixed(2);
+    const autoshipPrice = p.autoship ? p.autoship.toFixed(2) : (p.price * 0.9).toFixed(2);
+    const savings = (Math.round(p.price * 100) - Math.round((p.autoship || p.price * 0.9) * 100)) / 100;
+    const isAutoship = entry.mode === 'autoship';
+    return `
+      <div class="lv-cart-item pfSlideoutCart-item${isAutoship ? ' is-autoship' : ''}" data-product-idx="${entry.productIdx}" data-mode="${entry.mode}" data-price="${price}" data-autoship-price="${autoshipPrice}" data-savings="${savings}">
+        <div class="lv-cart-item__row row align-items-center flex-nowrap gx-2">
+          <div class="lv-cart-item__img col-4">
+            <div class="ratio ratio-1x1"><img class="contain" src="${p.img.replace('940','300')}" alt="${p.name}"></div>
+          </div>
+          <div class="lv-cart-item__info col-8 fw-bold">
+            <a class="lv-cart-item__name link-2" href="#">${p.name} - ${p.size}</a>
+            <div class="lv-item-price-row">
+              <span class="lv-item-price js-lv-price fw-bold fs-14${isAutoship ? ' lv-item-price--autoship' : ''}">$${isAutoship ? autoshipPrice : price}</span>${isAutoship ? '<span class="lv-item-price-was">$' + price + '</span>' : ''}
+            </div>
+            <div class="lv-item-actions mt-2">
+              <div class="lv-qty-control">
+                <button class="lv-qty-btn js-lv-qty-down"${entry.qty <= 1 ? ' disabled' : ''}>−</button>
+                <input class="lv-qty-val js-lv-qty-val" type="text" value="${entry.qty}" readonly>
+                <button class="lv-qty-btn js-lv-qty-up">+</button>
+              </div>
+              <button class="lv-item-remove js-lv-remove">Remove</button>
+            </div>
+          </div>
+        </div>
+        <div class="lv-autoship-upsell js-lv-upsell${isAutoship ? ' is-active' : ''}">
+          <div class="lv-autoship-toggle js-lv-toggle">
+            <div class="lv-check">
+              <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="lv-autoship-label">
+              Autoship & Save <span class="savings">$${(savings * entry.qty).toFixed(2)}</span>
+            </div>
+            <span class="lv-autoship-badge">SAVE 10%</span>
+          </div>
+          <div class="lv-autoship-detail">
+            <div class="lv-autoship-detail-text">
+              <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 12.6A5.6 5.6 0 1113.6 8 5.607 5.607 0 018 13.6zm2.94-7.54a.7.7 0 010 .99l-3.5 3.5a.7.7 0 01-.99 0l-1.4-1.4a.7.7 0 11.99-.99l.91.91 3.01-3.01a.7.7 0 01.99 0z" fill="currentColor"/></svg>
+              Skip, change, or cancel anytime
+            </div>
+            <div class="lv-freq-row">
+              <span class="lv-freq-label">Deliver every:</span>
+              <div class="lv-freq-control">
+                <button class="lv-freq-btn js-lv-freq-down">-</button>
+                <input class="lv-freq-val js-lv-freq-val" type="text" value="60" readonly>
+                <button class="lv-freq-btn js-lv-freq-up">+</button>
+              </div>
+              <span class="lv-freq-unit">Days</span>
+            </div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function renderCartItems() {
+    const container = document.querySelector('.js-lv-cart-items');
+    container.innerHTML = cart.map(entry => cartItemHTML(entry)).join('');
+    updateLvTotals();
+    updateCartBadge();
+  }
+
+  function syncCardQty(productIdx, qty) {
+    const card = document.querySelector(`.pf-card[data-product-idx="${productIdx}"]`);
+    if (!card) return;
+    const imgWrap = card.querySelector('.pf-card-img');
+    const atcBtn = imgWrap.querySelector('.js-img-atc');
+    const existingQty = imgWrap.querySelector('.pf-card-img-qty');
+    if (qty > 0) {
+      if (atcBtn) atcBtn.style.display = 'none';
+      if (existingQty) {
+        existingQty.querySelector('.pf-card-img-qty__val').value = qty;
+      } else {
+        const qtyEl = document.createElement('div');
+        qtyEl.className = 'pf-card-img-qty';
+        qtyEl.innerHTML = '<button type="button" class="js-img-qty-down">&minus;</button><input class="pf-card-img-qty__val" type="text" value="' + qty + '" readonly><button type="button" class="js-img-qty-up">+</button>';
+        imgWrap.appendChild(qtyEl);
+      }
+    } else {
+      if (existingQty) existingQty.remove();
+      if (atcBtn) atcBtn.style.display = '';
+    }
+  }
+
+  // ============================================
   function updateLvTotals() {
     let subtotal = 0;
     let totalSavings = 0;
@@ -2753,11 +2891,15 @@
     document.querySelectorAll('.lv-cart-item').forEach(item => {
       const qty = parseInt(item.querySelector('.js-lv-qty-val').value) || 1;
       const upsell = item.querySelector('.js-lv-upsell');
-      const isAutoship = upsell.classList.contains('is-active');
+      const isAutoship = upsell && upsell.classList.contains('is-active');
       const price = parseFloat(item.dataset.price);
       const autoshipPrice = parseFloat(item.dataset.autoshipPrice);
       const savings = parseFloat(item.dataset.savings);
       const priceEl = item.querySelector('.js-lv-price');
+
+      // Update per-item savings label based on qty
+      const savingsLabel = item.querySelector('.lv-autoship-label .savings');
+      if (savingsLabel) savingsLabel.textContent = '$' + (savings * qty).toFixed(2);
 
       if (isAutoship) {
         priceEl.textContent = '$' + autoshipPrice.toFixed(2);
@@ -2781,7 +2923,6 @@
       itemCount += qty;
     });
 
-    // Promo discount (10% off full-price subtotal when applied)
     const lvPromoApplied = document.querySelector('.js-lv-promo-applied');
     const lvDiscountRow = document.querySelector('.js-lv-discount-row');
     const isLvPromo = lvPromoApplied && lvPromoApplied.classList.contains('is-visible');
@@ -2791,8 +2932,40 @@
       fullSubtotal += parseFloat(item.dataset.price) * qty;
     });
     let promoDiscount = 0;
-    if (isLvPromo) {
-      promoDiscount = Math.round(fullSubtotal * 0.10 * 100) / 100;
+    // Remove old per-item promo tags
+    document.querySelectorAll('.lv-item-promo-tag').forEach(el => el.remove());
+    if (isLvPromo && activePromo) {
+      if (activePromo.scope === 'product') {
+        // Per-product discount: only apply to items whose product has matching promo code
+        document.querySelectorAll('.lv-cart-item').forEach(item => {
+          const idx = parseInt(item.dataset.productIdx);
+          const p = products[idx];
+          if (p.promo && p.promo.code.toUpperCase() === activePromo.label.toUpperCase()) {
+            const qty = parseInt(item.querySelector('.js-lv-qty-val').value) || 1;
+            const itemPrice = parseFloat(item.dataset.price);
+            let itemDiscount = 0;
+            if (activePromo.type === 'percent') {
+              itemDiscount = Math.round(itemPrice * (activePromo.value / 100) * 100) / 100;
+            } else {
+              itemDiscount = Math.min(activePromo.value, itemPrice);
+            }
+            promoDiscount += itemDiscount * qty;
+            // Show per-item promo tag
+            const infoCol = item.querySelector('.lv-cart-item__info');
+            const tag = document.createElement('span');
+            tag.className = 'lv-item-promo-tag';
+            tag.textContent = activePromo.label + ': -$' + (itemDiscount * qty).toFixed(2);
+            infoCol.querySelector('.lv-item-price-row').appendChild(tag);
+          }
+        });
+      } else {
+        // Cart-level discount
+        if (activePromo.type === 'percent') {
+          promoDiscount = Math.round(fullSubtotal * (activePromo.value / 100) * 100) / 100;
+        } else {
+          promoDiscount = Math.min(activePromo.value, fullSubtotal);
+        }
+      }
       lvDiscountRow.classList.add('is-visible');
       document.querySelector('.js-lv-discount-amount').textContent = '-$' + promoDiscount.toFixed(2);
     } else {
@@ -2819,78 +2992,101 @@
     }
   }
 
-  document.querySelectorAll('.js-lv-toggle').forEach(toggle => {
-    toggle.addEventListener('click', () => {
-      const upsell = toggle.closest('.js-lv-upsell');
-      upsell.classList.toggle('is-active');
+  // ============================================
+  // CART PANEL — event delegation for dynamic items
+  // ============================================
+  document.querySelector('.js-lv-cart-panel').addEventListener('click', function(e) {
+    // Autoship toggle
+    const toggle = e.target.closest('.js-lv-toggle');
+    if (toggle) {
+      toggle.closest('.js-lv-upsell').classList.toggle('is-active');
       updateLvTotals();
-    });
-  });
+      return;
+    }
 
-  // ============================================
-  // LIVE-BRANDED — Variant buttons
-  // ============================================
-  document.querySelectorAll('.lv-variant-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      btn.closest('.lv-variant-btns').querySelectorAll('.lv-variant-btn').forEach(b => b.classList.remove('is-active'));
-      btn.classList.add('is-active');
-
-      const item = btn.closest('.lv-cart-item');
-      const newPrice = parseFloat(btn.dataset.price);
-      const newAutoshipPrice = +(newPrice * 0.90).toFixed(2);
-      const newSavings = +(newPrice * 0.10).toFixed(2);
-
-      item.dataset.price = newPrice.toFixed(2);
-      item.dataset.autoshipPrice = newAutoshipPrice.toFixed(2);
-      item.dataset.savings = newSavings.toFixed(2);
-
-      const savingsEl = item.querySelector('.lv-autoship-label .savings');
-      if (savingsEl) savingsEl.textContent = '$' + newSavings.toFixed(2);
-
-      updateLvTotals();
-    });
-  });
-
-  // ============================================
-  // LIVE-BRANDED — Frequency controls
-  // ============================================
-  document.querySelectorAll('.lv-freq-control').forEach(ctrl => {
-    const down = ctrl.querySelector('.js-lv-freq-down');
-    const up = ctrl.querySelector('.js-lv-freq-up');
-    const val = ctrl.querySelector('.js-lv-freq-val');
-
-    down.addEventListener('click', (e) => {
-      e.stopPropagation();
-      let v = parseInt(val.value) - 5;
-      if (v < 5) v = 5;
-      val.value = v;
-    });
-    up.addEventListener('click', (e) => {
-      e.stopPropagation();
-      let v = parseInt(val.value) + 5;
-      val.value = v;
-    });
-  });
-
-  // ============================================
-  // LIVE-BRANDED — Quantity controls
-  // ============================================
-  document.querySelectorAll('.lv-qty-control').forEach(ctrl => {
-    const down = ctrl.querySelector('.js-lv-qty-down');
-    const up = ctrl.querySelector('.js-lv-qty-up');
-    const val = ctrl.querySelector('.js-lv-qty-val');
-
-    function updateLvQty(delta) {
-      let v = parseInt(val.value) + delta;
-      if (v < 1) v = 1;
+    // Qty up
+    const qtyUp = e.target.closest('.js-lv-qty-up');
+    if (qtyUp) {
+      const ctrl = qtyUp.closest('.lv-qty-control');
+      const val = ctrl.querySelector('.js-lv-qty-val');
+      const down = ctrl.querySelector('.js-lv-qty-down');
+      let v = parseInt(val.value) + 1;
       if (v > 99) v = 99;
       val.value = v;
       down.disabled = (v <= 1);
+      const item = qtyUp.closest('.lv-cart-item');
+      const idx = parseInt(item.dataset.productIdx);
+      const mode = item.dataset.mode;
+      const entry = cart.find(c => c.productIdx === idx && c.mode === mode);
+      if (entry) {
+        entry.qty = v;
+        updateCartBadge();
+        // Sync card stepper only if this mode is currently active on the card
+        const card = document.querySelector(`.pf-card[data-product-idx="${idx}"]`);
+        const activeRow = card && card.querySelector('.pf-card-pick__row.is-active');
+        if (activeRow && activeRow.dataset.mode === mode) syncCardQty(idx, v);
+      }
       updateLvTotals();
+      return;
     }
 
-    down.addEventListener('click', () => updateLvQty(-1));
-    up.addEventListener('click', () => updateLvQty(1));
+    // Qty down
+    const qtyDown = e.target.closest('.js-lv-qty-down');
+    if (qtyDown) {
+      const ctrl = qtyDown.closest('.lv-qty-control');
+      const val = ctrl.querySelector('.js-lv-qty-val');
+      let v = parseInt(val.value) - 1;
+      if (v < 1) v = 1;
+      val.value = v;
+      qtyDown.disabled = (v <= 1);
+      const item = qtyDown.closest('.lv-cart-item');
+      const idx = parseInt(item.dataset.productIdx);
+      const mode = item.dataset.mode;
+      const entry = cart.find(c => c.productIdx === idx && c.mode === mode);
+      if (entry) {
+        entry.qty = v;
+        updateCartBadge();
+        const card = document.querySelector(`.pf-card[data-product-idx="${idx}"]`);
+        const activeRow = card && card.querySelector('.pf-card-pick__row.is-active');
+        if (activeRow && activeRow.dataset.mode === mode) syncCardQty(idx, v);
+      }
+      updateLvTotals();
+      return;
+    }
+
+    // Remove item
+    const removeBtn = e.target.closest('.js-lv-remove');
+    if (removeBtn) {
+      const item = removeBtn.closest('.lv-cart-item');
+      const idx = parseInt(item.dataset.productIdx);
+      const mode = item.dataset.mode;
+      cart = cart.filter(c => !(c.productIdx === idx && c.mode === mode));
+      // Reset card stepper if this mode is currently active
+      const card = document.querySelector(`.pf-card[data-product-idx="${idx}"]`);
+      const activeRow = card && card.querySelector('.pf-card-pick__row.is-active');
+      if (activeRow && activeRow.dataset.mode === mode) syncCardQty(idx, 0);
+      renderCartItems();
+      if (cart.length === 0) closeLvCart();
+      return;
+    }
+
+    // Frequency controls
+    const freqDown = e.target.closest('.js-lv-freq-down');
+    if (freqDown) {
+      e.stopPropagation();
+      const val = freqDown.closest('.lv-freq-control').querySelector('.js-lv-freq-val');
+      let v = parseInt(val.value) - 5;
+      if (v < 5) v = 5;
+      val.value = v;
+      return;
+    }
+    const freqUp = e.target.closest('.js-lv-freq-up');
+    if (freqUp) {
+      e.stopPropagation();
+      const val = freqUp.closest('.lv-freq-control').querySelector('.js-lv-freq-val');
+      val.value = parseInt(val.value) + 5;
+      return;
+    }
   });
 
   // ============================================
@@ -2910,7 +3106,6 @@
       if (index < 0) index = 0;
       if (index > total - 1) index = total - 1;
       current = index;
-      // Each card is 85% of viewport width + 12px gap
       const offset = current * 85;
       track.style.transform = 'translateX(-' + offset + '%)';
       prevBtn.disabled = (current === 0);
@@ -2919,8 +3114,6 @@
 
     prevBtn.addEventListener('click', () => goTo(current - 1));
     nextBtn.addEventListener('click', () => goTo(current + 1));
-
-    // Init state
     goTo(0);
   })();
 
@@ -2946,22 +3139,100 @@
   const lvPromoApplyBtn = document.querySelector('.js-lv-promo-apply');
   const lvPromoRemoveBtn = document.querySelector('.js-lv-promo-remove');
   const lvPromoInput = document.querySelector('.js-lv-promo-input');
+  const lvPromoMsg = document.querySelector('.js-lv-promo-msg');
 
-  lvPromoApplyBtn.addEventListener('click', () => {
-    const code = lvPromoInput.value.trim();
-    if (!code) return;
+  // Valid promo codes
+  // scope: 'cart' = applies to entire cart, 'product' = only items whose product.promo.code matches
+  const validPromoCodes = {
+    'SAVE10': { type: 'percent', value: 10, label: 'SAVE10', scope: 'cart' },
+    'SAVE20': { type: 'percent', value: 20, label: 'SAVE20', scope: 'cart' },
+    'WELCOME15': { type: 'percent', value: 15, label: 'WELCOME15', scope: 'cart' },
+    'FLAT5': { type: 'flat', value: 5, label: 'FLAT5', scope: 'cart' },
+    'PUREFORMULAS': { type: 'percent', value: 10, label: 'PUREFORMULAS', scope: 'cart' },
+    '25PF': { type: 'percent', value: 25, label: '25PF', scope: 'product' },
+  };
+  let activePromo = null;
+
+  function clearPromoMsg() {
+    lvPromoMsg.style.display = 'none';
+    lvPromoMsg.classList.remove('is-error');
+    lvPromoMsg.textContent = '';
+    lvPromoInput.classList.remove('is-error');
+  }
+
+  function showPromoError(msg) {
+    lvPromoMsg.textContent = msg;
+    lvPromoMsg.classList.add('is-error');
+    lvPromoMsg.style.display = 'block';
+    lvPromoInput.classList.add('is-error');
+  }
+
+  function showPromoSuccess(msg) {
+    lvPromoMsg.textContent = msg;
+    lvPromoMsg.classList.remove('is-error');
+    lvPromoMsg.style.display = 'block';
+    lvPromoInput.classList.remove('is-error');
+  }
+
+  function applyPromoCode() {
+    clearPromoMsg();
+    const code = lvPromoInput.value.trim().toUpperCase();
+    if (!code) {
+      showPromoError('Please enter a promo code.');
+      return;
+    }
+    if (activePromo) {
+      showPromoError('A promo code is already applied. Remove it first.');
+      return;
+    }
+    const promo = validPromoCodes[code];
+    if (!promo) {
+      showPromoError('Invalid promo code. Please try again.');
+      return;
+    }
+    // For product-scoped codes, check if any cart item qualifies
+    if (promo.scope === 'product') {
+      const hasEligible = cart.some(c => c.product.promo && c.product.promo.code.toUpperCase() === code);
+      if (!hasEligible) {
+        showPromoError('No eligible items in your cart for this code.');
+        return;
+      }
+    }
+    // Apply
+    activePromo = promo;
     lvPromoRow.classList.add('is-hidden');
     lvPromoApplied.classList.add('is-visible');
-    lvPromoApplied.firstChild.textContent = code + ' ';
+    lvPromoApplied.firstChild.textContent = promo.label + ' ';
+    const desc = promo.type === 'percent' ? promo.value + '% off' : '$' + promo.value.toFixed(2) + ' off';
+    const scopeDesc = promo.scope === 'product' ? ' eligible items.' : ' your order.';
+    showPromoSuccess('Code applied! ' + desc + scopeDesc);
     updateLvTotals();
+  }
+
+  lvPromoApplyBtn.addEventListener('click', applyPromoCode);
+
+  lvPromoInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      applyPromoCode();
+    }
+  });
+
+  lvPromoInput.addEventListener('input', () => {
+    clearPromoMsg();
   });
 
   lvPromoRemoveBtn.addEventListener('click', () => {
+    activePromo = null;
     lvPromoApplied.classList.remove('is-visible');
     lvPromoRow.classList.remove('is-hidden');
     lvPromoInput.value = '';
+    clearPromoMsg();
     updateLvTotals();
   });
+
+  // Init cart display
+  renderCartItems();
 </script>
 </body>
 </html>
