@@ -193,7 +193,7 @@
 
         /* ── Toolbar ── */
         .pf-toolbar {
-            padding: 16px 0; display: flex; align-items: center;
+            padding: 0 0 16px 0; display: flex; align-items: center;
             justify-content: space-between; gap: 16px; flex-wrap: wrap;
         }
         .pf-toolbar-left { display: flex; align-items: center; gap: 16px; }
@@ -229,10 +229,17 @@
             font-size: 12px; font-weight: 700;
         }
 
-        .pf-sort {
-            padding: .5rem .66rem; border: 1px solid #d9dadb;
-            border-radius: .75rem; font-size: 1rem; font-weight: 600; color: #232323;
-            background: #fff; cursor: pointer; margin-left: auto;
+        .plp-sort {
+            min-width: 200px;
+        }
+        .plp-sort .form-select {
+
+            font-weight: 700; color: #232323; cursor: pointer;
+        }
+        .plp-sort .form-floating-label {
+            font-size: .75rem; font-weight: 400; color: #6a6a6a;
+            position: absolute; top: 2px; left: 12px;
+            pointer-events: none;
         }
 
         /* ── Product Grid ── */
@@ -326,7 +333,7 @@
 
         /* Sidebar filter overrides — match live site accordion exactly */
         .filter-list {
-            padding-top: 56px;
+            padding-top: 16px;
         }
         .filter-list .accordion-item {
             border-radius: 0 !important;
@@ -335,6 +342,24 @@
         }
         .filter-list .accordion-item:first-of-type {
             border-top: 1px solid #d9dadb !important;
+        }
+
+        .plp-sort .form-floating-label {
+            font-size: 18px;
+            font-weight: 400;
+            color: #6a6a6a;
+            position: absolute;
+            top: 12px;
+            left: 3px;
+            pointer-events: none;
+            color: #000 !important;
+        }
+
+        .plp-sort .form-select {
+            padding-top: .625rem;
+            padding-left: 4.5rem;
+            height: calc(3rem + 2px);
+            background-position: right .75rem top 1.4rem;
         }
         /*
         .filter-list .accordion-button {
@@ -1844,14 +1869,18 @@
             <h2 class="h4 mt-0 mb-0">90 Results</h2>
         </div>
         <div class="pf-toolbar-right">
-            <select class="pf-sort" onchange="sortProducts(this.value)">
+            <div class="form-floating plp-sort">
+              <label for="plp-sort" class="visually-hidden">Sort by:</label>
+              <select class="form-select fw-bold" id="plp-sort" name="plp-sort" aria-label="Sort by" onchange="sortProducts(this.value)">
                 <option value="relevance">Most Relevant</option>
                 <option value="nameAsc">Name (A-Z)</option>
                 <option value="nameDesc">Name (Z-A)</option>
-                <option value="newest">Newest</option>
+                <option value="newest">Newest Products</option>
                 <option value="priceAsc">Price: Low to High</option>
                 <option value="priceDesc">Price: High to Low</option>
-            </select>
+              </select>
+              <span class="form-floating-label" aria-hidden="true">Sort by:</span>
+            </div>
         </div>
       </div>
       <div class="pf-grid" id="productGrid"></div>
