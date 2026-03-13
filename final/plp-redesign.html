@@ -6,6 +6,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <title>PureFormulas – Search Results for "l theanine"</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <style>
         /* ── Reset & Base ── */
@@ -252,17 +253,14 @@
         .pf-card {
             background: #fff; border-radius: .75rem; overflow: hidden;
             display: flex; flex-direction: column;
-            transition: box-shadow 0.25s ease, transform 0.25s ease;
+            transition: none;
             box-shadow: 0 1px 4px rgba(0,0,0,0.06);
             border: 1px solid #d9dadb;
             cursor: pointer; position: relative; height: 100%;
             /*margin-bottom: 1.5rem;*/
             padding: 2rem .5rem 1rem;
         }
-        .pf-card:hover {
-            box-shadow: 0 8px 30px rgba(0,0,0,0.10);
-            transform: translateY(-3px);
-        }
+        .pf-card:hover {}
         .pf-card:hover .pf-card-atc { background-color: #1a4d35; }
         /* ATC on image always visible */
 
@@ -372,14 +370,18 @@
             box-shadow: none !important;
         }*/
         .filter-list .accordion-button::after {
-            content: "" !important;
-            font-family: inherit !important;
-            background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z' fill='%23232323'/%3e%3c/svg%3e") !important;
-            background-size: 1.25rem !important;
-            background-repeat: no-repeat !important;
-            background-position: center !important;
+            content: "\f078" !important;
+            font-family: "Font Awesome 6 Free" !important;
+            font-weight: 900 !important;
+            font-style: normal !important;
+            font-size: 16px;
+            color: #232323;
+            background: none !important;
             width: 1.25rem;
             height: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             position: absolute;
             right: 0;
             top: 50%;
@@ -1014,6 +1016,14 @@
         }
         .lv-subtotal-was.is-visible { display: inline; }
 
+        /* Sticky checkout footer (always visible at bottom of slideout) */
+        .lv-cart-checkout {
+          flex-shrink: 0;
+          background: #fff;
+          border-top: 1px solid #dee2e6;
+          padding: 12px 20px;
+        }
+
         /* Footer */
         .lv-cart-footer {
           flex-shrink: 0;
@@ -1531,9 +1541,9 @@
 
         .pf-card-option__label { font-weight: 700; }
 
-        .pf-card-option__price { margin-left: auto; font-weight: 700; font-size: 13px; transition: all 0.2s; }
-        .pf-card-option.is-active .pf-card-option__price { font-size: 16px; }
-        .pf-card-option:not(.is-active) .pf-card-option__price { color: #888; font-size: 12px; }
+        .pf-card-option__price { margin-left: auto; font-weight: 700; font-size: 13px; }
+        .pf-card-option.is-active .pf-card-option__price { }
+        .pf-card-option:not(.is-active) .pf-card-option__price { color: #888; }
         .pf-card-option.is-active[data-mode="autoship"] .pf-card-option__price { color: #205c40; }
 
         .pf-card-option__badge {
@@ -1594,20 +1604,15 @@
         }
 
         /* One-time row keeps the big price */
-        .pf-card-pick .pf-card-price { margin-bottom: 0; transition: all 0.2s; }
-
-        /* When autoship is active, shrink one-time price */
-        .pf-card-pick__row[data-mode="onetime"]:not(.is-active) .pf-card-price .main-price { font-size: 14px; }
-        .pf-card-pick__row[data-mode="onetime"]:not(.is-active) .pf-card-price .currency,
-        .pf-card-pick__row[data-mode="onetime"]:not(.is-active) .pf-card-price .decimals { font-size: 10px; margin-top: 2px; }
-        .pf-card-pick__row[data-mode="onetime"]:not(.is-active) .pf-card-price { color: #232323; }
+        .pf-card-pick .pf-card-price { margin-bottom: 0; }
 
         /* Autoship row keeps existing style */
-        .pf-card-pick .pf-card-autoship { margin-top: 0; transition: all 0.2s; }
+        .pf-card-pick .pf-card-autoship { margin-top: 0; font-size: 13px; color: #232323; }
         .pf-card-pick__row[data-mode="autoship"] .pf-card-pick__dot { margin-top: 5px; }
-        .pf-card-pick__row.is-active[data-mode="autoship"] .pf-card-autoship strong { color: #232323; font-size: 18px; display: block; }
-        .pf-card-pick__row[data-mode="autoship"] .pf-card-autoship { font-size: 13px; color: #232323; }
-        .pf-card-pick__row[data-mode="autoship"]:not(.is-active) .pf-card-autoship strong { font-size: 13px; }
+        .pf-card-pick__row[data-mode="autoship"] .pf-card-autoship strong { color: #232323; font-weight: 600; display: block; line-height: 1.2; }
+        .pf-card-pick__row[data-mode="autoship"] .pf-card-autoship strong .currency { font-size: 12px; vertical-align: top; }
+        .pf-card-pick__row[data-mode="autoship"] .pf-card-autoship strong .main-val { font-size: 21px; }
+        .pf-card-pick__row[data-mode="autoship"] .pf-card-autoship strong .decimals { font-size: 12px; vertical-align: top; }
 
         .pf-card-pick__freq {
           display: none; padding: 3px 0 0 18px;
@@ -2149,10 +2154,12 @@
 
         const hasAutoship = !!p.autoship;
         const autoPrice = hasAutoship ? p.autoship.toFixed(2) : '';
+        const autoDollars = hasAutoship ? Math.floor(p.autoship) : '';
+        const autoCents = hasAutoship ? String(Math.round((p.autoship % 1) * 100)).padStart(2, '0') : '';
         const autoshipRow = hasAutoship
             ? `<div class="pf-card-pick__row is-active" data-mode="autoship">
                 <span class="pf-card-pick__dot"></span>
-                <div class="pf-card-autoship"><strong>$${autoPrice}</strong> with Autoship &amp; Save<a href="#" class="pf-autoship-learn-more js-autoship-learn-more" aria-label="Learn more about Autoship"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#0d57d1" stroke-width="2"/><path d="M12 16v-4M12 8h.01" stroke="#0d57d1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+                <div class="pf-card-autoship"><strong><span class="currency">$</span><span class="main-val">${autoDollars}</span><span class="decimals">${autoCents}</span></strong> with Autoship &amp; Save<a href="#" class="pf-autoship-learn-more js-autoship-learn-more" aria-label="Learn more about Autoship"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#0d57d1" stroke-width="2"/><path d="M12 16v-4M12 8h.01" stroke="#0d57d1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
                 <div class="pf-card-pick__freq">
                   <span>Every</span>
                   <span class="pf-card-pick__freq-ctrl">
@@ -2581,7 +2588,7 @@
       </span>
       Added to cart
     </h2>
-    <button type="button" class="lv-close js-close-lv-cart btn-close" aria-label="Close"></button>
+    <button type="button" class="lv-close js-close-lv-cart" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
   </div>
 
   <!-- Scrollable body -->
@@ -2597,41 +2604,6 @@
       <!-- Dynamic cart items container -->
       <div class="js-lv-cart-items"></div>
 
-      <!-- Subtotal + buttons (inside upper, matching live site) -->
-      <hr class="mt-0" style="margin:0 20px; border:none; border-top:1px solid #dee2e6;">
-      <div style="padding:12px 20px;">
-        <div class="lv-discount-row js-lv-discount-row">
-          <span>Promo Discount</span>
-          <div class="lv-promo__tag js-lv-promo-applied">
-            SAVE10
-            <button class="lv-promo__tag-remove js-lv-promo-remove" aria-label="Remove promo code">
-              <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M9 3L3 9M3 3l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-            </button>
-          </div>
-          <span class="js-lv-discount-amount" style="margin-left:auto">-$0.00</span>
-        </div>
-        <div class="lv-savings-banner js-lv-savings-banner">
-          <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span class="js-lv-savings-text"></span>
-        </div>
-        <div class="lv-subtotal-row">
-          <div class="lv-subtotal-label">Cart Subtotal <span class="js-lv-item-count">(0 items):</span></div>
-          <div class="lv-subtotal-prices">
-            <span class="lv-subtotal-was js-lv-subtotal-was">$0.00</span>
-            <span class="js-lv-subtotal">$0.00</span>
-          </div>
-        </div>
-        <hr style="border:none; border-top:1px solid #dee2e6; margin:10px 0;">
-        <button class="lv-btn lv-btn--primary">View Cart and Checkout</button>
-        <button class="lv-btn lv-btn--secondary js-close-lv-cart">Continue Shopping</button>
-        <div class="lv-promo" style="margin-top:8px;">
-          <div class="lv-promo__row js-lv-promo-row">
-            <input class="lv-promo__input js-lv-promo-input" type="text" placeholder="Enter promo code">
-            <button class="lv-promo__btn js-lv-promo-apply">Apply</button>
-          </div>
-          <div class="lv-promo__msg js-lv-promo-msg" style="display:none;"></div>
-        </div>
-      </div>
 
     </section><!-- /lv-cart-upper -->
 
@@ -2784,6 +2756,41 @@
     </div><!-- /lv-recs -->
 
   </div><!-- /lv-cart-body -->
+
+  <!-- Sticky checkout footer — always visible at bottom -->
+  <div class="lv-cart-checkout">
+    <div class="lv-discount-row js-lv-discount-row">
+      <span>Promo Discount</span>
+      <div class="lv-promo__tag js-lv-promo-applied">
+        SAVE10
+        <button class="lv-promo__tag-remove js-lv-promo-remove" aria-label="Remove promo code">
+          <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M9 3L3 9M3 3l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <span class="js-lv-discount-amount" style="margin-left:auto">-$0.00</span>
+    </div>
+    <div class="lv-savings-banner js-lv-savings-banner">
+      <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="js-lv-savings-text"></span>
+    </div>
+    <div class="lv-subtotal-row">
+      <div class="lv-subtotal-label">Cart Subtotal <span class="js-lv-item-count">(0 items):</span></div>
+      <div class="lv-subtotal-prices">
+        <span class="lv-subtotal-was js-lv-subtotal-was">$0.00</span>
+        <span class="js-lv-subtotal">$0.00</span>
+      </div>
+    </div>
+    <hr style="border:none; border-top:1px solid #dee2e6; margin:10px 0;">
+    <button class="lv-btn lv-btn--primary">View Cart and Checkout</button>
+    <button class="lv-btn lv-btn--secondary js-close-lv-cart">Continue Shopping</button>
+    <div class="lv-promo" style="margin-top:8px;">
+      <div class="lv-promo__row js-lv-promo-row">
+        <input class="lv-promo__input js-lv-promo-input" type="text" placeholder="Enter promo code">
+        <button class="lv-promo__btn js-lv-promo-apply">Apply</button>
+      </div>
+      <div class="lv-promo__msg js-lv-promo-msg" style="display:none;"></div>
+    </div>
+  </div>
 
 </div><!-- /lv-cart-panel -->
 
